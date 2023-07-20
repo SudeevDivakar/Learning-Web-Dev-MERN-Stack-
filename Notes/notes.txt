@@ -1,0 +1,22 @@
+The internet is a global network of interconnected computers that communicate via TCP/IP.
+
+The world wide web is an information system where documents and other resources are available 
+over the internet.
+Documents are transferred via HTTP.
+
+Web server is a computer system that can satisfy requests on the web .
+
+The client is the computer that accesses the server.
+
+The server sends back instructions to display the code and the web browser displays it in human 
+readable format.
+
+Front end is focused on the tools running in the browser (html,css,js)
+
+Backend is focused on the tools running in the server .
+
+HTML is used to create web contents.
+
+CSS helps us add designs to html contents.
+
+JS helps to bring life to the html elements and helps them be active. 
