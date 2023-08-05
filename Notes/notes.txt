@@ -20,3 +20,80 @@ HTML is used to create web contents.
 CSS helps us add designs to html contents.
 
 JS helps to bring life to the html elements and helps them be active. 
+
+HTML helps to desbribe the structure of a document.(It is a markup language)
+Helps to bold elements, make elements links, etc.
+
+Any unstructured text added to a html file gets added to the html webpage as it is.
+Adding text in between tags helps to add the data onto the webpage in a structured manner.
+
+(Syntax)
+<b>....</b> 
+Used to bold all the text present in between it.
+
+Use developer.mozilla.org to search up stuff about web development (It's a wikipedia for web dev)
+
+(Syntax)
+<p>....</p>
+Used when spacing of text is required. Different paragraph tags occur in different lines.
+
+(Syntax)
+<h1>...</h1>
+<h2>...</h2>
+.
+.
+.
+<h6>...</h6>
+Used to add headings onto the webpage. 
+Size gradually decreases from h1 to h6.
+General rule of thumb to use these headings is to use smaller headings to represent subheadings of the parent heading.
+For eg.) <h2> would be a subheading of <h1>
+And usually only one <h1> heading tag is used in the webpage.
+
+A html boilerplate(skeleton) needs to be followed in order for the html document to be valid.
+
+The structure is as follows:
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>...</title>
+    </head>
+
+    <body>
+        <---content goes here--->
+    </body>
+</html>
+
+Doctype helps us specify that we want to use the latest version of html
+<html> is the highest level element used and all are other elements are present within this tag. Permitted tags are <head> and <body>. 
+<head> only contains data that doesn't show up on the webpage (aka metadata)
+<body> contains the contents of the webpage 
+
+(Tip)
+!+<tab_key> : returns the html boilerplate. Use it to save time.
+
+(Tip)
+ctrl+shift+p : After this, type format document and the html document gets automatically formatted.
+
+(Syntax)
+<ol>....</ol> : stands for ordered list and has numbers
+<ul>....</ul> : stands for unordered list and has bullet points instead of numbers
+<li>..</li> : represents a single element in the list.
+You can also have nested lists by adding ul or ol under a list item.
+
+Attributes are data that you can pass inside an html tag. 
+
+(Syntax)
+<a href=".....">......</a>
+Anchor tag
+This creates a link to a specified attribute(href)
+When specifying a link, make sure you mention the https://www or else it will search for a file in the directory.
+
+(Syntax)
+<img src="...">
+Places an image onto the webpage
+This is the first tag which does not have a closing tag.
+We can also add an alt attribute which gives a decription of the src attribute in case our src attribute is not able to load.
+
+To write comments in html, use <!-- .... -->
+
