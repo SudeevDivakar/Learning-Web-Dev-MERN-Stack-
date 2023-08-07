@@ -97,3 +97,51 @@ We can also add an alt attribute which gives a decription of the src attribute i
 
 To write comments in html, use <!-- .... -->
 
+Inline elements fit in alongside other elements. e.g) <img>,<a>,etc.
+Block level elements take up a whole block of space. e.g) <h1>,<p>,etc.
+
+The <div> element is used so that we can add styles using css to the grouped div elements. (It's a block level element)
+
+The <span> element serves the same purpose as div except it is an inline element. (Used to single out elements and apply styles on them) 
+
+(Syntax)
+<hr> : Does not contain a closing tag and creates a thematic break between paragraph-level elements. (Creates a divider)
+
+(Syntax)
+<br> : Creates a line break element (Goes to the next line)
+
+(Syntax)
+<sup>...</sup> : Makes any text present in between the tags a superscript. e.g) Power of a number
+
+(Syntax)
+<sub>...</sub> : Makes any text present in between the tags a subscript. e.g) Chemical formulas
+
+HTML entities are special sequences used in html which are used to access special characters which cannot be typed out or characters which are 
+reserved in html. 
+These entities start with an & and end with a ;
+To find out the entity number, type in "html entity less than", etc. in google
+Note:- &,<,> are reserved characters.
+https://html.spec.whatwg.org/multipage/named-characters.html
+
+Semantic markups are the same as div elements except they have different names. This is helpful for web crawlers or people who read the html code 
+as it helps them find each seperate divison easily (as the semantic markups have meaning). 
+Different semantic markups:
+<main>...</main> : dominant content of the body of a document. Must exclude stuff that are usually repeated across different webpages. e.g)sidebars,naigation links,etc.
+<nav>...</nav> : represents elements on the page that provide navigation content
+<section>...</section> : represents a stand alone section of a website
+<article>...</article> : used to represent a certain topic. It should contain a header describing the content present.
+<aside>...</aside> : elements that are not essential to a webpage.
+<header>...</header> : introductory/ navigational content of the page
+<footer>...</footer> : navigational/ about content of the page
+<time datetime="2016-10-05">......</time> : an inline element which is wrapped around a specified time
+
+Emmet is a feature in vscode that helps us write html codes faster. (Hit tab after all commands)
+Child elements : Use the > symbol to create child elements. e.g) nav>ul>li creates a li inside a ul inside a nav.
+Sibling elements : Use the + symbol to create sibling elements. e.g) h1+h2+h3 creates a h1,h2 and h3 which are all siblings.
+Multiplication : Use * to create multiple instances of an element. e.g) ul>li*5 creates 5 li elements.
+ 
+
+
+
+
+
