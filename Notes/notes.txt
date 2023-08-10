@@ -140,8 +140,77 @@ Child elements : Use the > symbol to create child elements. e.g) nav>ul>li creat
 Sibling elements : Use the + symbol to create sibling elements. e.g) h1+h2+h3 creates a h1,h2 and h3 which are all siblings.
 Multiplication : Use * to create multiple instances of an element. e.g) ul>li*5 creates 5 li elements.
  
+<table>  </table> : Creates a table
 
+<tr>   </tr> : Contains <td> tags in them which adds data onto a single row in the table
 
+<td>...</td> : Adds a single element onto the table cell
 
+<th>...</th> : Used to add a table header to a cell
+
+<thead>   </thead> : Wraps up the header part of the table for clean semantic markup.
+<tbody>   </tbody> : Wraps up the body part of the table for clean semantic markup.
+<tfoot>   </tfoot> : Wraps up the footer part of the table for clean semantic markup.
+
+<th colspan="2">...</th> : colspan is used to make a th or td take up the space of the specified amount of columns.
+<th rowspan="2">...</th> : rowspan is used to make a th or td take up the space of the specified amount of rows.
+
+form>...</form> : Represents a document section containing interactive protocols for submitting information.
+The action attribute specifies where the form data should be sent.
+The method attribute specifies which HTTP method should be used.
+
+<input type="" placeholder="" name=""> : Does not have a closing tag. Used to get elements in a specified way.
+Placeholder contains the text which will appear on the input box before the user types data into it.
+name : When the form is submitted and the data collected from the form is sent to the server, it is sent under the specified value of the attribute name.
+Different input types :
+text : provides a region to input text
+password : provides a region to input obscured text
+color : provides a color picker 
+number : provides number inputs. Useful when only numbers are required for the input. Can have min and max attributes to specify range
+email : Used to take inputs for emails. Emails entered dont have to exist as long as it is a valid email pattern.
+url :  Used to take inputs for URLs. URLs entered dont have to exist as long as it is a valid URL pattern.
+Type in input types on google to check for different input types.
+
+<label for="">...</label> : Forms a connection between a piece of text and an user input. The for attribute contains an id which is given to an input.
+Note : An id cannot be reused for another id name.
+
+<button type="">...</button> : Labelled by whatever is present in between the tags. If no action is specified, the button automatically submits the form to the action 
+attribut in the form tag.
+Different input types for buttons:
+button : creates a button that has no functionality until given one.
+submit(default) : submits the form to the action attribute specified in the form tag.
+
+<input type="checkbox" id="" name="" checked> : Used to create a checkbox. Don't forget to label your chexkboxes. checked is an optional command which 
+already checks the option by default.
+
+<input type="radio" id="" name="" value="">
+Radiobuttons are the same as checkboxes except only one option can be selected at a time.
+Radio buttons are associated with each other by giving them similar names.
+Different values must be specified for each radiobutton so that different options return back different values
+
+<select id="" name="">
+    <option value="">....</option>
+    <option value="" selected>....</option>
+</select>
+The select tag is used to create a drop down selection option.
+Each option returns a value to the name attribute.
+The selected attribute present in the option tag, selects an option by default if the user does not select one.(optional)
+
+<input type="range" name="" id="" min="" max="" step="" value="">
+The range tag creates a slider to choose values between a minimum and maximum range. 
+The step attribute is an optional attribute which increases and decreases the value by a specified amount.
+value is also an optional attribute which gives the range tag a default value.
+
+<textarea name="" id="" cols="" rows="" placeholder=""></textarea>
+Used to input paragraphs of text. 
+Can be given a specified number of columns and rows to adjust it's size.
+The placeholder attribute displays a text on the input area to provide indication.
+
+Attributes for validation of inputs:
+required : It's an attribute with no value and does not allow the user to submit the form unless they have entered data 
+minlength : specifies minimum length of text required for valid data
+maxlength : specifies maximum length of text possible for valid data
+min : minimum value for integer inputs
+max : maximum value for integer inputs
 
 
