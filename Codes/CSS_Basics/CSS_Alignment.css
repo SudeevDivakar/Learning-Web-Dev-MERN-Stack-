@@ -1,0 +1,13 @@
+h1 {
+    text-align : center;
+    text-decoration:  underline overline wavy greenyellow;
+    letter-spacing: 10px;
+    font-size: 50px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p {
+    text-align : justify;
+    font-weight: lighter;
+    line-height: 2;
+}

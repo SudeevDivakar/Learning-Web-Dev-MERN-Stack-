@@ -139,7 +139,8 @@ Emmet is a feature in vscode that helps us write html codes faster. (Hit tab aft
 Child elements : Use the > symbol to create child elements. e.g) nav>ul>li creates a li inside a ul inside a nav.
 Sibling elements : Use the + symbol to create sibling elements. e.g) h1+h2+h3 creates a h1,h2 and h3 which are all siblings.
 Multiplication : Use * to create multiple instances of an element. e.g) ul>li*5 creates 5 li elements.
- 
+
+(Syntax)
 <table>  </table> : Creates a table
 
 <tr>   </tr> : Contains <td> tags in them which adds data onto a single row in the table
@@ -155,6 +156,7 @@ Multiplication : Use * to create multiple instances of an element. e.g) ul>li*5 
 <th colspan="2">...</th> : colspan is used to make a th or td take up the space of the specified amount of columns.
 <th rowspan="2">...</th> : rowspan is used to make a th or td take up the space of the specified amount of rows.
 
+(Syntax)
 form>...</form> : Represents a document section containing interactive protocols for submitting information.
 The action attribute specifies where the form data should be sent.
 The method attribute specifies which HTTP method should be used.
@@ -212,5 +214,62 @@ minlength : specifies minimum length of text required for valid data
 maxlength : specifies maximum length of text possible for valid data
 min : minimum value for integer inputs
 max : maximum value for integer inputs
+
+CSS - Cascading style sheets
+
+Almost everything in CSS follows the basic pattern:
+selector{
+    property : value;
+}
+For example:
+h1 {
+    color : purple;
+}
+
+To include styles in your code, there are three options:
+Inline styles : inline directly on each element (not a good idea)
+<style> element : writing styles in a <style> element, but this makes it impossible to share style sheets between documents
+External style sheets : Write styles in a .css file and connect it using the <link> in the head of your document.
+
+The 'color : ' property is used to set the color of a text to a specified color.
+The colors can be specified using various different techniques.
+
+The 'background-color : ' property is used to set the background color of an element to a specified color.
+
+Different color systems:
+Named colors : Colors with specific names.
+rgb color system : red-green-blue color system. Follows syntax rgb(0,255,148) where the max and min limits of each color are 255 and 0 respectively.
+hexadecimal system : follows a 6 digit hexadecimal value in which the first two digits represent red, second two represent green, third two represent blue. The two hexadecimal digits represent the range 0-255.
+
+Note : Make sure you include semicolons after property declarations.
+
+CSS Text properties:
+(Syntax)
+text-align : <left,center,right,justify>; 
+Aligns the text onto the specified location within the element itself.
+(Syntax)
+font-weight : <normal,bold,lighter,bolder,numeric values>;
+Used to set the boldness of a specific text element.
+(Syntax)
+text-decoration : <underline, underline dotted, underline dotted red, green wavy underline, underline overline red, line-through>
+Used to decorate text with lines. The order of the colours/line styles can be random.
+Can be used to remove underlines from anchor tags using the none value.
+(Syntax)
+line-height : <normal, numeric value, percentage, pixel> 
+Used to space the distance between lines to a specified value.
+(Syntax)
+letter-spacing : <normal, pixel, etc.>
+Used to space letters by a specified value.
+(Syntax)
+font-size : Specific units(Do not use pixel as an unit if creating a responsive website)
+Changes the font size of text.
+(Syntax)
+font-family : <font> 
+Specifies the font used for the element. Caution should be taken however as some web browsers/ operating systems may not support the specified font.
+Multiple fonts can be stacked(using commas) to provide backup just in case one of the fonts are not supported on the browser.
+
+Note : Absolute units are those units which don't depend on other elements in your page. e.g)Pixels. Not recommended for responsive websites.
+
+
 
 
