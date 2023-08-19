@@ -270,6 +270,123 @@ Multiple fonts can be stacked(using commas) to provide backup just in case one o
 
 Note : Absolute units are those units which don't depend on other elements in your page. e.g)Pixels. Not recommended for responsive websites.
 
+Universal selector : Selects all the elements in the html document.
+* {
+    property : value;
+}
 
+Element selector : Selects all elements of a given type 
+img {
+    property : value;
+}
+
+Selector list : Select a bunch of elements to apply the styles on 
+h1,h2 {
+    property : value;
+}
+
+ID selector : Selects a specific element using the id. Uses the # to reference them.
+#hello {
+    property : value;
+}
+
+Class Selector : Selects a specific group of elements and applies the same style to all of them. class value has to be specified for all the elements in the html tags
+.hello {
+    property : value;
+}
+
+Descendent selectors : Selects and applies styles to all specified descendent tags of another specified tag. This does not style the master tag itself and is different 
+from list selectors as no commma is used here.
+li a {
+    property : value;
+}
+
+Adjacent selector : Only selects elements that are proceeded by another specified element. Only applies style to the proceeding element. 
+h1 + p {
+    property : value;
+}
+
+Direct child : Selects only child elements that are direct children of the specified parent element.
+div > li {
+    property : value;
+}
+
+Attribute selector : Selects all input elements with a specific type attribute.
+input[type="text"] {
+    property : value;
+}
+section[class="post] {
+    property : value;
+}
+
+a[href*="google"] {
+    property : value;
+}
+This selects all anchors with an href containing the word google within it.
+
+Pseudo Classes are keywords added to a selector to specifies a special state of the selected element.
+Used by preceding a colon before the specifying the pseudo class.
+The hover pseudo class applies style to an element while the cursor hovers over it.
+
+button:hover {
+    property: value;
+}
+Can also be used for specific elements.
+.post button:hover {
+    property: value;
+}
+
+The active pseudo class applies style to an element when the element is selected.
+button:active {
+    property : value;
+}
+
+The checked pseudo class applies style to radio buttons or checkboxes where the items are selected.
+input[type="checkbox"]:checked {
+    property : value;
+} 
+
+The nth-of-type pseudo class applies style to the nth element of a specific class group or every nth element of a specific class group.
+.post:nth-of-type(3) {
+    property: value;
+}
+For the nth element
+.post:nth-of-type(3n) {
+    property: value;
+}
+For every nth element
+
+
+Pseudo elements are keywords used to specify which part of the element you want to apply styles to.
+Used by preceding two colons before specifying the type the pseudo element.
+
+::first-letter : Only applies style to the first letter of the element.
+::first-line : Only applies style to the first line of the element.
+::selection : Used to style the color of the selected text.
+
+
+The css stylesheet follows a cascade sequence (i.e. The latest style applied to an element in a css file will be the style used in the document.)
+Works for different css files as well. The css style linked the latest in the html file will apply its changes onto the document.
+
+Specificity is how the browser decides which rules to apply when multiple rules could apply to the same element.(It's basically precedence)
+The order of specificity is:
+ID > Class >  Element
+
+To calculate the specificity:
+The first digit is the number of id selectors
+The second digit is the number of class selectors
+The third digit is the number of element selectors 
+By making these 3 digits into a single 3 digit number, we can compare them to find out the specificity.
+
+Note : Inline styles have the highest specificity ever and that is why they're not recommended to be used.
+
+To override every specificity, we use !important after the property value. This sets the property of every selected element to a specified color without exceptions.
+button {
+    property : value !important ;
+}
+
+CSS inheritence states that if an element is not styled specifically, it inherits the styles applied to the closest parent.
+Note :- Certain elements dont inherit properties by deafult. For these elements, using property : inherit; makes the inheritence rule visible.
+Note :- Certain properties are not inheritable.
 
 

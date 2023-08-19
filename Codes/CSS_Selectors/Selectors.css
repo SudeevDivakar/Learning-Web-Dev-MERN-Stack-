@@ -1,0 +1,71 @@
+h1 {
+    color: #433633;
+}
+body{
+    background-color: #decbb7;
+}
+button {
+    background-color: #f7f0f5;
+    font-size: 20px;
+}
+.tbg {
+    background-color: #8f857d;
+}
+#ag {
+    color: #433633;
+}
+ul a{
+    text-decoration: wavy underline blue;
+    color : red;
+}
+
+input + button {
+    color : blue;
+}
+
+input[type="password"] {
+    color : red;
+}
+
+section[class="post"] {
+    background-color: red;
+}
+
+button:hover {
+    background-color: green;
+    color : white;
+} 
+button:active {
+    background-color: red;
+    color : white;
+}
+
+select:hover {
+    background-color: aqua;
+}
+
+select:active {
+    background-color: green;
+}
+
+.post button:hover {
+    color : white;
+    background-color: green;
+}
+
+input[type="radio"]:checked {
+    color : red;
+} 
+
+.post:nth-of-type(3n) {
+    background-color : blue;
+}
+
+h1::first-letter {
+    font-size : 50px;
+}
+
+a::selection,p::selection {
+    background-color: orange;
+}
+
