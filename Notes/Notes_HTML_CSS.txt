@@ -389,4 +389,85 @@ CSS inheritence states that if an element is not styled specifically, it inherit
 Note :- Certain elements dont inherit properties by deafult. For these elements, using property : inherit; makes the inheritence rule visible.
 Note :- Certain properties are not inheritable.
 
+The CSS box model states that everything in CSS is stored in a box like manner.
+
+Width and height specify the width and height of the inner content box.
+element {
+    width : 200px;
+    height : 200px;
+}
+
+Adding additional properties to this(e.g. background color) will only affect the newly assigned area.
+
+
+We use borders in css to make our elements look better. We can curve these borders to provide a more aesthetic look to the webpage.
+Border properties :-
+border-width : 100px ; specifies the width of the border
+border-color : black ; specifies the color of the border
+border-style : solid ; specifies the style of the border. When two or more styles are specified, the top border gets styled first and moves in a clockwise manner.
+box-sizing : border-box ; makes sure the dimensions of the element are the same as initially specified under the element specification.
+border-radius : <50px,50%> ; Makes rounded edges.
+Each of these properties can be individually applied to any specific side of the border using "border - <left,right,top,bottom> - <color,width,style>".
+
+To add all these properties in one go, use :-
+border : <width> <style> <color>;
+
+border-radius : 50%; This is used to create circles.
+Refer MDN to create more fun shapes.
+
+Padding is the space in between the content box and the border.
+padding-left 
+padding-right 
+padding-bottom 
+padding-top 
+These above properties are used on the respective sides.
+
+padding : Used on all 4 sides of the content box.
+padding : 5px; 5 px on all sides
+padding : 5px 10px; 5px vertical(top and bottom) padding and 10px horizontal(sides) padding
+padding : 5px 10px 15px; top horizontal(sides) bottom 
+padding :5px 10px 15px 20px; top right bottom left 
+
+Margin is the space outside an element's border.
+margin-left 
+margin-right 
+margin-bottom 
+margin-top 
+These above properties are used on the respective sides.
+
+margin : Used on all 4 sides of the content box.
+margin : 5px; 5 px on all sides
+margin : 5px 10px; 5px vertical(top and bottom) margin and 10px horizontal(sides) margin
+margin : 5px 10px 15px; top horizontal(sides) bottom 
+margin :5px 10px 15px 20px; top right bottom left 
+To remove deafult margins use margin-bottom/right/left/top and set the value to 0.
+
+Use:-
+body {
+    margin:0;
+}
+before starting a document to make it better.
+
+The display property can be used to turn inline elements into blockline elements and blockline elements to inline elements.
+h1 {
+    display : inline; 
+}
+Here, h1 is originally a block line element, but it can be changed into an inline element.
+
+Note :- Width and height properties do not work for inline elements. Space is not respected for inline elements.
+To add multiple block line elements side by side, use:-
+h1 {
+    display : inline-block;
+}
+
+CSS units:
+-> % (Unit) : The percentage uses a specified percentage of the parent element's property. e.g) 50% provides 50% of the parent element's property.
+-> line-height and line-width(property) : are used to specify the line height and width of the element with respect to the elements size itself. Unit used can be %.
+-> em (Unit) : They are a unit which is relative to the parent's font size. e.g) 2em provides 2 times the size of the parent's property. When using em with padding and margins, 1em 
+would imply choosing the exact size of the current element. 2em would result in 2 times the size of the current element.
+-> rem (Unit) : For nested elements, the elements keep on growing/decreasing with every new element introduced and thus rems are used to solve this issue. Root ems or rems, derive their 
+size from the root-html element's font-size. The root element is the html tag at the top. We can set the html tag's font-size property using the same css syntax. 
+
+
+
 

@@ -1,0 +1,46 @@
+html {
+    font-size: 50px;
+}
+body {
+    margin:0;
+}
+
+h1 {
+    width :275px;
+    background-color: aqua;
+    margin:0;
+}
+
+p {
+    width : 120px;
+    border-style:solid;
+    border-color: aquamarine;
+    border-width: 3px;
+    border-radius: 10px;;
+}
+
+#lname {
+    border : 5px solid aquamarine;
+    border-radius :10px;
+}
+
+#butt{
+    border-color: aquamarine;
+    border-style: solid;
+    border-radius: 10px;
+    background-color: aquamarine;
+    padding : 10px 20px;
+}
+
+#butt:active {
+    background-color: aqua;
+    color : white;
+}
+
+#lmao {
+    font-size: 40px;
+}
+
+.noob {
+    font-size : 0.75em;
+}
