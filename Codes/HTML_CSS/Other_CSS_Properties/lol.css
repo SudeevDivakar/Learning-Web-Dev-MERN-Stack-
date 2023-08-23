@@ -1,0 +1,15 @@
+h1{
+    width : 275px;
+    background-color: black;
+    color: rgba(255,255,255,0.7);
+    transform: rotate(15deg);
+}
+
+button:hover {
+    background-color: black;
+    color : white;
+    transition : background-color 1s, color 1s;
+}
+#hello {
+    opacity:0.5;
+}

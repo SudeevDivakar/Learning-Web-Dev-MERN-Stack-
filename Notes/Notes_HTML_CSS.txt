@@ -469,5 +469,118 @@ would imply choosing the exact size of the current element. 2em would result in 
 size from the root-html element's font-size. The root element is the html tag at the top. We can set the html tag's font-size property using the same css syntax. 
 
 
+The rgba color system is used to set the transparency of the color specified. a in rgba stands for alpha
+e.g) rgba(0,209,112,0.5)
+The alpha value only has a range from 0 to 1.
+To use the alpha system on hexadecimal values, we add two extra hexadecimal digits ranging from 00 to ff.
 
+The opacity property sets the entire element it is used on to a specific opacity value. Whereas the alpha value only makes the specified property transparent.
+Opacity has a range from 0 to 1.
+
+
+
+The position property in CSS sets how an element is positioned in a document. 
+The top,right,bottom,left properties determine the final location of the element.
+
+static is the dafault value for the position property and any values given to top,bottom,etc. will not change the position of the element in static position.
+relative is a position value which positions an element with respect to its original location .
+absolute removes the element from the normal document flow and no space is created for the element in the page layout. It is positioned relative to the closest positioned ancestor(parent with a position property besides static) if any else it is positioned in its initial location. 
+fixed makes the element not move from it's place at all even after scrolling. This removes the element from the normal document flow and positions it relative to the top left. Can be used to make navbars that do not move.
+sticky starts off as a not fixed element, but then changes into a fixed element once it is scrolled out of screen.
+
+
+
+Transitions are used to delay switching of elements from one state to another.
+h1 {
+    transition : 1s;
+}
+makes the change occur slowly in 1s or any specified amount of time. 
+
+Specifying a specific property before the 1s transitions only that property of the element. 
+To add delay:
+h1 {
+    transition : background-color 3s 1s;
+}
+Transitions(3s) only the background color of h1 with a 1s delay.
+
+h1 {
+    transition : background-color 3s, border-radius 1s;
+}
+Transitions for multiple properties.
+
+timing functions help the transitions occur in different styles.
+Some different timing functions are:
+h1 {
+    transition-timing-function:ease-in;
+    transition-timing-function:ease-out;
+}
+To find different timing functions, check out https://easings.net/
+Note:- Only apply transitions on the element properties you want to undergo transitions.
+
+
+
+The transform property can be used for a variety of reasons:
+transform can be used to rotate an element by a certain number of degrees.
+h1 {
+    transform-origin : bottom right;
+    transform : rotate(180deg);
+}
+Transform origin can be used to rotate the element from a specified position.
+Other values such as rotateX,rotateY,rotateZ can be used to rotate the element around their specific axes.
+
+scale can be used to scale an element up or down by a specified value.
+h1 {
+    transform : scale(0.5);
+    transform : scale(0.5,2);   //length,height
+    transform : scaleY(2);
+    transform : scaleX(2);
+}
+
+translate is used to move an element by a specified amount. (negative values are used to change directions)
+h1 {
+    transform : translateX(200px);
+    transform : translateX(-200px);
+    transform : translateY(200px);
+    transform : translateY(-200px);
+    transform : translate(200px,-40px)     //moves it right and down
+}
+
+The skew function skews the element
+h1 {
+    transform : skewX(50deg);
+    transform : skew(50px);
+    transform : skew(50px,20px);    //x and y axis
+    transform : skewY(50px);
+}
+
+Individual transform functions can be grouped together to apply different transforms at once.
+h1 {
+    transform : rotate(80deg) scale(1.5);
+}
+
+
+
+The box-shadow property allows us to add a box shadow animation to an element.
+h1 {
+    box-shadow : 12px 12px 3px 1px red;     // x-offset,y-offset,blur-radius,speard-radius,color
+}
+
+Note:- margin : 0 auto; aligns an element to the center of the webpage.
+ 
+
+To apply a background image,
+body {
+    background-image : url("...");
+}
+Additional properties:
+background-size : cover; makes the photo fit in the designated area without cropping.
+background-position : top,left,center,etc.; Part of image that shows up on screen. 
+'background:' is a shorthand property where all property values can be entered at once. In this, always use background position and position size right next to each other only seperated by a '/'.
+
+
+
+To use different google fonts, refer to this website : https://fonts.google.com/
+
+Note : Whenever we apply images on separate lines(without flexbox), html automatically adds a whitespace in between both the images. Therefore, use image tags on the same line (only the starting '<img' has to be on the same line.
+The rest of the img tag can be on a different line. 
 
