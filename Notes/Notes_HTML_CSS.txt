@@ -584,3 +584,133 @@ To use different google fonts, refer to this website : https://fonts.google.com/
 Note : Whenever we apply images on separate lines(without flexbox), html automatically adds a whitespace in between both the images. Therefore, use image tags on the same line (only the starting '<img' has to be on the same line.
 The rest of the img tag can be on a different line. 
 
+Flexbox is a relatively new css feature that helps us lay out elements and distribute space.
+
+To activate flexbox, we use the flex value in the display property.
+h1 {
+    display:flex;
+}
+This should be used on the parent element which contains the elements to be placed in their respective positions.
+
+In flexbox the x axis is called the main axis and the y axis is called the cross axis.(default)
+
+The flex-direction property is used to specify the main and cross axes.
+flex-direction : row; aligns the elements from left to right in a document.
+flex-direction : row-reverse; aligns the elements from right to left in a document.(swaps the main and cross axes)
+flex-direction : column; aligns the elements from top to bottom in a document and makes the elements fit into the parent space.
+flex-direction : column-reverse; aligns the elements from bottom to top in a document.(swaps the main and cross axes)
+
+
+The justify-content property is used to align elements along the main axes (flex-start,flex-end,center,etc.) 
+h1 {
+    justify-content : flex-start;        //aligns at start position. 
+    justify-content : flex-end;
+    justify-content : center;
+    justify-content : space-between;     //puts space between the multiple elements mentioned. (Does not put space before first and after last element)
+    justify-content : space-around;      //gives every element the same amount of space around it (First and last element included)(Similar to margin)
+    justify-content : space-evenly;      //gives even spacing between every element on every side.
+}
+
+The flex-wrap property makes sure the elements do not change size to fit into a column/row if there is no space for them. 
+It instead keeps them the same size and shifts the remaining elements onto a different column.
+h1 {
+    flex-wrap : wrap;          // keeps elements same size and pushes them onto the next column/row
+    flex-wrap : wrap-reverse;  // places elements in reverse with respect to the cross axis
+    flex-wrap : nowrap;        // keeps it the same
+}
+
+
+To place elements along the cross axes, we use the align-items property.
+h1 {
+    align-items : flex-start;
+    align-items : flex-end;
+    align-items : center;
+    align-items : baseline;   // Used to align elements with respect to the baseline of the letters in each of them. 
+}
+
+The align-content property is used to control the space between elements on the cross axis when we have multiple rows/columns.
+If we're in column mode, it controls space across x axis, else space across y axis.
+h1 {
+    align-content : space-between;
+    align-content : flex-start;           //Used to align space between rows and columns of elements
+    align-content : flex-end;
+    align-content : center;
+}
+Note:- Align content only works when there are more than 1 row.
+
+align-slef is a property used on an individual element in the flex container to position it at a specified place.
+(Works on the cross axis)
+
+
+The flex-basis defines initial size of an element before additional space is distributed.
+div {
+    flex-basis : 200px;
+}
+
+The flex-grow property controls the amount of space an element should take up. Accepts a unit less number value(propertions).
+Can be applied to individual properties as well
+div{
+    flex-grow : 1;
+}
+
+If the items are larger than the container , they shrink according to flex-shrink.
+Controls the rate at which elements shrink when the window size is adjusted
+flex-shrink value of 0, makes the element not shrink at all.
+div {
+    flex-shrink : 3;
+}
+
+The shorthand flex notation:
+div{
+    flex : 1 3 600px      // The first value is the flex grow value.The second value(if 3 values) will be the flex shrink value. The last number(with one or two values) specifies the flex basis. 
+}
+
+We can specify order number to specify the order the elements get placed in. The default order value if not specified is 0.
+div {
+    order :2;
+}
+
+RECAP :
+
+flex container properties:
+i)display;
+ii)flex-direction
+iii)flex-wrap
+iv)flex-flow
+v)justify-content
+vi)align-items
+vii)align-content
+
+
+flex item properties:
+i)order            
+ii)flex-grow
+iii)flex-shrink
+iv)flex-basis
+v)flex
+vi)align-slef
+
+
+
+Media queries are used to make a weppage responsive
+They allow us to modify our styles depending on particular parameters like screen width or device type.
+
+@media (max-width:800px) {
+    .sidebar{
+        display:none;
+    }
+    .main{
+        width:80%;
+    }
+}
+The above code styles the webpage in a certain way when the width is exactly equal to 800px.
+
+@media (max-width:30em) and (orientation:landscape) {
+    #container {
+        flex-direction : column;
+        justify-content: center;
+    }
+}
+The above code sets a range for when the styles mentioned can be applicable.
+
+Use MDN to refer to more media queries. 
