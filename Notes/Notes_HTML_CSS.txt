@@ -638,7 +638,7 @@ h1 {
 }
 Note:- Align content only works when there are more than 1 row.
 
-align-slef is a property used on an individual element in the flex container to position it at a specified place.
+align-self is a property used on an individual element in the flex container to position it at a specified place.
 (Works on the cross axis)
 
 
@@ -688,7 +688,7 @@ ii)flex-grow
 iii)flex-shrink
 iv)flex-basis
 v)flex
-vi)align-slef
+vi)align-self
 
 
 
@@ -714,3 +714,192 @@ The above code styles the webpage in a certain way when the width is exactly equ
 The above code sets a range for when the styles mentioned can be applicable.
 
 Use MDN to refer to more media queries. 
+
+Booststrap : The world's most popular css framework.
+Helps us to quickly build responsive websites.
+To refer to bootstrap documentation, use https://getbootstrap.com/docs/4.5/getting-started/introduction/
+
+Use the link tag before the css file you've written so that any styles you write will have an higher precedence than the bootstrap styles.
+
+Add the scripts right before the closing body tag.
+
+To use bootstrap, we name specific elements with certain class names. These class names have predefined styles set to them on the bootstrap stylesheet.
+
+Container class names give us a responsive fixed-width container.The different class names are:
+i) class="container"        //gives us a center aligned responsive container. (normal)
+ii) class="container-fluid"    //gives us a responsive container which spans the entire width of the webpage at all times.
+iii) class = "container-sm" , "container-md" , "container-lg" , "container-xl"   // occupies 100% width of the screen until a particular breakpoint occurs.
+
+
+To access bootstrap buttons, use:
+i) class="btn btn-primary"    Blue button
+ii) class="btn btn-secondary"     Gray button
+There are a number of bootstrap buttons all with different colors. Refer to MDN for all the different types available.
+These classes can be used on anchor tags as well.
+Outlined buttons can also be made using bootstrap.(background-color:none + border and text same color)
+i) class="btn btn-outline-warning"
+ii) class="btn btn-outline-danger"
+To make big/small buttons we use sm and lg.
+i) class="btn btn-outline-warning btn-sm"
+ii) class="btn btn-danger btn-lg"
+
+
+TYPOGRAPHY:(Used on text)
+The display-1, display-2, display-3, display-4 classes print out data in different sizes.
+class="display-1"
+class="lead"     //Makes a certain set of text stand out.
+class="blockquote"  //Designs a set of text like they would appear in quotations.
+class="blockquote-footer"  // Makes footer quotation content  
+class="blockquote text-right"   //aligns text on the right
+class="blockquote text-center"  //aligns text on the center
+
+UTILITIES :
+class="text-primary"   //Makes the text blue color
+class="text-danger"   //Makes the text red color
+class="bg-primary"    //Makes the background blue
+class="bg-danger"     //Makes the background red 
+
+
+BADGES:
+Badges are basically labels.(span with a class of badge)
+class="badge badge-success"
+class="badge badge-pill badge-success"  //Badge with border-radius
+
+BUTTON GROUPS:
+class="btn-group"   //Used in a div tag. Groups a set of buttons together to make an integrated button system.
+
+ALERTS:
+class="alert alert-danger"   //Used in a div tag. Used to give an alert to the user. 
+
+GRID SYSTEM: 
+Helps us construct our own responsive layouts
+Only works inside a container(div)
+The grid row has a total of 12 units 
+Containers can be nested within other containers
+
+class="container"
+    class="row"     //inside a div
+        class="col-4 bg-danger"  //inside a div. Forms a column taking up 4 units of space.
+        class="col-8 bg-success"   //For equally sized columns , use the class col.
+
+
+RESPONSIVE GRID SYSTEMS:
+To create responsive grid systems, we use:
+class="container"
+    class="row"
+        class="col-sm-6 bg-danger"
+        class="col-md-6 bg-success no-gutters"    //No-gutters removes any unwanted white spaces between elements.
+        class="col-xl-3 col-xs-4 bg-info"    //Use more width style 
+These have a width of 6 units when the window size is greater than the specified amount (sm,md,)
+
+
+GRID UTILITIES:
+class="align-items-start"
+class="align-items-center"
+class="align-items-end"
+//Used in the row class
+Align-items-start/center/end places elements at specific locations.
+
+class="align-self-start"
+class="align-self-center"
+class="align-self-end"
+//Used in col class
+Aligns particular elements in places.
+
+class="justify-content-start"
+class="justify-content-center justify-content-lg-evenly"
+class="justify-content-start justify-content-xl-between"
+//Used in row class
+Justifies content accordingly and can also be used responsively.
+
+FORMS:
+class="form-group"    // groups a label and input effectively. Use in a div tag encasing all the form tags/inputs. Also used for spacing out different form elements.
+    class="form-control"   //Use in the input/select/etc tags. Used to enhance the input method's appearance.
+    class="form-control-lg"   //big form control
+    class="form-control-sm"   //small form control 
+
+For checkboxes,
+class="form-check"      //Used in div tag
+    class="form-check-input"   //Used in input tag 
+    class="form-check-label"   //Used in label tag 
+
+Refer MDN for more classes.
+
+
+We can use each of these form classes on the same row using the grid system. All we have to do is specify them in the col class.
+class="form-group row"
+    class="form-group col"
+Using form-row instead of row reduces the spacing in between the elements.
+Can be used responsively as well.
+ 
+
+BOOTSTRAP NAVBARS:
+
+class="navbar navbar-light bg-primary"     //navbar-light is used to set the color of the text on the navbar(sets it to a dark color)(black)
+
+class="navbar navbar-dark bg-primary"      //navbar-dark is used to set the color of the text on the navbar(sets it to a light color)(white)
+
+To make an icon logo, embed an image into an anchor tag with class="navbar-brand"
+
+To add navbar buttons,
+Add a bunch of anchor tags with 
+class="nav-item nav-link active"
+class="nav-item nav-link"
+
+To create a responsive navbar, use:
+class="collapse navbar-collapse" in the class encasing the div containing the anchor tags.
+And in the class enclosing the above mention mentioned class, add class="navbar-expand-sm"    //Works for small and above
+
+class="navbar-toggler" creates a hamburger icon when we make the screen small.
+Note:- used in a button tag and must contain a span with the class="navbar-toggler-icon"
+Once we make this button, we need to connect it to the div with the content.
+We do this by using a data-toggle="collapse" and data-target="id of the div to be selected"
+
+Using class="fixed-top" on the main navbar creates a navbar which does not move when the screen is scrolled.
+Using class="fixed-bottom" does the same thing but it instead makes the navbar a footer.
+
+class="ml-auto" automatically align a piece of the navbar to the right.
+
+ICONS:
+Copy and paste the svg tag description given in the icons section of the bootstrap webpage to create icons.
+Use fontawesome.com for better icons.
+
+
+BORDER:
+class="border / border-top / border-right / etc" creates a specified border
+
+class="border-0 / border-top-0 / border-right-0 / etc" creates borders with a specified border not present.
+
+class="border border-primary"   //sets border color.
+
+To add border radius, look up MDN 
+
+SHADOWS:
+class="shadow"
+class="shadow-none"
+class="shadow-sm"
+class="shadow-lg"
+
+PADDING:
+class="p-0 pt-5"
+class="p-0 pb-5"
+class="p-0 pl-5"
+class="p-0 pr-5"
+class="p-0 px-5"
+class="p-0 py-5"
+Sets padding to zero on all sides except the specified side.
+
+class="p-0 p-sm-4 p-md-5 p-lg-6"   //Responsive button with different sizes 
+
+MARGINS:
+class="mt-4"
+class="mb-4"
+class="ml-4"
+class="mr-4"
+class="mx-4"
+class="my-4"
+Created margins with specified lengths.
+
+DROPDOWN MENUS:
+Refer To MDN 
+
