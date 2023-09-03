@@ -1,0 +1,82 @@
+PRIMITIVE TYPES:
+The Basic Building Blocks of JavaScript.
+The different primitive data types are:
+i)Number
+ii)String
+iii)Boolean
+iv)Null
+v)Undefined 
+Note:- Symbol and BigInt are two other data types.
+
+
+When we start out with javascript, we'll be using the console on chrome.
+The console is a Read-Evaluate-Print-Loop
+
+
+clear() - Used to clear the console.
+typeof(n) - Single operand function which returns the datatype of a given operand. 
+// are used to make single line comments in javascript
+
+
+Numbers in JavaScript:
+->Only one number type in javascript 
+->Positive/negative numbers
+->Whole numbers
+->Decimal Numbers
+->Can have basic math operations like +,-,*,/,%,**
+->Follows operator precedence 
+->Exponentation is carried out by **
+->NaN stands for Not a Number (Used for values like 0/0 or 1+NaN) (Basically an undefined value)
+
+
+Variables in javascript store data types so that they can be referenced multiple times throughout the program.
+(SYNTAX)
+let variable_name = value;
+e.g)
+let year=1985;
+
+
+Javascript supports the += format for updating variables.
+e.g) let hello = 35;
+     hello += 5;      //This results in 40. (Also works for -,/,%,*)
+
+
+JavaScript also supports i++ and ++i incrementers
+let i=5;
+let num1=i++;  //This stores the value of num1 as 5, but after this line is executed, the value of i gets updated to 6.
+let j=5;
+let num2=++j;  //This stores the values of j and num2 as 6.
+
+
+The const keyword is used to make a variable a constant. This means that once the variable is declared, it's value cannot be changed.
+(SYNTAX)
+const variable_name = value;
+e.g)
+const hello=5;    // The value of this variable cannot be changed.
+
+Note : Before let and const, the only way to declare a variable was using the keyword 'var'. Nowadays there is no reason to use it. (Works very similar to let)
+e.g) var hello=5; 
+
+
+Booleans in JavaScript: 
+->There are only two values for this datatype.
+->These two values are true and false (case sensitive)
+e.g) let hello1 = true;
+     let hello2 = false;
+
+
+Note:-Datatypes in javascript can change datatypes when re-initialized.
+Typescript does not allow this and enforces strict data typing.
+
+
+Rules for javascript variable naming:
+->No spacing in between
+->Cannot start with a digit 
+->Can contain $ _ and digits(Cannot start with digits of course)
+->Lower Camel Casing is a good practice in javascript (e.g currentDate,currentDate,apartmentResidents)
+
+
+
+
+
+
