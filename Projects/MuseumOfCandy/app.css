@@ -1,0 +1,63 @@
+body {
+    background-color: #5C5470;
+    font-family: "Nunito",sans-serif;
+}
+
+#navbartop .navbar-brand{
+    color: #352F44;
+}
+
+#navbartop {
+    font-size: 1.5rem;
+    font-weight: 100;
+}
+
+#navbartop .nav-link {
+    color : white;
+}
+
+#navbartop .nav-link:hover {
+    color : #B9B4C7;
+}
+
+#footyballs {
+    margin-bottom: 20px ;
+    width :70px;
+    height :70px;
+}
+
+.navbar.scrolled {
+    background-color: #614BC3;
+    transition: background-color 0.5s;
+}
+
+@media (max-width: 1200px){
+    #maincontent h1 {
+        font-size: 3rem;
+    }
+    #maincontent p {
+        font-size: 1rem;
+    }
+    #judebell h1 {
+        margin-top : 2.5rem;
+    }
+    #judebell h1{
+        font-size: 3rem;
+    }
+    #judebell p {
+        font-size: 1rem;
+    }
+    #rodrygo h1{
+        font-size: 3rem;
+    }
+    #rodrygo p {
+        font-size: 1rem;
+    }
+    #valverde h1{
+        font-size: 3rem;
+    }
+    #valverde p {
+        font-size: 1rem;
+    }
+
+}
