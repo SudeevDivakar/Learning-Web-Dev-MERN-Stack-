@@ -16,6 +16,7 @@ The console is a Read-Evaluate-Print-Loop
 clear() - Used to clear the console.
 typeof(n) - Single operand function which returns the datatype of a given operand. 
 // are used to make single line comments in javascript
+JavaScript has semicolons
 
 
 Numbers in JavaScript:
@@ -76,7 +77,94 @@ Rules for javascript variable naming:
 ->Lower Camel Casing is a good practice in javascript (e.g currentDate,currentDate,apartmentResidents)
 
 
+Strings in Javascript:
+->Another primitive datatype in javascript
+->Textual information 
+->Must be wrapped in quotes
+->Can use both double and single quotes 
+->Must start and end with the same type of quote
+->Strings are indexed(every character has a number associated with it). Use square brackets to access individual elements.
+->String out of bounds accessing results in undefined
+->Strings can be concatenated using the + operator   //"lol"+"lol" results in "lollol" 
+->Strings in javascript are immutable 
 
 
+(SYNTAX)
+string.length
+Returns the length of the string.
+e.g)
+"hello".length   //Results in 5
 
+
+Note:- In javascript, concating a number with a string results in a string containing both the number and the text.
+
+
+Methods are built in actions we can perform with individual Strings
+(SYNTAX)
+thing.method()
+
+Note:- .length is accessing a property of the string whereas .method() executes a specified method.
+
+(SYNTAX)
+string.toUpperCase() : Converts the entire string to uppercase. Non destructive method (Doesn't directly change the variable unless re-initialized)
+string.toLowerCase() : Converts the entire string to lowercase. Non destructive method (Doesn't directly change the variable unless re-initialized)
+
+(SYNTAX)
+string.trim() : removes white spaces at the beginning and end of the string 
+
+Methods in javascript can be used multiple in a single line. 
+e.g) string.trim().toUpperCase()   //will trim and convert the given string to uppercase.
+
+(SYNTAX)
+let string='catdog';
+string.indexof('cat');    //return first occurance of cat
+Note:- Will return a value of -1 if a substring is not present within a string.
+
+(SYNTAX)
+let hello = "helloThereMyFriend"
+string.slice(0,5);   //hello
+string.slice(5);     //ThereMyFriend
+// Same as python
+Note:- Negative indexing works as well
+
+(SYNTAX)
+let joke='haha that was so funny';
+string.replace('haha','lolololol');
+Replaces the first occurance of a string with another given string.
+
+(SYNTAX)
+let strong='lol';
+string.repeat(3);   //lollollol
+Repeats a string a number of times.
+
+
+TEMPLATE LITERALS:
+"You bought " + qty + " " + product + ". Total is: " + price*qty
+Instead of writing a string like this, javascript offers template literals
+These are basically strings that allow embedded expressions, which are evaluated and then turned into a resulting string.
+Note:- Backtick characters are required to make template literals work.
+e.g) `You bought ${qty} ${product.toUpperCase()}. Total is: ${price*qty}`
+`hello i am ${10 + 10} years old`
+Note:- The ${} do not show up in the final string. Methods can be used on the string inside template literals.
+
+
+null and undefined in JavaScript:
+-> null is the intentional absence of any value.
+-> The null value must be assigned.
+-> Undefined variables are the variables that do not have an assigned value.
+
+
+MATH OBJECT:
+Contains properties and methods for mathematical constants and functions
+
+Math.PI   //returns the value of pi
+Math.round(4.9)  //returns 5
+Math.abs(-456)   //returns 456
+Math.pow(2,5)    //returns 32
+Math.floor(3.99999)   //returns 3
+Math.ceil(34.6574)   //returns 35
+Math.random()   //returns a random decimal value between 0 and 1 (1 not inclusive). We can use math functions on this value to generate random integers of desired length.
+e.g)
+let G=Math.floor(Math.random()*10) + 10;   //Provides a random number between 10 and 19(inclusive)
+let G=Math.floor(Math.random()*5) + 10;    //Provides a random number between 10 and 14(inclusive)
 
