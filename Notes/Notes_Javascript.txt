@@ -168,3 +168,114 @@ e.g)
 let G=Math.floor(Math.random()*10) + 10;   //Provides a random number between 10 and 19(inclusive)
 let G=Math.floor(Math.random()*5) + 10;    //Provides a random number between 10 and 14(inclusive)
 
+
+COMPARISON OPERATORS:
+>
+<
+>=
+<=
+==
+!=
+===    // Strict equality
+!==    // Strict non-equality
+
+The difference between == and === is, == only checks for the equality of a value and not the type.
+Whereas === checks for the equality of the type as well as the value.
+Same applies for != and !==
+e.g)
+1 == '1'   //returns true
+1 === '1'   //returns false
+1 != '1'   //returns false
+1 !== '1'   //returns true
+
+Note:- == weirdness
+0 == ''   //returns true
+0 == false   /returns true
+null == undefined    // returns true
+
+ALWAYS USE === AND !==  (In most cases)
+
+
+CONSOLE, ALERT AND PROMPT
+The console object is used to interact with the console.
+-> console.warn("UH OH WARNING");   //provides a warning message
+-> console.error("ERROR");          //provides an error message
+
+console.log(1+5 , "hi" , true);   //Used to print output onto the console 
+Above line provides an output of : 6 hi true 
+
+alert("Hello");    //Provides a pop up message on top of the screen.
+prompt("Please enter a number");    //Provides the user with a prompt to collect data. The data collected can then be stored into a variable which is then available on the console.
+
+Note :- While using prompt, the user inputted value is a string. So to perform any numerical operations on it, we must explicitly typecast it.
+
+(SYNTAX)
+parseInt("101");     //returns 101
+parseInt("10ghw1");  //returns 10
+parseInt("101ghw");  //returns 101
+Used to explicitly convert a string to a numeric value.
+
+
+RUNNING CODE FROM A FILE:
+Step 1: Write code in a .js file 
+Step 2: Include your script in a .html file   (Add at the end of the body tag)
+
+
+CONDITIONAL STATEMENTS:
+The if else-if else statements :-
+let rating = 18;
+if (rating === 3){
+     console.log("YOU'RE A SUPERSTAR");
+}
+else if(rating > 3){
+     console.log("Ayyo big man and dat");
+}
+else (rating<3){
+     console.log("LOL NOOB");
+}
+
+Note:- string.indexOf(' ') === -1;     //This can be used to check whether a string contains spaces.
+
+
+TRUTHY AND FALSEY VALUES:
+Every value in js is considered truthy except the following:
+false 
+0
+""
+null
+undefined 
+NaN
+
+
+Logical operators are operators that allow us to combine different expressions.
+The three core logical operators are:
+&& - logical and     //all conditions specified have to be true 
+|| - logical or      //atleast one condition specified has to be true 
+! - logical not      //Inverts or negates the boolean value of an expression 
+
+
+THE SWITCH STATEMENT:
+let day=7;
+switch(day){
+     case 1:
+          console.log("Monday");
+          break;
+     case 2:
+          console.log("Tuesday");
+          break;
+     case 3:
+          console.log("Wednesday");
+          break;
+     case 4:
+          console.log("Thursday");
+          break;
+     case 5:
+          console.log("Friday");
+          break;
+     case 6:
+     case 7:
+          console.log("Weekend");
+          break;
+     default:
+          console.log("EVERYDAY IS LEG DAY");
+}
