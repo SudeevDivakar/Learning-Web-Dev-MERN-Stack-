@@ -279,3 +279,106 @@ switch(day){
      default:
           console.log("EVERYDAY IS LEG DAY");
 }
+
+
+ARRAYS IN JavaScript:
+->Arrays are an ordered collection of values.
+->To declare a variable we use the [] brackets
+->JavaScript allows arrays of mixed types.
+->Arrays are objects (typeof and array would return 'object')
+-> .length property is valid for arrays
+->Each element is assigned an index starting from 0
+->Arrays are mutable
+e.g)
+let colors = [];
+let hello = [1,2,3,4];
+let hello1 = ["hey",1,4,"yoyo"];
+
+
+Built in Array methods:  (destructive)
+->push : adds value onto the end of the array and returns the new length of the array
+e.g)
+let array = [1,2,3];
+array.push("hello");    //returns 4
+array.push("hello1","hello2","hello3");   //pushes values onto array in order and returns 7.
+
+->pop : removes the last element from the array and returns it to us 
+e.g)
+let array = [1,2,3];
+array.pop()     //returns 3
+
+->shift : removes a value from the start and returns the removed value 
+e.g)
+let array = [1,2,3];
+array.shift();    //returns 1
+Note:- Shifting or popping from an empty array returns undefined
+
+->unshift : adds a value to the start of the array
+e.g)
+let array = [1,2,3];
+array.unshift(0);    //adds 0 to the start of the array.
+
+->concat : Used to join the contents of an array to the contents of another array (non-destructive)
+e.g)
+let array1 = [1,2,3];
+let array2 = [4,5,6];
+let array3 = array1.concat(array2);   //returns [1,2,3,4,5,6]
+
+->includes : Used to check whether a given element is present within an array or not. Returns a boolean value.
+e.g) 
+let array = [1,2,3,4,5];
+array.includes(3);     //returns true
+array.includes(7);     //returns false
+
+->indexOf : Returns the first index at which a given element is found. Returns -1 if element is not found.
+e.g)
+let array = [1,2,3,4,3,6];
+array.indexOf(3);     //returns 2 
+
+->reverse : reverses a specified array.(destructive)
+e.g)
+let array = [1,2,3,4,5,6];
+array.reverse();   //array becomes [6,5,4,3,2,1]
+
+->slice : Used to extract a required sub-array from the main array.It is non-destructive (Second digit, if any, is non-inclusive)
+e.g)
+let array = [1,2,3,4,5,6];
+array.slice(1,5);    //returns [2,3,4,5]
+Note:- Negative indices are valid
+
+->splice : It is a destructive method. Used to delete/add elements simultaneously. First argument is the starting index for deletion/index where an element has to be inserted, second is the number of items to delete and third is the element to be inserted. 
+e.g)
+let colors = ['red','orange','yellow','green','blue','indigo','violet'];
+colors.splice(5,2);     //returns indigo and violet while also updating the colors array
+colors.splice(5,0,'purple','magenta');    //adds two values at the end of the list (does not return anything tho)
+colors.splice(2,2,"DELETED");     //deletes yellow and green and replaces it with "DELETED".
+
+->sort : The sort function in javascript does not work the normal way. It works by converting the elements into strings and then compares the values. This is however not ideal for sorting integer arrays as
+the method would interpret 9>125, etc.
+
+
+When we compare arrays' equalities (with == or ===), if they do not point towards the same memory location, then they will not be equal to each other. 
+The only way to make them equal is to make them both point towards the same memory address.
+let array = [1,2,3];
+let copy = array;
+array === copy;    //returns true
+
+
+When we use the const keyword with an array, we can change the contents of the array but cannot change the original reference of the array.
+e.g)
+let nums = [1, 2, 3, 4];
+nums.push(4);      //This is allowed as the original reference of the array is not changing 
+
+let nums = [1, 2, 3, 4];
+nums = [1, 2, 3, 4];
+nums = [5, 6, 7, 8];
+nums=5;                    //none of these are permitted by javascript
+
+
+Nested arrays are arrays which contain other arrays within them.
+let hello = [[1,2,3],[4,5,6],[7,8,9]];
+hello[1][1];    //returns 5
+hello[2][0];    //returns 7
+
+
+
