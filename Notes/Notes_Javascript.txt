@@ -382,3 +382,43 @@ hello[2][0];    //returns 7
 
 
 
+OBJECT LITERALS:  
+Object Literals will be our second data structure after arrays.
+Object Literals are collections of properties. (Properties are key-values pairs) (Basically a dictionary)
+Rather than accessing data with indices(like we did in arrays), we use custom keys.
+
+e.g)
+const fitBitData = {
+     totalSteps : 230183,
+     totalMiles : 233.5,
+     avgCalorieBurn : 5744,
+     workoutsThisWeek : '5 of 7',
+     avgGoodSleep : '2:13'
+};
+Note:- The keys do not need quotes. The order does not matter.
+
+
+To access data out of the object literal, we use [] along with the key in double quotes. After declaring the keys, javascript converts them into strings. 
+Note:- Only use key names without quotes when we're using a variable holding the key name to access the values.
+fitBitData["avgGoodSleep"];    //This returns the value '2:13'
+                        OR 
+fitBitData.avgGoodSleep;      //returns the same thing 
+
+
+Note:- We can assign variables as the key names and can then use these variables to reference values in the object literal.(Can only do with [])
+e.g)
+let key = 'totalMiles';
+fitBitData[key];     //returns 233.5
+
+
+To change the values present in a object literal or to add a new key:value pair:
+fitBitData["avgCalorieBurn"] = 6757;    //updates data
+fitBitData.name = "Sudeev";   //adds data
+
+
+We can nest arrays and object literals within each other in whatever fashion we desire.
+For an array containing multiple object literal, we access elements by:
+array[index]['key_name'];  
+For an object literal containing another object literal, we access elements by:
+object_literal['key1_name']['key2_name'];
+
