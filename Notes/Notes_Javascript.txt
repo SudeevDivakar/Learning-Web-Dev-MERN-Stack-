@@ -482,3 +482,33 @@ for(let sum of Object.values(object_literal)){
 
 
 Note:- To check if a number is NaN, we use Number.isNaN(number);
+
+
+FUNCTIONS:
+->Functions are reusable blocks of code that can be called and used how many ever times needed.
+->Helps write modular code.
+
+
+Writing functions is a two step process.
+->Define the function
+->Run the function 
+
+
+(SYNTAX)
+function <function_name>(){
+     //code;
+}
+
+
+Arguments are values we pass to a function to vary the output depending on the argument passed.
+If an expected value is not passed in the function call, that argument gets initialized to undefined.
+
+
+A function can accept multiple arguments seperated by a comma in both the function definition and call.
+The order of the arguments in the function call must match the order of the arguments in the function definition.
+Note:- The function arguments can be of different types.
+JavaScript does not care whether all the arguments are passed in the function call or not. What is does care about is if the arguments with no value passed to them are being used in the function code later on.
+
+
+The return keyword works the same way it does in other languages.
+Only one value can be returned per function.
