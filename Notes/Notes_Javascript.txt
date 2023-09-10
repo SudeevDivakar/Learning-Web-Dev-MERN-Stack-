@@ -422,3 +422,63 @@ array[index]['key_name'];
 For an object literal containing another object literal, we access elements by:
 object_literal['key1_name']['key2_name'];
 
+
+LOOPS IN JavaScript:
+Loops are a way to repeat a set of code a certain number of times.
+The different types of loops in js are:
+->for loops
+->while loops 
+->for...of loops 
+->for...in loop 
+
+
+(SYNTAX) FOR LOOP
+for(let i=0;i<10;i++){
+     console.log('Hello');
+}
+
+
+To loop over an array with a for loop:
+let array = [1,2,3,4,5];
+for(let i = 0 ; i < array.length ; i++){
+     console.log(i, array[i]);
+}
+Note:- Loops can be nested.
+
+
+(SYNTAX) WHILE LOOP 
+let num = 0;
+while(num < 10){
+     console.log('hello');
+     num += 2;
+}
+Note:- The while loop is generally used when the number of iterations are not known whereas the for loop is used when the number of iterations are known.
+Note:- Both break and continue are supported by JavaScript.
+Note:- JavaScript also has a do while loop with its syntax being similar to C.
+
+
+The for...of loop helps us iterate over arrays/strings. When we use the for...of loop, the actual values of the elements will be assigned to the variable(declared in loop definition) instead of the indices(as seen in the for...in loop)
+array = ['sudeev','osama','obama'];
+for(let i of array){
+     console.log(`Hello ${i}`);       //prints the values of the array 
+}
+Note:- The for...of loop cannot be used for object literals in JavaScript.
+
+
+The for...in loop has the same syntax and definition as for...of except it returns the indices of the array/string and in the case of object literals, it returns the key names.
+for(let i in object_literal){
+     console.log(`${i} scored ${object_literal[i]}`);
+}
+Note:- we can also loop over object literals using these commands:
+->Object.keys(object_literal)     //returns an array containing the keys of the object literal specified.
+->Object.values(object_literal)    //returns an array containing the values of the object literal specified.
+->Object.entries(object_literal)    //returns a nested array of key value pairs.
+e.g)
+If we want to get a sum of the values in a object literal, we can just:
+let sumFinal = 0;
+for(let sum of Object.values(object_literal)){
+     sumFinal += sum; 
+}
+
+
+Note:- To check if a number is NaN, we use Number.isNaN(number);
