@@ -512,3 +512,103 @@ JavaScript does not care whether all the arguments are passed in the function ca
 
 The return keyword works the same way it does in other languages.
 Only one value can be returned per function.
+
+
+SCOPE:
+Scope refers to the variable visibility. The location where a variable is defined dictates where we can use that variable.
+
+Function Scope:
+->Variables created inside of a function are only accessible within that function.
+
+Block Scope:
+->Variables declared within a set of {} using the let keyword are only accessible within that block.
+->This is known a block scope.
+->Variables declared using the var keyword do not follow the block scope and only follow the function scope.
+->This was the reason let and const were introduced into js replacing var.
+
+Lexical Scope:
+->A function defined within another function has access to all the variables defined in the parent function. 
+->A variable defined within a child function however, can not be accessed by the parent function.
+
+Function Expressions:
+->We can assign a function to a variable.
+e.g)
+const add = function (x,y){
+     return x + y;
+}
+We can call this function by add(1,3);
+
+Higher Order Functions:
+->Functions that operate on/with other functions.
+They either
+->Accept other functions as arguments
+->Return a function 
+
+Passing/Accepting Functions as Arguments:
+->When passing a function to another function as an argument, do not use () right after the function name as it will run the function on spot.
+function hello(func){
+     func();
+     func();
+}
+function lol(){
+     console.log('Hello World');
+}
+hello(lol);
+
+Returning functions in js:
+We can also return functions in JavaScript.
+function isRange(lower,upper){
+     return function (num){
+          return num > lower && num < upper;
+     }
+}
+const range = isRange(50,100);
+range(70);                          //returns true 
+
+
+Methods in js:
+A method is a function that has been placed as a property on an object.
+Note:- All methods are functions but not all functions are methods.
+e.g) 
+const myMath = {
+     PI : 3.14159,
+     square : function(num){
+          return num*num;
+     },
+     cube : function(num){
+          return num**3;
+     }
+};
+Called by using myMath.square(2); or myMath.cube(4);
+
+Note:- The above syntax can also be written as:
+const myMath = {
+     PI : 3.14159,
+     square(num){
+          return num*num;
+     },
+     cube(num){
+          return num**3;
+     }
+};
+This works the same way as the previous example.
+
+
+THE 'THIS' KEYWORD:
+->The this keyword is used to access other properties on the same object.
+->The value of 'this' depends on the invocation context of the function it is used in.
+
+All functions belong to a top level object called window.
+Any user defined function can be invoked by window.function_name();
+When a method is individually evoked from an object, and the method contains the 'this' keyword, then 'this' would refer to the window object rather than the object literal itself.
+
+
+TRY AND CATCH in JS:
+The try/catch is used to detect errors(try) and execute a specific set of code(catch) if an error is picked up.
+e.g)
+try{
+     hello.toUpperCase();
+}
+catch{
+     console.log('ERROR');
+}
