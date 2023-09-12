@@ -753,3 +753,89 @@ Notes:-
 ->To make sure the 'this' keyword DOES refer to the parent object, we use the normal declaration. i.e) function (){}
 
 
+DEFAULT PARAMS:
+->Default params are a way to initialize a parameter value to a specific value.
+->The defualt params can only show up at the end of the parameter list for the function to work properly.
+e.g)
+function greet(name,msg="Hey there"){
+     console.log(`${msg}, ${name}`);
+}
+
+
+SPREAD WITH FUNCTION CALLS:
+->For specific function which require more than one input { e.g) Math.max(1,2,3,4,5)  //returns 5 } we can use spread so that we can pass an array into this function.
+->Spread is represented by ...<array_name>
+->Math.max([1,2,3])  will return NaN.
+->Math.max(...[1,2,3]) will return 3.
+Notes:- 
+->console.log('hey','there')  would print out "hey there"
+->console.log(...['hey','there'])   prints out the same thing 
+
+
+SPREAD WITH ARRAY LITERALS AND OBJECT LITERALS:
+To combibe two or more arrays, we can use:
+let a=[1,2,3,4];
+let b=[5,6,7,8];
+let c=[9,10];
+let final = [...a, ...b, ...c , 'haha counted to 10'];
+final is an array containing [1,2,3,4,5,6,7,8,9,10,'haha counted to 10']
+Note:-The + operator cannot combine arrays in js.
+
+To combine object literals:
+let hello = {1:'yo'};
+let hey = {2:'yoyo'};
+let lol = {...hello, ...hey, 3:'yoyoyo'};
+The value of lol would be {1:'yo', 2:'yoyo', 3:'yoyoyo'}
+->In case there's a conflict with keys, the value mentioned second would have the higher precedence.
+->If we try to spread an array in an object, the keys would be their indices and the values would be the elements themselves.
+
+
+REST PARAMS:
+->Every function defined has an array called arguments which holds all the arguments passed to a function.
+Note:- This array is not a typical array and the normal methods we would use on an array, are not applicable to the arguments array.
+->We cannot push/pop/reduce,etc.
+->We use rest params to fix this.
+e.g)
+function sum(...nums){
+     return nums.reduce((total,n) => total + n);
+}
+Here, sum accepts how many ever arguments it wants and stores all of them in an array called nums(could be any name).
+This is a normal array and we can run any valid method on this array.
+
+
+DESTRUCTURING ARRAYS:
+->We can unpack an array by the following method:
+e.g)
+let array = [1,2,3,4,5,6,7,8,9,10];
+const [gold,silver,bronze,...everyoneElse] = array;
+Here, gold would receive a value of 1
+silver would receive a value of 2
+bronze would receive a value of 3 
+everyoneElse would be an array containing all the other elements
+
+
+DESTRUCTURING OBJECTS:
+e.g)
+let lol = {email : '1' , name : '2' , born : '3' , died : '4'};
+const {email, name, born, died} = lol;
+This will produce individual variables named email,name,born,died which have their values equal to the corresponding values in the object literal.
+
+->If we want to customize the names of the variables, we can use:
+const {email : contact_info , name : Identification_name , born : birthyear , died : deathyear} = lol;
+This will assign the values into variable names of our choice. 
+
+->We can also pass default values in case the key is not present in the object literal.
+let lol = {email : '1' , name : '2' , born : '3' , died : '4'};
+const {email, name, born, died = 5} = lol;                   //sets died as 5 if not found in lol.
+
+
+DESTRUCTURING PARAMS:
+let lol = {email : '1' , name : '2' , born : '3' , died : '4'};
+function({email, name}){
+     console.log(`${email} - ${name}`);
+}
+->We can destructure a object in the parameter list to select only the values we want to use in the function.
+->We can also provide default values while destructuring.
+
+
+
