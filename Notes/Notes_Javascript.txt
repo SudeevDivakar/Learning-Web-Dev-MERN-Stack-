@@ -612,3 +612,144 @@ try{
 catch{
      console.log('ERROR');
 }
+
+
+THE forEach METHOD:
+The forEach method is used to run a function callback through an array. Only used to iterate through an array.
+Note:- A callback is a function passed as an argument to another function.
+(SYNTAX)
+array_name.forEach(function_callback);
+e.g)
+array=[1,2,3,4,5];
+function print(num){
+     console.log(num);
+}
+array.forEach(print);
+
+          OR
+array=[1,2,3,4,5];
+array.forEach(function (num){
+     console.log(num);
+});
+
+
+THE map METHOD:
+The map method creates a new array with the results of calling a callback on every element in the array. Used to return a new modified array.
+e.g)
+text=['hello','whats','up'];
+const caps = text.map(function (word){
+     return word.toUpperCase();
+});
+
+
+ARROW FUNCTIONS:
+->Not supported by internet explorer.
+->A way to reduce the function definition length. 
+->We cannot write an arrow function just on it's own(We have to use traditional methods to define a normal function)
+->Arrow functions can be used when we're assigning a function to a variable
+e.g)
+const add = (x,y) => {
+     return x+y;
+};
+To call the above function, we do:
+add(3,5);
+e.g)
+const square = (x) => {
+     return x*x;
+};
+To call, we use:
+square(3);
+e.g)
+const rollDie = () => {
+     return Math.floor(Math.random()*6) + 1;
+};
+
+Note:- When we only have one parameter, using the () becomes optional.
+
+
+IMPLICIT RETURNS:
+->Implicit returns are used to make the code even more compact.
+->Can only be used on arrow functions.
+->When the function only returns a value and does nothing else, we can ommit the return keyword and replace the {} with ().
+e.g)
+const rollDie = () => (
+     Math.floor(Math.random() * 6) + 1;
+);
+This is the same as using the return keyword in {} braces.
+e.g)
+const add = (a,b) => a + b;             //This is also an implicit return
+We can add the return value onto the same line and omit the () braces.
+
+
+Note:- We use arrow function when we're passing it onto array method like map or forEach to make the code more compact.
+
+
+setTimeout and setInterval:
+The setTimout function is used to execute a set of code after a specified amount of time.
+e.g)
+console.log('Hello.....');
+setTimeout(() => {
+     console.log('...are you still there?');
+}, 5000);
+The first argument to the setTimeout function is the code that is to be executed after a specified time interval. The code must be within a function so that it does not get executed immediately.
+The seecond argument is the time after which the code gets executed specified in milliseconds.
+The above code prints "...are you still there?" after 5 seconds/5000 milliseconds.
+Note:- Any codes written after the setTimeout function will be executed immediately. i.e) A console.log() present after the setTimeout function gets printed before the setTimeout function console.log().
+
+The setInterval function has the same functionality as the setTimeout function except that it repeats a set of code in the specified time interval until it stops.
+To stop the setInterval function, we use the clearInterval(id) function where id is the variable assigned to the setInterval function.
+e.g)
+const id=setInterval(() => {
+     console.log(Math.random());
+},3000);
+
+
+THE filter METHOD:
+->Creates a new array with all elements that pass the test implemented by the provided function.
+e.g)
+const numbers=[1,2,3,4,5,6,7,8,9,10,11,12,14];
+const newArray = numbers.filter(n => {
+     return n < 10;
+});
+The above code creates a new array which contains the elements from the numbers array which are lesser than 10.
+
+
+some/every:
+->Ways to check if atleast one/every element in the array passes a given condition.
+->The some keyword checks if atleast one of the array elements passes the condition and returns a boolean value.
+->The every keyword checks if all the elements in the array pass the condition statement and returns a boolean value.
+e.g)
+const array = [80,75,90,95,77,70];
+array.some(n => n > 90);            //returns true because 95>90.
+e.g)
+const array = [80,75,90,95,77,70];
+array.every(n => n > 90);            //returns false because not all values are greater than 90.
+
+
+THE reduce FUNCTION:
+->Executes a reducer function on each element of the array resulting in a single value.
+(SYNTAX)
+const total = [3,5,7,9,11].reduce((accumulator, currentValue) => {
+     return accumulator+currentValue;
+});
+->accumulator is what we're going to reduce down to.
+->currentValue holds each individual element.
+->Whatever we return will be used as the next iteration's accumulator.
+->The accumulator starts off with the first element in the array while the currentValue starts off as the second element in the array.
+->Can contain a second argument which will serve as the starting value for the accumulator.
+e.g)
+const evens = [2,4,6,8];
+const total = evens.reduce((total,num) =>{
+     return total+num;
+},100);                                  //returns 120
+
+Note:- JavaScript also contains a reduceRight() function which initializes the accumulator varaible as the last element of the array and currentValue variable as the second last element and then moves from right to left of the array.
+
+
+Notes:-
+->Be careful while using the 'this' keyword with arrow functions in user defined object methods.
+->Using a this keyword in a setTimeout function will make it refer to the window object because the setTimeout function is a method of the window object.
+->To make sure the 'this' keyword DOES NOT refer to the parent object, we use the arrow function. i.e) =>
+->To make sure the 'this' keyword DOES refer to the parent object, we use the normal declaration. i.e) function (){}
+
+
