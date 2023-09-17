@@ -1,0 +1,255 @@
+DOM:
+->The DOM stands for Document Object Model
+->The DOM is a JavaScript representation of a webpage.
+->JS window into the contents of a webpage.
+
+The document object is our entry point into the world of the DOM. It contains representations of all the content on a page along with a lot of useful methods and properties.
+The doucument object is a tree of all the html elements present within the browser.
+
+
+(SYNTAX) 
+To see the object properties in a document, we use:
+console.dir(document)
+
+
+SELECTING AN ELEMENT BY ID:
+->To select an element by its id, we use:
+const hello = document.getElementById('hello');
+->This gives us the object representation of an element with the ID 'hello'
+
+
+SELECTING ELEMENTS BY TAG NAME AND CLASS NAME:
+e.g)
+const allImages = document.getElementsByTagName('img');
+->The above code returns an html collection.(looks like an array but is not an array)
+->Each of the elements in an html collection are objects.
+->They are iterable collections but they are not arrays.
+->HTML collections contain elements that represent html elements.
+e.g)
+const squareImages = document.getElementsByClassName('square');
+->The above code returns an html collection containing elements that belong to the same class.
+->Each of these elements are an object.
+Note:- If the class name does not exist, we get an empty html collection. If the specified does not exist, we recieve null. 
+
+
+NEW WAY OF SELECTING ELEMENTS:
+document.querySelector('p');
+document.querySelector('#banner');
+document.querySelector('.square');
+The querySelector method only retrieves the first occurance of a tag, id, class.
+
+->To select specific tags we can use:
+document.querySelector('.square:nth-of-type(3)');
+                    OR
+document.querySelector('p:nth-of-tpe(2)');
+document.querySelector('a[title="Java"]');
+
+->We can also use querySelectorAll() to retrieve all instances of a specified tag/class.
+document.querySelectorAll('p');
+document.querySelectorAll('.square');
+Both the above statements return all instances of the tag/class.
+->We can also use descendant selectors:
+document.querySelectorAll('.square p');       //All paragraph tags within elements of the square class
+
+e.g)
+let links = document.querySelectorAll('p a');       //All anchor tags within paragraphs  
+for (let link of links){
+    console.log(link.href);
+}
+
+
+innerText PROPERTY:
+->Returns the visible text present in between the opening and closing tags of a specific tag.
+document.querySelector('p').innerText; 
+The above code returns the visible text present in between an opening and closing tag.
+e.g)
+const allLinks = document.querySelectorAll('a');
+for(let link of allLinks){
+    link.innerText = 'I AM A LINK';
+} 
+
+
+textContent PROPERTY:
+->Returns all text(pieces of content) present between the opening and closing tag even if it is hidden. 
+->Returns the content with similar markup.
+e.g)
+document.querySelectorAll('p').textContent;
+
+
+Note:- The above two properties cannot be used to add in html elements onto the webpage.
+
+
+innerHTML PROPERTY:
+->The innerHTML property is used to retrieve all the html tags along with the text present in between the opening and closing tags of the specific element. 
+->This property can be used to change/add html elements onto a webpage.
+e.g)
+document.querySelector('h1').innerHTML = "<i>Hello</i>";
+document.querySelector('h1').innerHTML += "<sup>LOL</sup>";
+
+
+ATTRIBUTES
+->Attributes on an element can be href,src,type,id,class,etc.
+->We can change these Attributes using JavaScript.
+e.g)
+const changeId = document.querySelector('#banner');
+changeId.id = 'whoops';
+The above code changes the id of an element from banner to whoops.
+Note:- This will not change the name of the id in the css style sheets, so be careful.
+
+(SYNTAX)
+const firstLine = document.querySelector('a');
+firstLine.getAttribute('href');
+The difference between the above stated method and firstLine.href is that, the above stated method gets the href directly from the html file whereas firstLine.href gets it from the javascript object.
+The outputs of both the functions are the same most of the time. 
+
+(SYNTAX)
+const firstLine = document.querySelector('a');
+firstLine.setAttribute('href','www.google.com');
+The set attribute is used to set the value of a specified property in javascript to a value of our choice.
+
+
+
+CHANGING STYLES:
+->In javascript, css properties like font-size and border-color are represented using camel case.
+e.g) fontSize,borderColor,etc.
+->Select the element you want to style using the querySelector command.
+->The style property gives us access to all the different style properties that can be applied onto an element.
+e.g)h1.style.color , p.style.fontSize 
+->The style property does not contain any styles from the css worksheet and only contains inline styles.
+->All property values have to be in a string
+e.g)
+h1.style.fontSize = '3em';
+h1.style.border = '2px solid pink';
+Note:- The above method is not an ideal method for changing styles using javascript because it only interacts with inline styles.
+
+
+->To see the final changes made to an element, we can use the window.getComputedStyle(element_name) which returns an object containing the final styles of the specified element.
+e.g)
+let h1 = document.querySelector('h1');
+let properties = window.getComputedStyle(h1);
+console.log(properties.color);
+Note:- Only used to view the properties and values.
+
+
+To change styles without adding them to the inline style sheet, we can:
+->Create a class style on the external css sheet and then assign an element the class name using the setAttribute property 
+->However, this method would override the existing class on the element and would only apply only the mentioned class style on the element
+e.g)
+const h2 = document.querySelector('h2');
+h2.setAttribute('class','purple');
+->To apply more than one class styles onto an element, we use:
+e.g)
+let currentClasses = h2.getAttribute('class');
+h2.setAttribute = ('class' , `${currentClasses} border`);
+Note:- The above method is tedious as well and thus we usually prefer the following method.
+
+
+The classList method:
+->The classList method makes out life more easier
+->To view the current classes on an element, we use:
+e.g)
+let h1 = document.querySelector('h1');
+h1.classList;
+->To add a class onto the class list, we use the:
+e.g)
+let h1 = document.querySelector('h1');
+h1.classList.add('purple');
+->To remove a class from an element, we use:
+e.g)
+let h1 = document.querySelector('h1');
+h1.classList.remove('purple');
+->To check whether an element contains a class, we use:
+e.g)
+let h1 = document.querySelector('h1');
+h1.classList.conatins('purple');            //returns a boolean value 
+->To toggle classes(turn them off and on), we do:
+e.g)
+let h1 = document.querySelector('h1');
+h1.classList.toggle('purple');  
+
+
+
+NAVIGATING/TRAVERSING
+->To access the parent element of an element, we can use:
+e.g)
+let firstBold = document.querySelector('b'); 
+let parent = firstBold.parentElement;
+Note:- Every element only has one parent element but a parent element can have multiple child elements. 
+->To access children we can use firstBold.children;
+->The above property returns to us an HTML collection which we can iterate over.
+e.g)
+let firstp = document.querySelector('p'); 
+let children = firstp.children;
+for(let i of children){
+    console.log(i);
+}
+->To navigate through siblings we can use nextSibling,previousSibling,nextElementSibling,previousElementSibling.
+->nextSibling and previousSibling both return the next node(white spaces and new lines)
+->nextElementSibling and previousElementSibling the adjacent element sibling.
+
+
+ADDING NEW ELEMENTS:
+->To add new elements, we must first create a new element using document.createElement();
+e.g)
+const newImg = document.createElement('img');
+newImg.src = 'https://b.fssta.com/uploads/application/soccer/headshots/53004.vresize.350.350.medium.20.png';
+newImg.classList.add('square');
+document.body.appendChild(newImg);
+e.g)
+const newPara = document.createElement('h2');
+newPara.innerText = 'I am new!';
+document.body.appendChild(newPara);
+
+->We can also use the .append() method to flexibly append stuff onto an element. This makes the appended item the last child of the specified element.
+e.g)
+const p = document.querySelector('p');
+p.append('hello my name is sudeev.');
+p.append('lol','whats up?');
+->We can also use .prepend() to prepend stuff at the start of the specified element contents.
+e.g)
+const p = document.querySelector('p');
+const newB = document.createElement('b');
+newB.append('Hi');
+p.prepend(newB);
+
+->The above two methods seen can only be used to add elements at the start or at the end of a specified element's contents.
+->To add elements in between , we can use:
+(SYNTAX)
+targetElement.insertAdjacentElement(position,element);
+->The position is a DOMString representing the position relative to the targetElement. Could be:
+'beforebegin' : Before target element itself
+'afterbegin' : Inside target element, just before the first child 
+'beforeend' : Inside target element, after it's last child
+'afterend' : After the targetElement itself 
+e.g)
+const newElement = document.createElement('h2');
+newElement.append('<i>LOL</i>');
+const h1 = document.querySelector('h1');
+h1.insertAdjacentElement('afterend',newElement);
+
+->We can also use:
+const h3 = document.createElement('h3');
+h3.innerText = "Hello";
+let h1 = document.querySelector('h1');
+h1.after(h3);
+h1.before(h3);
+->The .after() method adds an element after a specified element.
+->The .before() element adds an element before a specified element.
+Note:- Does not have complete browser support.(Internet Explorer)
+
+
+REMOVING ELEMENTS:
+->The old method was to use .removeChild(child_element) on the parent child to remove the child.
+e.g)
+let b = document.querySelector('b');
+b.parentElement.removeChild(b);
+->However this old method was tedious and thus we use the new method.
+->The new way is .remove()
+e.g)
+let b = document.querySelector('b');
+b.remove();
+Note:- Does not have internet explorer support.
+
+
+
+ 
