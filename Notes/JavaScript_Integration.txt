@@ -252,4 +252,187 @@ Note:- Does not have internet explorer support.
 
 
 
- 
+EVENTS:
+->Events are responding to the user inputs and actions.
+e.g)
+click,drag,drop,hover,scroll,etc.
+Note:- Events in javascript are not camel cased.
+
+
+INLINE EVENTS:
+->These are not recommended.
+->Inline events are events written on the javascript file itself.
+e.g)
+<h1>Events</h1>
+<button onclick="alert('You clicked me!'); alert('Stop clicking me');">Click Me!</button>
+->The above code runs the first alert on the first click and the second alert on the second click.
+
+
+EVENTS IN A SEPERATE FILE USING ATTRIBUTES:
+->We get the element we need and assign a function to a property.
+e.g)
+let btn = document.querySelector('button');
+btn.onclick = function() {
+    alert('You clicked me');
+}
+btn.mouseenter = function(){
+    console.log('AHH STOP TOUCHING ME');
+}
+->The onclick attribute executes a function when the element is clicked.
+->The ondblclick function executes a function when it is double clicked.
+->The onmouseenter function executes a function when the mouse enters the region of the element.
+
+
+EVENTS IN A SEPERATE FILE USING addEventListener:
+e.g)
+const button = document.querySelector('button');
+button.addEventListener('click',() => {
+    alert('You clicked me');
+});
+e.g)
+const button = document.querySelector('button');
+button.addEventListener('dblclick',() => {
+    alert('You clicked me');
+});
+->The reason why this method for events is better than the other two is because we can apply more than a single function for the same event.
+->It also has more flexibility.
+e.g)
+const button = document.querySelector('button');
+button.addEventListener('dblclick',scream,{once : true});    //only runs the Event once and automatically removes it after it's used.
+
+
+EVENTS WITH THE 'this' keyword:
+->If we want to use the same event listener function on multiple event listeners, we can use the this keyword to alter styles of the invoked object.
+e.g)
+const buttons = document.querySelectorAll('button');
+for(let button of buttons){
+    button.addEventListener('click',colorize);
+} 
+function makeRandColor(){
+    let r = Math.floor(Math.random()*256);
+    let g = Math.floor(Math.random()*256);
+    let b = Math.floor(Math.random()*256); 
+    return `rgb(${r},${g},${b})`;
+}
+function colorize(){
+    this.style.backgroundColor = makeRandColor();
+    this.style.color = makeRandColor();
+}
+
+
+EVENT OBJECTS:
+->An event object is automatically passed to the function in the event listener.
+->This object contains all the information about the user input.
+->We can capture this object by specifying a parameter(usually called evt)
+e.g)
+h1.addEventListener('click',function (evt){
+    console.log(evt);
+});
+
+
+KEYBOARD EVENTS:
+->Events based on inputs given by the keyboard.
+e.g)
+let input = document.querySelector('input');
+input.addEventListener('keyup',function(){
+    console.log('KEYUP');
+});
+input.addEventListener('keydown',function(){
+    console.log('KEYDOWN');
+});
+
+->To retrieve the value of the key and the actual key pressed, we can use:
+e.g)
+let input = document.querySelector('input');
+input.addEventListener('keydown',function(evt){
+    console.log(evt.key);                           // returns the key value entered e.g- SHIFT,a,etc.
+    console.log(evt.code);                          // returns the actual key pressed e.g- ShiftLeft,ShiftRight,etc.
+});
+Note:- Can also be used for Mouse Events.
+
+
+
+FORM EVENTS:
+->When we submit a form, we usually specify an action attribute which redirects the page to a different page.
+->When we would want to avoid this, we use:
+e.g)
+const form = document.querySelector('#shelterForm');
+form.addEventListener('submit',function(evt){
+    evt.preventDefault();
+    console.log('Submitted');
+});
+
+->To retrieve the value from an input tag, we use:
+e.g)
+const form = document.querySelector('#shelterForm');
+form.addEventListener('submit',function(evt){
+    evt.preventDefault();
+    let input = document.querySelector('input');
+    let valueInsideInput = input.value;
+    console.log(valueInsideInput);
+    input.value = '';                         //Used to remove the input value present in the input box after submission
+});   
+
+->After selecting the form element and storing it in a variable, the variable has an 'elements' property which returns an object containing all the information about the form.
+->Using the name attribute of the input tag, we can access the specific input tag and its corresponding value.
+e.g)
+const form = document.querySelector('#shelterForm');
+form.addEventListener('submit',function(evt){
+    evt.preventDefault();
+    console.log(form.elements.username.value);      
+    console.log(form.elements.password.value);           //prints contents of input elements assuming the name attributes assigned to the tag are username and password.
+});
+
+
+THE change EVENT:
+->The change event is fires when the input is blurred(when the input box is deselected)
+->Only works when new new input is entered and the input box is deselected.
+e.g)
+const input = document.querySelector('input');
+input.addEventListener('change',function (evt){
+    console.log('Change Event');
+});
+
+
+THE input EVENT:
+->The input event fires whenever the input changes.
+e.g)
+const input = document.querySelector('input');
+input.addEventListener('input',function (evt){
+    h1.innerText = input.value;
+});
+
+
+EVENT BUBBLING:
+->When an element is present within its parent element and both elements have event listeners on them, the child element inherits both the events.
+->Thus we could end up with unnecessary events on the child element.
+e.g)
+<p onclick="alert('paragraph clicked');">
+    I am a paragraph:
+    <button onclick="alert('button clicked')">Click</button>
+</p> 
+->In the above case, the button gets both events and hence gets two alerts when it is clicked. We do not want that.
+->To fix this we use:
+e.g)
+const button = document.querySelector('button');
+button.addEventListener('click',function(evt){
+    alert('button clicked');
+    evt.stopPropogation();
+});
+->The evt.stopPropogation() method prevents event bubbling.
+
+
+EVENT DELEGATION:
+->When we use an event on a html file, the events only work on elements already present in the html file. They do not work on elements added later on using javascript.
+->To fix this, we use an event listener on the parent element and then use the evt.target property of the event object.
+->The 'target' property returns to us the child element that was clicked and we can perform operations on that element.
+e.g)
+const ul = document.querySelector('ul');
+ul.addEventListener('click',function(evt){
+    if(evt.target.nodeName === 'LI'){
+        evt.target.remove();
+    }
+});
+->The above code will remove all list items from the ul(newly added and previously present ones).
+
+
