@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Keeper</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="app.css">
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-half is-offset-one-quarter">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure class="image is-2by1">
+                                <img src="https://i.pinimg.com/1200x/ab/e4/99/abe4998ea5e5d2f2d05ccd7e2efab80f.jpg"
+                                    alt="">
+                            </figure>
+                        </div>
+                        <header class="card-header">
+                            <p class="card-header-title">
+                                Table Tennis Score Keeper
+                            </p>
+                        </header>
+                        <form action="/nothing">
+                            <div class="card-content">
+                                <div class="content">
+                                    <h1 class="is-size-1"><span id="p1">0</span> to <span id="p2">0</span></h1>
+                                    <p class="subtitle">Use the buttons below to keep score</p>
+                                    <label for="maxpoint" class="label is-large is-inline">Playing To</label>
+                                    <div class="select is-rounded">
+                                        <select name="maxpoint" id="maxpoint">
+                                            <option value="3">3</option>
+                                            <option value="4">4</option>
+                                            <option value="5">5</option>
+                                            <option value="6">6</option>
+                                            <option value="7">7</option>
+                                            <option value="8">8</option>
+                                            <option value="9">9</option>
+                                            <option value="10">10</option>
+                                            <option value="11">11</option>
+                                            <option value="12">12</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <footer class="card-footer">
+                                <button id="btn1" class="card-footer-item button is-info     ">+1 Player One</button>
+                                <button id="btn2" class="card-footer-item button is-success">+1 Player Two</button>
+                                <button id="reset" class="card-footer-item button is-danger">Reset</button>
+                            </footer>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="app.js"></script>
+</body>
+
+</html>
