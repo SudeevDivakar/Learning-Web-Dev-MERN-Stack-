@@ -436,3 +436,285 @@ ul.addEventListener('click',function(evt){
 ->The above code will remove all list items from the ul(newly added and previously present ones).
 
 
+CALL STACK:
+-> Mechanism used by javascript interpreter to keep track of it's place in a script that calls multiple functions.
+-> How javscript knows what function is currently being run and what functions are called from within that function.
+-> When we call a function, it is added to the call stack. 
+-> When the called function calls another function, the newly called function is also added to the call stack.
+-> The way the functions get executed is in the order of the call stack. With the newly added functions getting executed first and so on.
+
+
+DEBUGGER IN INSPECT TOOL:
+-> We can inspect and go to sources to check out the javascript code.
+-> We can set breakpoints(Point after which execution of code is temporarily paused)(Refresh page to see in action)
+-> We can then press the step through button to go through the code one step at a time.
+-> Use when you don't know what went wrong in your code.
+
+
+JAVASCRIPT SINGLE THREADED:
+-> Javascript cannot multitask.
+-> Javascript runs at most one line of code at a time.
+-> For codes like the following,
+e.g)
+console.log('Hello.....');
+setTimeout(() => {
+     console.log('...are you still there?');
+}, 5000);
+console.log("Hello");
+
+Hello.....
+Hello 
+gets printed out before ...are you still there.
+This is in opposition to javascript's single threaded nature.(Or is it?)
+-> What actually happens is that the browser takes care of certain tasks in the background.
+
+
+WEB APIs:
+-> Browsers come with Web APIs that are able to handle certain tasks in the background(making requests or setTimeout)
+-> The JS call stack recognizes these Web API functions and passes them off to the browser to take care of.
+-> Once the browser finishes these tasks, they return and are pushed onto the stack as a callback(setTimeout conatins a function and the callback is related to this function).
+-> We can nest setTimeout functions so as run different codes one after another.
+
+
+CALLBACK HELL:
+e.g)
+setTimeout(() => {
+    document.body.style.backgroundColor = 'red';
+},1000)
+setTimeout(() => {
+    document.body.style.backgroundColor = 'orange';
+},2000);
+-> This changes the background color from white(default) to red to orange in time intervals of 1 second.
+
+-> Instead of using this method, we also can:
+e.g)
+setTimeout(() => {
+    document.body.style.backgroundColor = 'red';
+    setTimeout(() => {
+        document.body.style.backgroundColor = 'orange';
+    },1000)
+},1000);
+-> This will provide the same output.
+
+-> We can also create a function for this:
+e.g)
+const delayedColorChange = (newColor,time,doNext) => {
+    setTimeout(() => {
+        document.body.style.backgroundColor = newColor;
+        doNext && doNext();
+    },time)
+};
+delayedColorChange('red',1000, () => {
+    delayedColorChange('orange',1000, () => {
+        delayedColorChange('yellow',1000, () => {
+
+        })
+    })
+});
+-> The above code performs the same functionality
+
+-> Callback hell refers to when we use a highly nested and contains a lot of callbacks which might lead to the code not functioning properly.
+
+
+
+PROMISES:
+-> Object representing eventual completion or failure of an asynchronus operation.
+-> Every request requires two function callbacks (one for working output and one for errors).
+-> When we nest multiple callbacks, the code becomes very confusing and ugly.
+-> Promises help to make the code neater while also keeping the logic the same.
+-> Relatively new with no Internet Explorer support.
+-> To execute code if a request is resolved, we use .then(() = > {})  and  to execute code if a request is rejected, we use .catch(() => {}) 
+e.g)
+const request = fakeRequestPromise('yelp.com/api/coffee');
+request 
+    .then(() => {
+        console.log('It worked')
+    })
+    .catch(() => {
+        console.log('OH NO, ERROR')
+    });
+
+OR 
+e.g)
+fakeRequestPromise('yelp.com/api/coffee')
+    .then(() => {
+        console.log('It worked')
+        .then(() => {
+            console.log('PROMISE RESOLVED(2)')
+            console.log('It worked')
+        })
+        .catch(() => {
+            console.log('OH NO, ERROR')
+        });
+    })
+    .catch(() => {
+        console.log('OH NO, ERROR')
+    });
+-> But as seen, this has the same level of nesting.
+
+
+
+WHY PROMISES?:
+-> Promises can also be written as:
+e.g)
+fakeRequestPromise('yelp.com/api/coffee/page1')
+    .then(() => {
+        console.log('It worked! (Page 1)');
+        return fakeRequestPromise('yelp.com/api/coffee/page2')
+    })
+    .then(() => {
+        console.log('It worked! (Page 2)');
+        return fakeRequestPromise('yelp.com/api/coffee/page3')
+    })
+    .then(() => {
+        console.log('It worked! (Page 3)');
+    })
+    .catch(() => {
+        console.log('OH NO, A REQUEST FAILED');
+    })
+
+-> In this representation, only one catch is required for the whole set of 'then' statements. 
+-> If any one of the 'then' statements get rejected, it falls through and the catch statement gets executed.
+-> This reduces the total nesting required.
+-> We can also pass in parameters to the Promises
+e.g)
+fakeRequestPromise('yelp.com/api/coffee/page1')
+    .then((data) => {
+        console.log('It worked! (Page 1)');
+        console.log(data);
+        return fakeRequestPromise('yelp.com/api/coffee/page2')
+    })
+    .then((data) => {
+        console.log('It worked! (Page 2)');
+        console.log(data);
+        return fakeRequestPromise('yelp.com/api/coffee/page3')
+    })
+    .then((data) => {
+        console.log('It worked! (Page 3)');
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log('OH NO, A REQUEST FAILED');
+        console.log(err);
+    })
+
+-> To create our own promises, we follow the syntax:
+const fakeRequest = (url) => {
+    return new Promise ((resolve,reject) => {
+        setTimeout(() => {
+            console.log('Hello');
+        }, 1000);
+    })  
+}
+
+fakeRequest('/dogs/1')
+    .then((data) => {
+        console.log('Done with request');
+        console.log('Data is',data);
+    })
+    .catch((err) => {
+        console.log('OH NO!',err);
+    })
+
+-> For the background color changing, we can alsi implement it as:
+e.g)
+const delayedColorChange = (newColor, delay) => {
+    return new Promise((resolve,reject) => {
+        setTimeout(() => {
+            document.body.style.backgroundColor = newColor;
+        }, delay)
+    })
+} 
+delayedColorChange('red',1000)
+    .then(() => {
+        return delayedColorChange('orange',1000);
+    })
+    .then(() => {
+        return delayedColorChange('yellow',1000);
+    })
+    .then(() => {
+        return delayedColorChange('green',1000);
+    })
+
+
+
+ASYNC FUNCTIONS:
+-> Newer and cleaner syntax for working with async code.
+-> Automatically return promises even without specifying them
+e.g)
+async function hello() {
+    return 'Hello';
+}
+e.g)
+const sing = async () => {
+    return 'La LA LA';
+}
+sing().then((data) => {
+    console.log("Promise resolved with",data);           //returns "Promise resolved with LA LA LA"
+})
+
+-> Promises are resolved in async functions as long as a value is returned.
+-> Promises are rejected in async functions when an error is thrown. We can throw errors using the throw keyword.
+e.g)
+const sing => async () => {
+    throw new Error("oops");
+}
+const sing => async () => {      //either of these two methods work 
+    throw "oops";
+}
+
+e.g)
+const login = async (username,password) => {
+    if(!username || !password){
+        throw "Missing Credentials";
+    }
+    else if(password === 'Hello'){
+        return 'Welcome';
+    }
+    else if(password !== 'Hello'){
+        throw 'Wrong password';
+    }
+}
+
+login('Sudeev','Hello')
+    .then((msg) => {
+        console.log("Logged in!");
+        console.log(msg);
+    })
+    .catch((err) => {
+        console.log('Error');
+        console.log(err);
+    })
+
+
+
+AWAIT KEYWORD:
+-> The await keyword pauses the execution of the function, waiting for a promise to be reolved.
+-> Can be used instead of .then() to make the code cleaner. 
+e.g)
+async function rainbow() {
+    await delayedColorChange('red',1000);
+    await delayedColorChange('orange',1000);
+    await delayedColorChange('yellow',1000);
+    await delayedColorChange('green',1000);
+    await delayedColorChange('blue',1000);
+    await delayedColorChange('indigo',1000);
+    await delayedColorChange('blue',1000);
+} 
+
+
+HANDLING ERRORS IN ASYNC FUNCTIONS:
+-> Errors in async fucntions can be handled using try and catch blocks.
+e.g)
+async function makeTwoRequests(){
+    try{
+        let data1 = await fakeRequest('/page1');
+        console.log(data1);
+    }
+    catch(e){
+        console.log('ERROR');
+        console.log('Error is:',e);
+    }
+}
+
+
