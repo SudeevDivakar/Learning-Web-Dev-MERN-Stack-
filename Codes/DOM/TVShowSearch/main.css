@@ -1,0 +1,14 @@
+.container{
+    display: inline-block;
+    text-align: center;
+    padding:20px;
+}
+
+.image{
+    display: block;
+}
+
+.resize{
+    width: 210px;
+    height: 295px;
+}

@@ -718,3 +718,151 @@ async function makeTwoRequests(){
 }
 
 
+
+AJAX:
+-> Stands for Asynchronus JavaScript and XML
+-> Concept of making requests to load/send information 
+
+
+API:
+-> Application Program Interface
+-> Interface for a software to communicate with another piece of software
+-> Could be paid or free
+-> Companies expose endpoints which respond with information for software to consume.
+
+
+JSON:
+-> Format used by APIs to send send back
+-> Stands for Java Script Object Notation
+-> Every key in JSON must be double quoted
+-> Undefined values from javascript are not applicable in json 
+-> JSON uses 'null'
+-> The JSON information which we recieve is in the form of a string 
+-> To convert the string into a JavaScript Object, we can use:
+e.g)
+const parsedData = JSON.parse(data);     //data being the JSON data represented as a string 
+-> JSON.stringify can be used to convert a javascript object into a string. This method replaces undefined with null and censors other unsupported native datatypes.
+
+
+HTTP Status Codes:
+-> Codes that come back in a HTTP response 
+-> Codes starting with a '2' usually signify a successful response
+-> Codes starting with a '4' usually signify a client error
+-> Codes starting with a '5' usually signify a server error
+-> Codes starting with a '3' usually signify redirection
+
+
+QUERY STRINGS:
+e.g)
+https://swapi.dev/api/people
+This returns all people resources present in the star wars api 
+e.g)
+https://swapi.dev/api/people/:id 
+This returns a specific people resource. 
+Note:- ':id' here is a variable 
+
+-> Query strings are present after an api link and are used to filter out resources from a set of resources.
+e.g)
+https://api.tvmaze.com/schedule?country=US&date=2014-12-01
+-> It starts with a '?' and is followed by key value pairs seperated by '&'
+
+
+XHRs:
+-> XMLHttpRequest
+-> Original way of sending requests in js 
+-> Does not support promises (lots of callbacks)
+e.g)
+const req = new XMLHttpRequest();
+req.onload = function() {
+    console.log("It loaded");
+    const data = JSON.parse(this.responseText);
+    console.log(data.name,data.height);
+};
+req.onerror = function() {
+    console.log("Error");
+    console.log(this);
+};
+req.open("GET","https://swapi.dev/api/people/1/");
+req.send();
+
+
+FETCH:
+-> Newer way of making requests using JS 
+-> Supports promises 
+-> Does not have IE support 
+e.g)
+fetch("https://swapi.dev/api/people/1/")
+    .then((res) => {
+        console.log("Resolved",res);
+    })
+    .catch((err) => {
+        console.log("Error",err);
+    });
+
+-> This response body does not always provide us with the entire information. This is because the promise is resolved as soon as the fetch recieves any headers.
+-> To fix this we can use:
+e.g)
+fetch("https://swapi.dev/api/people/1/" , {
+    headers : { Accept: 'application/json' }
+})
+    .then((res) => { 
+        console.log("Resolved",res);
+        return res.json()
+    })
+    .then((data) => {
+                console.log('JSON Done',data);
+    })
+    .catch((err) => {
+        console.log("Error",err);
+    });
+-> res.json() also returns a promise
+
+e.g)
+const loadStarWarsPeople = async () => {
+    try{
+    const res = await fetch("https://swapi.dev/api/people/1/");
+    const data = await res.json();
+    console.log(data)
+    }
+    catch(e){
+        console.log("Error",e);
+    }   
+}
+
+
+AXIOS:
+-> Third party, not native to javascript 
+-> Library for making HTTP requests 
+-> We need to add a script onto the html file
+<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+-> This allows us to use axios in our js 
+e.g)
+axios.get("https://swapi.dev/api/people/1/")
+    .then((res) => {
+        console.log("Response: ",res)
+    })
+    .catch((e) => {
+        console.log("Error:",e);
+    });
+
+-> The biggest improvement in axions is that we do not have to use res.json() to retrieve the data.
+e.g)
+const getStarWarsPerson = async function(id) {
+    try{
+    const res = axios.get(`https://swapi.dev/api/people/${id}/`);
+    console.log(res.data); 
+    }
+    catch (e) {
+        console.log("Error",e);
+    }
+}
+
+
+SETTING HEADERS WITH AXIOS:
+const getDadJoke = async function{
+    const config = {headers: {Accept: 'application/json'}}
+    const res = await axios.get('https://icanhazdadjoke.com/',config)
+    console.log(res)
+}
+
+
