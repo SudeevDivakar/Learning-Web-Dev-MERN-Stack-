@@ -866,3 +866,155 @@ const getDadJoke = async function{
 }
 
 
+PROTOTYPES:
+-> Mechanism through which JavaScript objects inherit features from one another. 
+-> There exists a __proto__ object for every instance of a created object(e.g arrays, strings) which contains methods that can be used for every 
+instance of the same object type without defining them again and again.
+-> To access the prototype for arrays, we do:
+e.g)
+Array.prototype
+String.prototype
+-> To create our own methods and add it to the prototype we can do:
+e.g)
+Array.prototype.new_method = function() {
+    console.log('Hello');
+}
+Note: User defined prototype methods go away after refreshing the page.
+-> We can set prototypes of one object to an object that we create so that the created object can use the prototype list.
+-> We can also override pre-existing methods in the prototype object.
+
+
+FACTORY FUNCTIONS:
+-> Functions used to create and return objects with predefined properties and functions.
+e.g)
+function makeColor(r, g, b){
+    const color = {};
+    color.r = r;
+    color.g = g;
+    color.b = b;
+    color.rgb = function() {
+        return `rgb(${this.r}, ${this.g}, ${this.b})`;
+    };
+    color.hex = function() {
+        const { r, g, b } = this;
+        return ( 
+            '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1) 
+        );
+    };
+    return color;
+}
+const firstColor = makeColor(35,255,150);
+firstColor.hex();
+-> The problem with factory functions is that it creates a seperate copy of methods for every different object created.
+
+
+CONSTRUCTOR FUNCTION:
+-> Names of constructor functions usually begin with a capital letter.
+-> Implicitly creates an object for us and adds properties and methods on it (properties and methods defined by user).
+-> 'new' keyword used to create an object and return it in the constructor function.
+-> The 'new' keyword sets the constructor of this object to another object.
+-> Returns 'this' if the function does not return its own object.
+Note: Do not use arrow functions whenever you use the 'this' keyword.
+e.g) 
+function Color(r, g, b) {        //Constructor function 
+    this.r = r;
+    this.g = g;
+    this.b = b;                
+}
+Color.prototype.rgb = function() {     //Adding methods to the prototype 
+    const { r, g, b } = this;
+    return `rgb(${r}, ${g}, ${b})`;
+};
+Color.prototype.hex = function() {
+    const { r, g, b } = this;
+    return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+};
+Color.prototype.rgba = function(a=1.0) {
+    const { r, g, b } = this;
+    return `rgba(${r}, ${g}, ${b}, ${a})`;
+};
+const color1 = new Color(40, 255, 60);
+const color2 = new Color(0, 0, 0);
+console.log(color1.rgba(0.8));
+
+
+CLASSES:
+-> Since the above execution is not great at grouping prototype methods and the constructor function together, we use classes.
+-> Classes have the same functionality as the above execution.
+-> Class names also have a starting capital letter.
+-> Must contains a constructor which executes immediately whenever a new class is created. 
+e.g)
+class Color {
+    constructor(r, g, b, name) {
+        this.r = r;
+        this.g = g;
+        this.b = b;
+        this.colorName = name;
+    }
+    innerRGB() {
+        const {r, g, b} = this;
+        return `${r}, ${g}, ${b}`;
+    }
+    rgb() {  
+        return `rgb(${this.innerRGB()})`;
+    }
+    rgba(a=1.0) {
+        return `rgba(${this.innerRGB()})`;
+    }
+    hex() {
+        const { r, g, b } = this;
+        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    }
+}
+const red = new Color(255, 67, 89, 'Tomato');
+console.log(red.rgb());
+console.log(red.hex());
+
+
+EXTENDS KEYWORD:
+-> Used on a class to help it inherit properties and methods from another pre existing class.
+e.g)
+class Pet {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    eat() {
+        return `${this.name} is eating!`;
+    }
+}
+class Cat extends Pet {
+    meow() {
+        return 'MEOWW!!!!';
+    }
+}
+class Dog extends Pet {
+    bark() {
+        return 'WOOOF!!!';
+    }
+}
+-> Note: If we define an eat() function in Dog/Cat again and if we call the eat function, it will call the function present inside Dog/Cat.
+-> It only calls the eat() function present outside if no eat() function already exists within the class.
+
+
+SUPER KEYWORD:
+-> Allows us to use the constructor of the extended class along with our own constructor inside a class.
+e.g)
+class Pet {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+    eat() {
+        return `${this.name} is eating!`;
+    }
+}
+class Cat extends Pet {
+    constructor(name, age, livesLeft=9) {
+        super(name, age);
+        this.livesLeft = livesLeft;
+    }
+    meow() {
+        return 'MEOWW!!!!';
+    }
+}
