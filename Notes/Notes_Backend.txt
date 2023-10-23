@@ -28,3 +28,37 @@ cd ../Sem-V
 -> The 'rmdir <folder_name>' command can be used to remove folders. Can only remove empty folders.
 -> The 'rm -rf <folder_name>' command can be used to remove folders that have contents within them. Once removed, cannot be restored again.
 
+
+NODE JS:
+-> JavaScript runtime
+-> Implementation of JavaScript that runs outside the browser. 
+-> Used to create Web Servers, video games, drone software, native apps(vs code), command line tools.
+
+
+NODE REPL:
+-> Its the equivalent of the JavaScript web console but on the terminal.
+-> To activate, type 'node' in the terminal and enter.
+-> DOM API's are not present.
+-> The 'global' scope(contains setTimeout, etc) in the node REPL is the the equivalent of the window (top level element)
+-> Contains modules that can interact with files and do other stuff the web browser cannot.
+
+
+RUNNING FILES IN NODE:
+-> To run files in node, first create a JavaScript file and in the node repl, run 'node <file_name>' .This will run the javascript file.
+-> The import(python) equivalent in javascript is require()
+e.g)
+const fs = require('fs');
+
+
+PROCESS:
+-> Object in global that provides information about and control over the current Node.js process.
+-> Always available to Node.js applications without the need of require().
+-> Has info like current working directory, memory usage, etc.  
+-> process.argv property returns an array containing the command line arguments passed when the node.js process was launched.
+-> The first element will be process.execPath (Where the node executable is)
+-> The second element will be the file that we are executing.
+-> The remaining elements will be any arguments passed during launch.
+e.g)
+node greeter.js sudeev sunil
+
+
