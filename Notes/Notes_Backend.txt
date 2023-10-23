@@ -1,0 +1,30 @@
+TERMINAL:
+-> Text based prompt used to interact with the machine.
+-> Terminal is faster
+-> Shell is the program running on the Terminal
+
+
+COMMANDS:
+-> The 'ls' command lists all the directories present in the current directory.
+-> The 'pwd' command lists out the current directory path.
+-> The 'cd <new_dir_name>' command changes the current working directory to a directory present within the current working directory.
+-> The 'cd ..' command moves the working directory to the parent directory of the current working directory.
+
+-> Absolute paths are those that can be referenced from any folder in the computer whereas relative paths are those that can only be accessed from the working directory.
+e.g)
+-> Absolute Path:
+Note- The '\' signifies the root directory
+cd \Users\sudee
+cd \
+-> Realtive Path:
+Assuming we are in Courses folder, 
+cd 'Web Development'/Notes
+cd ../Sem-V
+
+-> The 'mkdir <new_dir_name>' creates a new folder/directory in the current working directory. We can create multiple new directories/folders.
+-> The 'man <command>' command provides us with a description of the specified command along with the flags we can use on it.
+-> The 'touch <file_name>.<extension>' command creates files in the working directory. We can create multiple files at a time. Also sets the modification and access times in files.
+-> The 'rm <file_names>' command can be used to remove files. Can remove multiple files at once. Once removed, cannot be restored again.
+-> The 'rmdir <folder_name>' command can be used to remove folders. Can only remove empty folders.
+-> The 'rm -rf <folder_name>' command can be used to remove folders that have contents within them. Once removed, cannot be restored again.
+
