@@ -130,3 +130,160 @@ PACKAGE.JSON FILE:
 -> We do not share the node_modules folder on github(or any other platform), i.e) we usually hide it, for memory purposes.
 -> Whenever someone else uses the project, all they have to do is run 'npm install' which will automatically install all the dependencies present on the package.json folder
 
+
+EXPRESS:
+-> Express is a Node Package
+-> Web Framework for node js.
+-> Helps us start a server to listen for requests
+-> Parses incoming requests 
+-> Matches requests to particular routes.
+-> Helps us craft our http response and associated content.
+-> Run 'npm install express' to install the node modules required for express
+
+
+
+CREATING A SERVER:
+-> To create a server, we use the app.listen method and specify a port number.
+-> To open the server, we go to our browser and type in 'localhost:<port_number>'
+e.g)
+const express = require('express');
+const app = express();
+
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+})
+
+
+
+REQUESTING AND SENDING RESPONSES:
+-> To perform an action anytime we get a request to our server, we implement the app.use method
+-> The app.use method has two objects made automatically by express. These are req and res which contain information about the request and response respectively.
+-> The req object has info like the pathname requested, etc.
+-> The res object has a method called 'send' which is used to send a response back to the server for a incoming request.
+e.g)
+const express = require('express');
+const app = express();
+
+app.use((req, res) => {
+    console.log('We got a new request');              //shows up in terminal 
+    res.send('Hello we got your request, this is a response');           //shows up in browser
+    //res.send({ color : 'red' });
+    //res.send('<h1>This is my webpage!</h1>');
+})
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+})
+
+
+
+ROUTING:
+-> Taking incoming requests along with a path that is requested and matching it to a code and response.
+-> Paths can be /cats => 'meow' , /dogs => 'woof' , /
+-> To send responses for particular get requests, we implement the app.get method.
+-> To send responses for particular post requests, we implement the app.post method.
+-> We cannot have an HTTP request that gets more than one response.
+e.g)
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {                               //Basically localhost:3000 (i.e. starting page)
+    console.log('This is the home page');
+})
+app.get('/cats', (req, res) => {
+    res.send('meow');
+})
+app.post('/cats', (req, res) => {
+    res.send('Post Request to /cats. This is different than a get request');
+})
+app.get('/dogs', (req, res) => {
+    res.send('woof');
+})
+
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+})
+
+-> We can specify a '*' route which basically means everything.
+-> It is important to add this in the end so that none of responses for the stuff we have declared get overrided.
+e.g)
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {                               //Basically localhost:3000 (i.e. starting page)
+    console.log('This is the home page');
+})
+app.get('/cats', (req,res) => {
+    res.send('meow');
+})
+app.get('*', (req, res) => {
+    res.send('I do not know that path');
+})
+
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+})
+
+
+
+PATH PARAMETERS:
+-> To use routes which can have varying path values, we implement '/:<name>'
+-> A response is sent for any name provided.
+e.g)
+const express = require('express');
+const app = express();
+
+app.get('/r/:subreddit' , (req, res) => {
+    res.send('This is a subreddit');
+})
+app.get('/r/:subreddit/:postid' , (req, res) => {
+    res.send('This is a subreddit');
+})
+
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+})
+
+-> To extract and use the name provided to 'subreddit' we can implement req.params
+e.g)
+const express = require('express');
+const app = express();
+
+app.get('/r/:subreddit/:postid' , (req, res) => {
+    const{ subreddit , postid } = req.params;
+    res.send(`<h1>Viewing Post ID : ${postid} on the ${subreddit} subreddit</h1>`);
+})
+
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+})
+
+
+
+QUERY STRINGS:
+-> Query strings are present after a link and are used to filter out resources from a set of resources.
+-> It starts with a '?' and is followed by key value pairs seperated by '&'
+e.g)
+localhost:8080/r/birds?name=cookie&color=blue
+-> In express, the request object contains a 'query' object which contains key value pairs of all query strings provided in the request.
+e.g)
+const express = require('express');
+const app = express();
+
+app.get('/search' , (req, res) => {
+    const{ name } = req.query;
+    if(!q){
+        res.send('Nothing Found If Nothing Searched');
+    }
+    res.send(`<h1>Search results for: ${name}</h1>`);
+})
+
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+})
+
+
+
+NODEMON:
+-> Automatically restarts server when we change our code.
+-> Instead of using 'node <file_name>' , we run 'nodemon <file_name>' 
+-> Anytime we change any js/json file, nodemon restarts the server.
