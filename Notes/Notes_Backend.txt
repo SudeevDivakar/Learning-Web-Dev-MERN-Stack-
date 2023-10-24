@@ -62,3 +62,71 @@ e.g)
 node greeter.js sudeev sunil
 
 
+MODULE EXPORTS:
+-> We can export certain variables, functions from a javascript file onto other files.
+-> There exists a module.exports object (default to an empty object) to which we can add on our properties and methods.
+-> Only the properties, methods added onto the module.exports object can be required from another file.
+e.g)
+(math.js file)
+const add = (x,y) => x + y;
+const PI = 3.14;
+const square = x => x * x;
+module.exports.add = add;
+module.exports.PI = PI;
+module.exports.square = square;
+
+(app.js file)
+const math = require('./math');               // '.' refers to the current directory
+console.log(math);                            // Will contain add, PI and square properties/methods
+
+-> We can also create an object containing all the necessary information to export and then assign the module.exports object with our created object.
+e.g) module.exports = <created_object>;
+
+
+REQUIRING A DIRECTORY:
+-> When we want to require the contents of an entire directory, we create a index.js file in the directory exporting all the necessary information from that directory.
+-> When node tries to require the contents of a directory, it searches for an index.js file in the directory and requires everything from the index.js file only.
+e.g)
+(cookie.js file)
+module.exports = {
+    name : 'cookie',
+    color : 'blue'
+};
+
+(lovely.js file)
+module.exports = {
+    name : 'lovely',
+    color : 'yellow'
+};
+
+(index.js file)
+const cookie = require('./cookie');
+const lovely = require('./lovely');
+const allPets = [cookie,lovely];
+module.exports = allPets;
+
+(All the above files are in a Pets folder)
+
+(app.js file present in the same directory as the Pets folder)
+const pets = require('./Pets');
+console.log(pets);                          //will print [ { name : 'cookie', color : 'blue' } , { name : 'lovely' , color : 'yellow' } ] 
+
+
+NPM:
+-> Node Package Manager
+-> Library of thousands of packages published by other developers that we can use for free.
+-> Command line tool to easily install and manage the packages in our node projects.
+-> Kind of like pip for python 
+-> 'npm install <package_name>' installs the package locally in the working directory.
+-> 'npm install -g <package_name>' installs the package globally.
+
+
+PACKAGE.JSON FILE:
+-> Contains metadata about project/package/application.
+-> Contains dependencies.
+-> Dependencies basically keep track of the various packages used in the project along with the specific versions.
+-> To create a package.json file before installing packages, we run 'npm init'.
+-> Typically added in the root directory of the project.
+-> We do not share the node_modules folder on github(or any other platform), i.e) we usually hide it, for memory purposes.
+-> Whenever someone else uses the project, all they have to do is run 'npm install' which will automatically install all the dependencies present on the package.json folder
+
