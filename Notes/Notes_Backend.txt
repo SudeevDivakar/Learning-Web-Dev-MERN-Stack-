@@ -287,3 +287,129 @@ NODEMON:
 -> Automatically restarts server when we change our code.
 -> Instead of using 'node <file_name>' , we run 'nodemon <file_name>' 
 -> Anytime we change any js/json file, nodemon restarts the server.
+
+
+
+TEMPLATING:
+-> Allows us to define a preset pattern for a webpage that we can dynamically modify.
+-> We shall use EJS(Embedded javascript) to implement templating.
+
+
+
+CONFIGURING EXPRESS FOR EJS:
+-> We need to tell express to use EJS 
+-> To do this we can implement the app.set method
+-> We then run 'npm install ejs'
+e.g)
+const express = require('express');
+const app = express();
+
+app.set('view engine', 'ejs');
+
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+})
+
+-> By deafult, when we create a new express app and use a view engine, express assumes that our templates are present in a directory called 'views' (by default).
+-> We can change this default directory using app.set
+-> The created templates which are present within the 'views' folder must have a file extension of '.ejs'
+-> We then use the res.render('<file_name>') method in the app.get method to render the .ejs file and any javascript present within it. 
+e.g)
+const express = require('express');
+const app = express();
+
+app.set('view engine', 'ejs');
+
+app.get('/', (req, res) => {
+    res.render('home.ejs');
+})
+
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+})
+
+-> If we try to run our application from a different working directory, the 'views' folder will not be present in our working directory and we will not have access to the .ejs files for our program to render.
+-> To overcome this, we do:
+e.g)
+const express = require('express');
+const app = express();
+const path = require('path');   
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/views'))
+
+app.get('/', (req, res) => {
+    res.render('home.ejs');
+})
+
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+})
+
+
+
+EJS Interpolation Syntax:
+-> Anything present between <%= %> will be treated as javascript in an ejs file.
+
+
+PASSING DATA TO TEMPLATES:
+-> In the app.get method, we define data and pass it as an object of keys(variable names) and values(variable values) in the render function as the second argument after the .ejs file name.
+-> We can then use these variables in the .ejs file by simply adding the variable names in between <%= %>.   
+e.g)
+const express = require('express');
+const app = express();
+const path = require('path');   
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/views'))
+
+app.get('/', (req, res) => {
+    res.render('home.ejs');
+})
+
+app.get('/rand', (req, res) => {
+    const num = Math.floor(Math.random() * 10) + 1;
+    res.render('random', { rand : num });
+})
+
+app.listen(3000, () => {
+    console.log('Listening on port 3000');
+})
+
+(random.ejs file)
+<h1>Hello <%= rand %></h1>
+
+
+
+CONDITIONALS IN EJS:
+-> To write out conditional statements in js (code that will not get rendered onto the webpage but are needed for checking conditions), we add the js code within <% %>
+-> This indicates that js code is present to control the flow but will not be rendered.
+e.g)
+<body>
+    <h1>Homepage <%= rand %></h1>
+    <% if(rand % 2 === 0){ %>
+    <h2>This is an even number</h2>
+    <% } else{ %>
+    <h2>This is an odd number</h2>
+    <% }%> 
+</body>
+
+
+SERVING STATIC FILES:
+-> Usually standalone css and js files will not be included in the server.
+-> To include these static files, we need to use the following command:
+e.g)
+app.use(express.static(path.join(__dirname, 'public')));
+-> It is best practice to add all static file contents to a public folder so that we can run the above command.
+Note:- The public folder must be present in the same directory as the index.js file.
+-> When we link these files with html/ejs files, we do not have to provide the entire path. We need to reference the path from the directory mentioned in the above command.(public in this case)
+e.g)
+<link rel="stylesheet" href="/css/style.css">
+
+
+PARTIALS:
+-> Including templates inside of other templates.
+-> To do this, we add our template code onto an ejs file and then in the ejs file where we want to add the templated code, we use <%- include('<path_from_cwd>')%>
+-> When we are making templated html code, we do not need to specify the structure of the html document. (no need to specify head, etc)
+-> Best to have a subdirectory called partials which includes all the partial templates.
+ 
