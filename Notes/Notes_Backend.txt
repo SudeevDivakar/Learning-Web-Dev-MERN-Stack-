@@ -412,4 +412,118 @@ PARTIALS:
 -> To do this, we add our template code onto an ejs file and then in the ejs file where we want to add the templated code, we use <%- include('<path_from_cwd>')%>
 -> When we are making templated html code, we do not need to specify the structure of the html document. (no need to specify head, etc)
 -> Best to have a subdirectory called partials which includes all the partial templates.
- 
+
+
+GET vs POST REQUESTS:
+-> Get requests are used to retrieve information 
+-> Data in a get request is sent via a query string.
+-> This information is clearly visible in the URL.
+-> Limited amount of data can be sent this way.
+e.g)
+<form action="/tacos" method="get">
+    <input type="text" name="type">
+    <input type="text" name="qty">
+    <button>Submit</button>
+</form>                                  //shows values in the query string
+
+<form action="/tacos" method="post">
+    <input type="text" name="type">
+    <input type="text" name="qty">
+    <button>Submit</button>             //send values in the request body 
+</form>
+
+
+DEFINING EXPRESS POST ROUTES:
+-> POST requests are used when we want to create something with account details or we want to add content, etc.
+-> All we do for this is change the method to 'post'
+e.g)
+<form action="/tacos" method="post">
+    <input type="text" name="type">
+    <input type="text" name="qty">
+    <button>Submit</button>
+</form>
+
+app.post('/tacos', (req, res) => {
+    res.send('POST /tacos response');
+})
+
+
+PARSING THE REQUEST BODY:
+-> In the case of post requests, the req object has a 'body' property which contains the information sent.
+-> We need to specify how to parse these request bodies. By deafult req.body is undefined. 
+-> To parse form encoded information from the request body, run the following line of code
+e.g) 
+app.use(express.urlencoded({ extended : true  }));
+-> Similarly, if we want to parse json data, we can use the line of code:
+e.g)
+app.use(express.json());
+
+-> Once we use the above line of code, we can destructure req.body and extract out all the data.
+e.g)
+const express = require('express');
+const app = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended : true }));
+
+app.post('/tacos', (req, res) => {
+    const { type, qty } = req.body;
+    res.send(`POST /tacos response for ${type} and ${qty}`);
+})
+
+
+REST:
+-> Representational State Transfer
+-> Architectural style for distributed hypermedia systems
+-> Basically a set of guidelines for how client + server should communicate and perform CRUD operations on a given resource.
+-> We use different HTTP verbs for the different CRUD operations we need to perform in our project.
+-> GET for getting values, POST for inserting data, PATCH for updating and DELETE for deleting data.
+-> We also try to follow the same names for the different routes we create along with different HTTP verbs.
+e.g)
+GET /comments - list all comments
+POST /comments - Create a new comment
+GET /comments/:id - Get one comment (using ID)
+PATCH /comments/:id - Update one comment 
+DELETE /comments/:id - Removes one comment 
+
+
+EXPRESS REDIRECTS:
+-> We should never render a template in a post request because, if we reload the page, the same post request with the same body details will
+be sent everytime we refresh which might result in unwanted results.
+-> The response object has a method called redirect which redirects us to a url that we specify.
+e.g)
+app.post('/comments', (req, res) => {
+    const { username, comment } = req.body;
+    const newComment = { username : username , comment : comment };
+    comments.push(newComment);
+    res.redirect('/comments');
+})
+
+
+UUID:
+-> Universely unique identifier
+-> NPM package we need to install and require
+e.g)
+npm install uuid 
+const { v4 : uuidv4 } = require('uuid');
+uuidv4();     // Returns an universely unique identifier which we can use in our program
+
+
+REQUESTS USED FOR UPDATING:
+-> PUT : The PUT method replaces all current representations of the target resource with the request payload. Basically used when we need to change an entire existing resource.
+-> PATCH : The PATCH method is used to apply partial modifications to a resource. Basically used when we need to update/add something to an existing resource.
+Note :- We can use either of these where ever and however we want. The above definitions are just guidelines for the same.
+
+
+EXPRESS METHOD OVERRIDE:
+-> HTML forms in the browser can only send GET and POST requests. They cannot send patch, put, delete and other request types.
+-> To overcome this, we use a method-override npm package which allows us to use patch or any other request types not supported by the browser.
+e.g)
+var methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
+<form method="POST" action="/resource?_method=DELETE">
+  <button type="submit">Delete resource</button>
+</form>
+
+
