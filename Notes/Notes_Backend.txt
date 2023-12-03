@@ -527,3 +527,144 @@ app.use(methodOverride('_method'));
 </form>
 
 
+
+DATABASES:
+-> Used to save data
+-> Can store a lot of data and store it compactly 
+-> Provides tools for easy access and insertion of data 
+-> Offers Security as well
+-> Generally scale very well
+
+
+SQL Databases:
+-> Structured query language
+-> Relational databases 
+-> Predefined schema which has to be followed 
+-> Tables connected to each other based on certain attributes 
+e.g)
+MySQL, Postgres, SQLite, Oracle
+
+
+NoSQL Databases:
+-> No predefined schema (flexible schema)
+-> SQL not used 
+e.g)
+MongoDB, Neo4j, Cassandra, CouchDB
+
+
+
+
+MongoDB:
+-> Type in mongosh in the cmd to use the mongo shell 
+-> 'db' is the database we use, by default it is set to 'test' in the mongo terminal.
+
+
+SHOWING DATABASES:
+e.g)
+show dbs 
+    (OR) 
+show databases 
+
+
+CREATING AND USING DATABASES:
+e.g)
+use <database_name>
+Note:- We need to add content into the database for it to be saved.
+
+
+BSON:
+-> Binary JSON
+-> JSON is very slow (text based format)
+-> JSON is also not space efficient
+-> Does not support a lot of datatypes
+-> BSON is a more compact version of JSON 
+-> MongoDB stores data in the form of BSON 
+-> BSON supports extra datatypes like date, etc.
+
+
+INSERTING INTO MongoDB:
+-> Collections in MongoDB are basically tables where we store documents of similar information 
+-> Inserting data into a collection that does not exist, creates a new collection and inserts the data into it 
+-> The three different ways to insert data into the mongoDB database are:
+i) db.collection.insertOne({})          //inserts one object into the collection
+ii) db.collection.insertMany([{},{}])    // inserts many objects which should be present within an array   
+iii) db.collection.insert()                // can do both of the above mentioned statements.
+Note :- The 'show collections' command lists out all the collections present in the database 
+Note :- If the '_id' field is not specified while inserting, mongoDB will automatically insert an '_id' field with the document. This '_id' field acts as a primary key.
+
+
+FINDING IN MongoDB:
+-> To return all the documents in a collection, use:
+e.g)
+db.<collection_name>.find()
+-> To find a specific document in the collection, use:
+e.g)
+db.<collection_name>.find({<key1> : <value1> , <key2> : <value2>})
+-> To find only one document from the collection, use:
+e.g)
+db.<collection_name>.findOne({<key> : <value>})
+Note :- findOne() returns the actual document whereas find() returns a cursor (pointer to the results)
+
+
+UPDATING IN MongoDB:
+-> To update the first match of the specified conditions, use:
+e.g)
+db.<collection_name>.updateOne(<filter> , <update> , <options>) 
+db.<collection_name>.updateOne({name : "Cookie"} , {$set : {color : "blue"}})
+Note :- We can update multiple keys using this method. If we try to set a non-existent new key, it creates a new key and sets the value.
+-> To update all matches, use:
+e.g)
+db.<collection_name>.updateMany(<filter> , <update> , <options>) 
+db.<collection_name>.updateMany({name : "Cookie"} , {$set : {color : "blue"}})
+-> To replace the all the contents of a document, use:
+e.g)
+db.<collection_name>.replaceOne(<filter> , <update> , <options>) 
+
+
+DELETING IN MongoDB:
+-> To delete the first match from a collection, use:
+e.g)
+db.<collection_name>.deleteOne({<key1> : <value1> , <key2> : <value2>})
+-> To delete many matches from a collection, use:
+e.g)
+db.<collection_name>.deleteMany({<key1> : <value1> , <key2> : <value2>})
+-> To delete all documents from a collection, use:
+e.g)
+db.<collection_name>.deleteMany({})
+
+
+OTHER OPERATORS IN MongoDB:
+-> Suppose we have,
+{
+    '_id' : 1,
+    name : 'Cookie',
+    personality : {
+        catFriendly : 'NO',
+        childFriendly : 'YES'
+    }
+}
+-> Now to write a query to find matches that are childFriendly, use:
+e.g)
+db.birds.find({'personality.childFriendly' : 'YES' , name : 'Cookie'})
+
+-> Comparison Operators
+e.g)
+$eq, $gt, $gte, $lt, $lte, $in, $ne, $nin(matches none of the values present in the array)
+-> To find greater than values, use:
+e.g) 
+db.<collection_name>.find({ qty : { $gt : 20 } })
+-> To find matches in arrays, use:
+e.g)
+db.<collection_name>.find({breed: {$in: ['budgie', 'parrot']}})
+
+-> Logical Operators
+e.g)
+$and, $not, $or, $nor
+-> To find matches with either of two given conditions being satisfied, use:
+e.g)
+db.<collection_name>.find({ $or: [{qty : {$lt : 30}}, {price : 10}] })
+
+-> Geography Data Operators (Geospatial)
+e.g) 
+$geoIntersects, $geoWithin, $near, $nearSphere
+
