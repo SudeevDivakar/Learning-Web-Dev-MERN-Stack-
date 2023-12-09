@@ -668,3 +668,426 @@ db.<collection_name>.find({ $or: [{qty : {$lt : 30}}, {price : 10}] })
 e.g) 
 $geoIntersects, $geoWithin, $near, $nearSphere
 
+
+
+MONGOOSE:
+-> It is an ODM
+-> Object Data Mapper / Object Document Mapper
+-> Maps documents coming from a database into usable JavaScript objects.
+-> Provides ways for us to model out or application data and define a schema. It offers easy ways to validate data and build complex queries from the comfort of JS 
+Note : For SQL databases, we use an ORM (Object Relational Mapper)
+
+
+
+CONNECTING MONGOOSE TO MONGO:
+-> It is an npm package so we have to run,
+e.g)
+npm install mongoose
+
+-> To connect to mongodb and use a database, we use:
+e.g)
+const mongoose = require('mongoose');
+mongoose.connect('mongodb://127.0.0.1:27017/movieApp')         //This is a promise
+.then(() => {
+    console.log('CONNECTION OPEN')
+})
+.catch(() => {
+    console.log('ERROR')
+});      
+where '27017' is the port number mongodb is located at and 'test' is the name of the database. If the test database does not exist, it creates it.
+
+
+
+MODELS IN MONGOOSE:
+-> Models are javascript classes that we make with the assistance of mongoose that represent information in mongodb database 
+-> Helps us interact with the database.
+-> To create a model, we must first define a schema 
+e.g)
+const movieSchema = new mongoose.Schema({
+    title: String,
+    year: Number,
+    score: Number,
+    rating: String 
+});
+
+-> To create the model based on the above given schema, we do:
+e.g)
+const movieSchema = new mongoose.Schema({
+    title: String,
+    year: Number,
+    score: Number,
+    rating: String 
+});
+const Movie = mongoose.model('Movie', movieSchema);
+Note: The first argument(name of the model) 'Movie' must be singular and uppercased. The collection's name will be a plural version of the first argument. The variable is usually named the same as the first argument.
+
+-> We then make a new instance of the class and save it to the mongo database.
+e.g)
+const movieSchema = new mongoose.Schema({
+    title: String,
+    year: Number,
+    score: Number,
+    rating: String 
+});
+const Movie = mongoose.model('Movie', movieSchema);
+const amadeus = new Movie({ title: 'Amadeus', year: 1986, score: 9.2, rating: 'R' });
+
+-> To load a file onto the node REPL, we run:
+e.g)
+.load index.js
+we can access all the variables and objects created in the index.js file on the node REPL.
+
+
+
+ADDING A SINGLE INSTANCE INTO A COLLECTION USING MONGOOSE:
+-> To save the created instance into a mongoDB collection, we run:
+e.g)
+<instance_name>.save()
+e.g)
+const movieSchema = new mongoose.Schema({
+    title: String,
+    year: Number,
+    score: Number,
+    rating: String 
+});
+const Movie = mongoose.model('Movie', movieSchema);
+const amadeus = new Movie({ title: 'Amadeus', year: 1986, score: 9.2, rating: 'R' });
+amadeus.save()
+
+
+
+ADDING MULTIPLE INSTANCES INTO A COLLECTION USING MONGOOSE:
+const movieSchema = new mongoose.Schema({
+    title: String,
+    year: Number,
+    score: Number,
+    rating: String 
+});
+const Movie = mongoose.model('Movie', movieSchema);
+
+Movie.insertMany([
+    { title: 'Avengers', year: 2012, score: 8, rating: 'R' },
+    { title: 'Black Panther', year: 2018, score: 7.3, rating: 'R' },
+    { title: 'Spiderman-2', year: 2004, score: 7.5, rating: 'R' }
+])
+.then(() => {
+    console.log('Insertion Succesful')
+})
+.catch(() => {
+    console.log('Insertion not Successful')
+})
+
+
+
+FINDING WITH MONGOOSE:
+-> We use queries to find documents in a collection in mongo.
+-> These queries are not promises but can have .then() written after them. (These are called then-able objects)
+-> To find documents from a collection, run:
+e.g)
+const movieSchema = new mongoose.Schema({
+    title: String,
+    year: Number,
+    score: Number,
+    rating: String 
+});
+const Movie = mongoose.model('Movie', movieSchema);
+Movie.find({})
+.then((data) => {
+    console.log(data)
+})
+-> We can search parameters within the {} if needed.
+
+-> We can also find documents based on the id by using:
+e.g)
+const movieSchema = new mongoose.Schema({
+    title: String,
+    year: Number,
+    score: Number,
+    rating: String 
+});
+const Movie = mongoose.model('Movie', movieSchema);
+Movie.findById('<_id value>')
+.then((data) => {
+    console.log(data)
+})
+
+
+
+UPDATING WITH MONGOOSE:
+-> Two queries : updateOne() and updateMany()
+-> When using .then() with update queries, we get back the number of documents updated count and not the data that was changed.
+-> We do not need to use the $set operator here as it does it automatically for us.
+e.g)
+Movie.updateOne({title : 'Amadeus'}, {year : 1984})
+.then((res) => {
+    console.log(res)
+});
+e.g)
+Movie.updateMany({title: {$in: ['Amadeus', 'Stand By Me']}}, {score: 10})
+.then((res) => {
+    console.log(res)
+});
+
+-> We can also use .findOneAndUpdate() method of mongoose which returns the document updated
+e.g)
+Movie.findOneAndUpdate({title:'The Iron Giant'}, {score: 7.8})
+.then((res) => {
+    console.log(res)
+});
+-> By default, the above function returns the old (un-updated) document but we can set it to return the updated one by passing a third parameter.
+e.g)
+Movie.findOneAndUpdate({title:'The Iron Giant'}, {score: 7.8}, {new: true})
+.then((res) => {
+    console.log(res)
+});
+
+
+
+DELETING IN MONGOOSE:
+-> Movie.remove() does not return documents after deleting, only return number of documents deleted.
+e.g)
+Movie.remove({title: 'Amadeus'})
+.then((res) => {
+    console.log(res)
+});
+e.g)
+Movie.deleteOne({title: 'Amadeus'})
+.then((res) => {
+    console.log(res)
+});
+e.g)
+Movie.deleteMany({year: {$lt: 2015}})
+.then((res) => {
+    console.log(res)
+});
+
+-> Since the above methods did not give us the documents back after deleting them, we can use the .findOneAndDelete() method to get the document back.
+e.g)
+Movie.findOneAndDelete({title: 'Amadeus'})
+.then((res) => {
+    console.log(res)
+});
+
+
+
+MONGOOSE SCHEMA VALIDATIONS:
+-> To make schemas strict(make them required) in mongoDB, we need to declare the schemas this way:
+e.g) 
+const schema = new mongoose.schema({
+    name: {
+        type: String,
+        required: true
+    }
+    price: {
+        type: Number,
+        required: true
+    }
+});
+-> Now, not passing in name or price would throw an error as it is set to required.
+-> price can be a string but it should contain numbers.
+
+-> We can also add a default costraint which sets the value of the field to a default value unless specified otherwise
+e.g)
+const schema = new mongoose.schema({
+    onSale: {
+        type: Boolean,
+        default: false
+    }
+});
+
+-> Few other constraints for strings:
+lowercase
+uppercase
+trim : removes leading and trailing white spaces
+match 
+enum : Checks if the value is in a given array
+minlength
+maxlength 
+-> Few constaints for integers:
+min
+max
+
+-> To make the type of the variable an array, we can do:
+const schema = new mongoose.schema({
+    categories: {
+        type: [String]
+    }
+});
+-> This only accepts arrays containing strings. If integers are passed in the array, they are converted into strings.
+
+-> We can have nested sub documents from the following way:
+e.g)
+const schema = new mongoose.schema({
+    qty: {
+        online: {
+            type: Number,
+            default: 0
+        },
+        inStore: {
+            type: Number,
+            default: 0
+        }
+    }
+});
+
+
+
+VALIDATING MONGOOSE UPDATES:
+-> When we update a value in a document, any constraints on the value will be ignored and the document gets updated regardless of the new value being set.
+-> To overcome this, we just add {runValidators: true} in the options field of the mongoose update command.
+e.g)
+Movie.findOneAndUpdate({title:'The Iron Giant'}, {score: 7.8}, {new: true, runValidators: true})
+.then((res) => {
+    console.log(res)
+});
+.catch((res) => {
+    console.log(res)
+});
+
+
+
+MODEL INSTANCE METHODS 
+-> Adding our own custom methods to the model.
+-> Instance methods are available on every single instance.
+-> We add these methods on the schema (Do not use arrow functions)
+-> Can be used for authenticating passwords, etc.
+-> To add our own instance methods:
+e.g)
+const productSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    onSale: {
+        type: Boolean,
+        default: false
+    }
+});
+
+productSchema.methods.greet = function(){
+    console.log('Hello there');
+    console.log(`- ${this.name}`)
+}
+
+productSchema.methods.toggleOnSale = function() {
+    this.onSale = !this.onSale;
+    return this.save();
+}
+
+const Product = mongoose.model('Product', productSchema);
+
+const p = new Product({name: 'bike bag', price: 10});
+p.greet();
+
+const findProduct = async function(){
+    const foundProduct = await Product.findOne({name: 'bike bag'});
+    foundProduct.greet();
+
+    console.log(foundProduct);
+    await foundProduct.toggleOnSale()
+    console.log(foundProduct);
+}
+findProduct();
+
+
+
+ADDING MODEL STATIC METHODS:
+-> Static methods only apply to particular instances.
+-> We define static methods using:
+e.g)
+const productSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    onSale: {
+        type: Boolean,
+        default: false
+    }
+});
+
+productSchema.statics.fireSale = function() {
+    return this.updateMany({}, {onSale: true, price: 0})
+}
+
+const Product = mongoose.model('Product', productSchema);
+
+Product.fireSale()
+.then((res) => {
+    console.log(res)
+});
+
+
+
+MONGOOSE VIRTUALS:
+-> Gives us the ability to add properties to a schema that do not exist in the database itself
+-> The .get() option allows us to get/display the value determined by the virtual 
+-> The .set() option allows us to update the value of the virtual (does not reflect in the database)
+-> To update the values in the database as well, we will need to run a .save()
+e.g)
+const mongoose = require('mongoose');
+
+async function connect(){
+    try{
+        console.log('CONNECTION OPENED');
+        return await mongoose.connect('mongodb://127.0.0.1:27017/movieApp');         //This is a promise
+    }
+    catch{
+        console.log('ERROR IN CONNECTION');
+    }
+} 
+
+(async () => {
+    await connect();
+})();
+
+const personSchema = new mongoose.Schema({
+    first: String,
+    last: String
+});
+
+personSchema.virtual('fullName').
+get(function() {
+    return `${this.first} ${this.last}`  //This behaves like an actual property
+}).
+set(function(v) {
+    this.first = v.substr(0, v.indexOf(' '));
+    this.last = v.substr(v.indexOf(' ') + 1);
+});
+
+const Person = mongoose.model('Person', personSchema);
+
+
+MONGOOSE MIDDLEWARE:
+-> Mongoose gives us the ability to run code before or after certain methods are called. 
+-> Basically the same as triggers in MySQL.
+-> We can run methods before/after a save/updateMany/find method is called, etc 
+e.g)
+const personSchema = new mongoose.Schema({
+    first: String,
+    last: String
+});
+
+personSchema.pre('save', async function() {
+    this.first = 'DEEZ';
+    this.last = 'NUTS';
+    console.log('ABOUT TO SAVE');
+});
+personSchema.post('save', async function() {
+    console.log('JUST SAVED');
+});
+
+const Person = mongoose.model('Person', personSchema);
+
+const Sudeev = new Person({first: "Sudeev", last: "Divakar"})
+Sudeev.save().then((res) => {
+    console.log(res);
+})
