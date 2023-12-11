@@ -1,0 +1,52 @@
+REACT:
+-> World's most popular front end library
+-> Library that helps us build user interfaces from components that we can define
+-> We can assemble smaller components to build larger applications
+
+
+COMPONENETS:
+-> Combine HTML and logic into a single reusable function.
+-> Components are usually HTML with CSS and JS
+
+
+NOTE: Use code sandbox for practicing react.
+
+
+JSX:
+-> JSX is a syntax extension for javascript.
+-> Allows us to write markup that looks like HTML directly inside of our Javascript
+-> It's not legal JS on it's own, so it must be transpiled.
+-> Babel takes code that is not real javascript and transpiles it into real javascript.
+
+
+BASIC REACT APP STRUCTURE:
+-> Conventions that most react apps follow
+-> There should be present a component called App.js 
+-> App is the top level component of the entire application
+-> All the components are rendered at the end of the day as part of a single component called App.
+-> This App component is rendered in the index.js file (which puts the content onto the index.html file)
+
+
+WRITING COMPONENETS:
+-> Writing a function where the first letter of the function name is in uppercase.
+e.g)
+function Header() {
+    return <h1>I'm a header component!</h1>
+}
+-> To render this component, in the App function, add <Header/>
+e.g)
+import "./styles.css";
+
+function Greeter() {
+  return <h1>Hello!</h1>;
+}
+
+export default function App() {
+  return (
+    <div className="App">
+      <Greeter/>
+      <h2>Hehe YeaBwoi</h2>
+      <input type="text" placeholder="Hello" />
+    </div>
+  );
+}
