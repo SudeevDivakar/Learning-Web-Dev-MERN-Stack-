@@ -33,7 +33,7 @@ e.g)
 function Header() {
     return <h1>I'm a header component!</h1>
 }
--> To render this component, in the App function, add <Header/>
+-> To render this component, in the App function, add '<Header/>'
 e.g)
 import "./styles.css";
 
@@ -49,4 +49,151 @@ export default function App() {
       <input type="text" placeholder="Hello" />
     </div>
   );
+}
+
+
+
+WRITING COMPONENETS IN DIFFERENT FILES:
+-> We should generally write our components in different files with the names of each of these files being the same as the name of the function.
+-> Add 'export default' at the beginning of the function definition in the new file.
+e.g)
+export default function Header() {
+    return <h1>Hello<h1/>
+}
+
+-> We can also add a line at the end of the file to export our components 
+e.g)
+function Header() {
+    return <h1>Hello<h1/>
+}
+export default Header;
+
+-> In the App.js file, import the function from the new component file we just created.
+e.g)
+import Greeter from './Greeter';
+
+-> To export multiple functions/components we can also do:
+e.g)
+function Header() {
+    return <h1>Hello<h1/>
+}
+export {Header};
+-> To export multiple components, just seperate it with a comma.
+
+-> To import this, we can do:
+e.g)
+import {Header} from './Header';
+-> Note: The name in both the export and import statements must match.
+
+
+
+JSX RULES:
+-> We must explicitly close self-closing elements like <br/>
+-> Components can only return a single element.
+-> Therefore to overcome this issue, we can return multiple elements wrapped in a div tag.
+e.g)
+export default function LoginForm() {
+  return (
+    <form>
+      <input type="text" placeholder="Username" />
+      <input type="password" placeholder="Password" />
+      <br />
+      <button>Login</button>
+    </form>
+  );
+}
+            (OR)
+e.g)
+export default function LoginForm() {
+  return (
+    <div>
+      <input type="text" placeholder="Username" />
+      <input type="password" placeholder="Password" />
+      <br />
+      <button>Login</button>
+    </div>
+  );
+}
+
+
+
+REACT FRAGMENTS:
+-> When we do not want to return multiple elements enclosed in a div tag (as it clutters up the html document with unnecessary div tags), we can use react fragments.
+e.g)
+export default function LoginForm() {
+  return (
+    <>
+      <input type="text" placeholder="Username" />
+      <input type="password" placeholder="Password" />
+      <br />
+      <button>Login</button>
+    </>
+  );
+}
+
+
+
+EVALUATING JS EXPRESSIONS IN JSX:
+-> To do this, we must carry out any expressions within {}. The {} escape the JSX syntax and treats anything inside it as pure javascript.
+e.g)
+export default function Greeter() {
+    return <h1>Hello I'm sudeev! and my age is {2023 - 2003}</h1>;
+}
+            (OR)
+e.g)
+export default function Greeter() {
+    const age = 20;
+    return <h1>Hello I'm sudeev! and my age is {age}</h1>;
+}
+
+
+
+STYLING COMPONENETS:
+-> While trying to specify the value of the class of a html tag in jsx, remember that class is a reserved keyword for javascript 
+-> Therefore we use 'className' instead of class while using html in jsx
+-> Convention is to usually create a new style sheet for each component and add styles onto it.
+
+
+GEN1 POKEDEX USING REACT:
+-> App.js
+import "./styles.css";
+import "./Pokemon.css";
+import Pokemon from "./Pokemon";
+export default function App() {
+  return (
+    <div className="App">
+      <Pokemon></Pokemon>
+    </div>
+  );
+}
+
+-> Pokemon.js
+import Die from "./Die.js";
+export default function Pokemon() {
+  const rand = Die();
+  const url = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${rand}.png`;
+  return (
+    <div className="Pokemon">
+      <h1>Pokemon #{rand}</h1>
+      <img className="image" src={url} alt="" />
+    </div>
+  );
+}
+
+-> Die.js
+export default function Die() {
+  const rand = Math.floor(Math.random() * 151) + 1;
+  return rand;
+}
+
+-> Pokemon.css
+.Pokemon {
+  color: blue;
+  border: 5px solid black;
+  width: 250px;
+  border-radius: 20px;
+}
+.image {
+  width: 160px;
+  height: auto;
 }
