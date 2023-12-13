@@ -197,3 +197,17 @@ export default function Die() {
   width: 160px;
   height: auto;
 }
+
+
+
+RUNNING LOCAL REACT APPS:
+-> We use vite to setup a react environment.
+-> To create a new react environment, run:
+e.g)
+npm create vite@latest 
+-> We then have to enter a name for our project (this will be the name of the folder created)
+-> Once we enter a name, we have to change our current working directory to the newly created folder.
+-> We then run 'npm install' to download all the dependencies.
+-> Now to start up our server, we run 'npm run dev'
+-> We can also use 'create react app' to create a react environment for us.
+ 
