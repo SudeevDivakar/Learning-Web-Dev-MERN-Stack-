@@ -1,13 +1,21 @@
 import './App.css'
-import './Chicken.css'
-import Chicken from './Chicken';
+import Greet from './Greet';
+import Die from './Die'
+import ColorList from './ColorList'
+import DoubleDice from './DoubleDice';
+import SlotMachine from './SlotMachine';
 
 function App() {
-    return( <div className='Chicken'>
-      <Chicken></Chicken>
-      <Chicken></Chicken>
-      <Chicken></Chicken>
-    </div> );
+    return( 
+    <div>
+      {/* <Greet color="Magenta" />
+      <DoubleDice />
+      <ColorList colors={['red','green','magenta']} /> */}
+
+      <SlotMachine values={['🍒','🍒','🍒']}></SlotMachine>
+      <SlotMachine values={['🍒','🍌','🍒']}></SlotMachine>
+    </div> 
+    );
 }
 
 export default App;

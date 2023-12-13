@@ -210,4 +210,93 @@ npm create vite@latest
 -> We then run 'npm install' to download all the dependencies.
 -> Now to start up our server, we run 'npm run dev'
 -> We can also use 'create react app' to create a react environment for us.
- 
+
+
+
+PROPS:
+-> Props are like arguments that we can provide to our components
+-> We use props to make configurable components
+e.g)
+<Greeter name="Sudeev" />
+-> In the JSX file, we need to mention an argument in the function definition. This argument will be an object. We can also destructure it in the function definition and use it as a normal variable.
+e.g)
+export default function Die(props){
+    const rand = Math.floor(Math.random() * props.numSides) + 1;
+    return <h1>Your lucky number is {rand}</h1>
+}
+-> To input multiple props, we can do:
+e.g)
+<Greeter name="Sudeev" color="black" />
+
+
+
+PASSING NON-STRING PROPS:
+-> To pass in number props, we can specify the value in {}
+e.g)
+<Greeter numSides={6} />
+-> To pass in a list of values, we can:
+e.g)
+<ListPicker values={[1,2,3]} />
+-> To pass in a objects, we can:
+e.g)
+<ListPicker values={{a: 1, b: 2, c: 3}} />
+
+
+
+DEFAULT PROP VALUES:
+-> To add default prop values, we do:
+e.g)
+export default function Die({numSides = 6}){
+    const rand = Math.floor(Math.random() * numSides) + 1;
+    return <h1>Your lucky number is {rand}</h1>
+}
+
+
+
+REACT CONDITIONALS:
+e.g)
+{num1 === num2 ? <h1>You win :)</h1> : <h1>You lose :(</h1>}
+-> In the above example, if we do not have an else condition, we can also do:
+e.g)
+{num1 === num2 && <h1>You win :)</h1>}
+-> Ternary operator is very useful while using react.
+-> Refer to FirstReactApp/src/DoubleDice.jsx for more info
+
+
+
+ADDING DYNAMIC COMPONENT STYLES:
+-> We can define a 'style' attribute on a tag and set it's value to an object containing the styles we want to dynamically add.
+e.g)
+export default function DoubleDice(){
+    const num1 = Math.floor(Math.random() * 3) + 1;
+    const num2 = Math.floor(Math.random() * 3) + 1;
+    const styles = { color : num1 === num2 ? 'green' : 'red'}
+    return(
+    <div className="DoubleDice" style={styles}>
+        {num1 === num2 ? <h1>You win :)</h1> : <h1>You lose :(</h1>}
+        <p>Num1: {num1}</p>
+        <p>Num2: {num2}</p>
+    </div>
+    );
+}
+-> Refer to FirstReactApp/src/DoubleDice.jsx for more info
+
+
+
+RENDERING ARRAYS WITH MAP:
+-> When we try to render an array using react, all the elements are taken and joined together and displayed in the browser.
+-> To overcome this, we need to render each element as a tag 
+-> We use the map function to turn each element into a tag
+e.g)
+export default function ColorList({colors}){
+    const lis = colors.map((color) => <li>{color}</li>);
+    const styles = {color: 'magenta'};
+    return (
+        <div style={styles}>
+            <h3>List of colors used:</h3>
+            <ul>
+                {lis}
+            </ul> 
+        </div>
+    );
+} 
