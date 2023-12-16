@@ -7,6 +7,9 @@ import SlotMachine from './SlotMachine';
 import ShoppingList from './ShoppingList';
 import RentalProperties from './RentalProperties';
 import Clicker from './Clicker';
+import Counter from './Counter';
+import Toggler from './Toggler'
+import ColorGrid from './ColorGrid';
 
 // const list = [
 //   {id: 1, item: 'eggs', quantity: 12, completed: false},
@@ -25,7 +28,6 @@ import Clicker from './Clicker';
 //   { id: 129035, name: "Gold Miner Campground", rating: 4.69, price: 96 }
 // ];
 
-
 function App() {
     return( 
     <div>
@@ -40,8 +42,14 @@ function App() {
 
       {/* <RentalProperties properties={properties} /> */}
 
-      <Clicker message="I SAID DONT CLICK ME!!!!" buttonText="Don't Click Me" />
+      {/* <Clicker message="I SAID DONT CLICK ME!!!!" buttonText="Don't Click Me" /> */}
       {/* <Clicker message="HI!!!!" buttonText="Click Me" /> */}
+
+      {/* <Counter /> */}
+
+      {/* <Toggler /> */}
+
+      <ColorGrid />
     </div> 
     );
 }

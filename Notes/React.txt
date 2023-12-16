@@ -439,4 +439,71 @@ export default function Form() {
 }
 
 
+NOTE: Props are immutable
+
+
+STATE:
+-> For the given code
+e.g)
+export default function Counter() {
+    let num = 0;
+    const incrementNum = () => {
+        num += 1;
+    }
+    return(
+        <div>
+            <p>The count is: {num}</p>
+            <button onClick={incrementNum}>Increment</button>
+        </div>
+    );
+}
+-> React will not increase the value of num, everytime the button is clicked, as the paragraph only gets rendered once and thus the output will always be 0
+-> We use state to overcome this issue
+-> State values can change
+-> Everytime state data is changed, it is re-rendered onto the browser.
+
+
+
+WHAT GOES IN STATE:
+-> Data fetched from API 
+-> Form Information 
+-> Variable that decides whether something is showing or hidden 
+-> If the value will change, it is a state 
+
+
+
+USING STATE:
+-> We create a state using the useState hook
+-> A hook is a function that react gives us which we can incorporate into our own components to add some functionality 
+e.g)
+const [count, setCount] = useState(0);
+
+-> The above code returns an array containing two elements:
+    The piece of state itself (a variable) whose initial value will be whatever is passed into the ()
+    A function to change the piece of state
+-> For example, the piece of state is 'count', function is 'setCount' and the initial value is 0.
+-> We must always call useState inside a component.
+-> We can have multiple pieces of state in a single component.
+-> A working incrementer function, looks like this:
+e.g)
+import {useState} from 'react';
+
+export default function Counter() {
+    let [num, setNum] = useState(0);
+    function changeNum(){
+        num += 1;
+        setNum(num);
+    }
+    return(
+        <div>
+            <p>The count is: {num}</p>
+            <button onClick={changeNum}>Increment</button>
+        </div>
+    );
+}
+
+
+NOTE: Everytime a state value is changed, the entire component is rendered again (except the useState initialization).
+
+
 
