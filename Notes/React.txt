@@ -279,6 +279,19 @@ export default function DoubleDice(){
     </div>
     );
 }
+-> This can also be done as such:
+e.g)
+export default function ShoppingList({list}) {
+    return(
+        <ul>
+            {list.map((i) => (
+                <li style={{color: i.completed === true ? 'gray' : '' , textDecoration: i.completed === true ? 'line-through' : ''}}>
+                    <b>{i.item}</b> - {i.quantity}
+                </li>
+            ))}
+        </ul>
+    );
+}
 -> Refer to FirstReactApp/src/DoubleDice.jsx for more info
 
 
@@ -300,3 +313,70 @@ export default function ColorList({colors}){
         </div>
     );
 } 
+
+
+
+THE KEY PROP:
+-> The key prop is added to a child tag of the tag being returned to provide it an unique identifier.
+-> React requires an unique identifier for each of its existing child elements.
+e.g)
+export default function ShoppingList({list}) {
+    return(
+        <ul>
+            {list.map((i) => (
+                <li key={i.id} style={{color: i.completed === true ? 'gray' : '' , textDecoration: i.completed === true ? 'line-through' : ''}}>
+                    <b>{i.item}</b> - {i.quantity}
+                </li>
+            ))}
+        </ul>
+    );
+}
+
+
+Note : It's good to implement more components in your application as it helps with reusability as well as implementing any future features
+
+
+PASSING PROPS USING THE SPREAD OPERATOR:
+-> As long as the data being passed and the props have the same name, we can use the spread operator to pass props in component calls.
+e.g)
+export default function Hello({greet, name, age}){
+  return(
+    <div>
+      <p>{greet}, my name is {name} and my age is {age}</p>
+    </div>
+  );
+}
+-> This can be called as:
+e.g)
+<Hello {...i} />
+where, i is an object containing key value pairs which have the same name as the props.
+
+
+
+TURNING OFF REACT PROP TYPES:
+-> To do this, in the .eslintrc.cjs file, under rules add 
+"react/prop-types": "off"
+
+
+
+PROPTYPES:
+-> If we're not using typescript, we can use prop types to specify the datatypes of the props.
+e.g)
+import PropTypes from "prop-types";
+
+export default function ListItem({ id, item, quantity, completed }) {
+    return(
+        <li key={id} style={{color: completed === true ? 'gray' : 'red' , textDecoration: completed === true ? 'line-through' : ''}}>
+                <b>{item}</b> - {quantity}
+        </li>
+    )
+}
+
+ListItem.propTypes = { 
+    item: PropTypes.string,
+    quantity: PropTypes.number,
+    completed: PropTypes.bool
+};
+
+
+
