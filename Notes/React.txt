@@ -380,3 +380,63 @@ ListItem.propTypes = {
 
 
 
+REACT EVENTS:
+-> To do this, we set the events within the tag as an attribute.
+-> The events are all camel cased.
+-> The specified event must refer to a function that will be called once the event is triggered.
+-> We do not use () after specifying the function name as that would directly call the function.
+e.g)
+function clickHandler(){
+    console.log('Hello');
+}
+
+export default function Clicker() {
+    return(
+        <div>
+            <p>Click the button</p>
+            <button onClick={clickHandler}>Click</button>
+        </div>
+    );
+}
+
+
+
+NON-CLICK EVENTS:
+-> To refer to other non-click events, refer to https://developer.mozilla.org/en-US/docs/Web/Events
+e.g)
+function clickHandler(){
+    console.log('You clicked!');
+}
+
+function handleHover(){
+    console.log('You Hovered!');
+}
+
+export default function Clicker() {
+    return(
+        <div>
+            <p onMouseOver={handleHover}>Hover over me</p>
+            <button onClick={clickHandler}>Click</button>
+        </div>
+    );
+}
+
+
+
+EVENT OBJECT:
+-> An event object is automatically passed onto the event handler function which can then be used for various reasons (stop propogation, prevent default, etc).
+e.g)
+function submitHandler(evt){
+    evt.preventDefault();
+    console.log('Submitted the form!');
+}
+export default function Form() {
+    return(
+        <form onSubmit={submitHandler}>
+            <button>Submit</button>
+        </form>
+    );
+}
+
+
+
