@@ -507,3 +507,179 @@ NOTE: Everytime a state value is changed, the entire component is rendered again
 
 
 
+SETTING STATE WITH AN UPDATER FUNCTION:
+-> Everytime we update a state value, instead of updating the state variable value like this:
+e.g)
+import { useState } from "react";
+export default function Counter() {
+    const [count, setCount] = useState(0);
+    function increseCount(){
+        setCount(count + 1);
+    }
+    return (
+        <div>
+            <p>Count : {count}</p>
+            <button onClick={increseCount}>+1</button>
+        </div>
+    );
+}
+-> Update the state variable like this instead:
+e.g)
+function increseCount(){
+    setCount((count) => count + 1);
+}
+-> When running multiple setCounts in a single function with the old method, the count variable does not get updated after the first occurance of setCount.
+-> To counter this, we pass arrow functions into the setCount function 
+-> The name inside the arrow function brackets can be anything
+e.g)
+function increseCount(){
+    setCount((countCurrent) => countCurrent + 1);
+    console.log(count);                                   //Value of count will not have changed yet
+    setCount((countCurrent) => countCurrent + 1);
+}
+-> Value of count will not be changed until all setCounts are run
+-> Passing a callback only required when we're using the old value of the state variable.
+
+
+
+SETTING INITIALIZER FUNCTIONS:
+e.g)
+import { useState } from "react";
+function generateGameBoard(){
+    console.log('Making the initial game board');
+    return Array(5000);
+}
+export default function Dumbo(){
+    const [board, setBoard] = useState(generateGameBoard());
+    return(
+        <button onClick={() => setBoard}>Click Me to change state</button>
+    )
+}
+-> We only want the generateGameBoard function to run once (when we initialize the useState)
+-> However, the above code runs the generateGameBoard function everytime the component is re-rendered.
+-> To overcome this issue, just remove the parantheses after the function name 
+e.g)
+export default function Dumbo(){
+    const [board, setBoard] = useState(generateGameBoard);
+    return(
+        <button onClick={() => setBoard}>Click Me to change state</button>
+    )
+}
+-> In this code, the generateGameBoard function runs only when the useState is initialized
+
+
+
+NOTE: React does not re-render a component when the value of the state variable is not being changed.
+
+WORKING WITH OBJECTS IN STATE:
+-> When we create a state variable that's initialized as an object, whenever we change a property on the object, the object's address does not change and therefore, the component is not re-rendered.
+e.g)
+import { useState } from "react";
+export default function ScoreKeeper() {
+    const [scores, setScores] = useState({p1Score: 0, p2Score: 0});
+    function increaseP1Score(){
+        scores.p1Score += 1;
+        setScores(scores);
+    }
+    return(
+        <div>
+            <p>Player 1: {scores.p1Score}</p>
+            <p>Player 2: {scores.p2Score}</p>
+            <button onClick={increaseP1Score}>+1 Player 1</button>
+            <button>+1 Player 2</button>
+        </div>
+    )
+}
+-> This will not re-render the updated values onto the screen
+-> To overcome this, we create a copy of the object using the spread operator and set this object as the new object, causing the component to get re-rendered. 
+e.g)
+function increaseP1Score(){
+    setScores((oldscores) => {
+        return {...oldscores, p1Score: oldscores.p1Score + 1}
+    });
+}
+
+
+
+ADDING ELEMENTS TO AN ARRAY IN STATE:
+-> Same problem as objects (memory location does not change and component will not be re-rendered)
+e.g)
+import {v4 as uuid} from 'uuid';
+import { useState } from "react";
+const emojis = ['😊', '😂', '😍', '😎', '🤩', '🥳', '😜', '😇', '🤔', '🙄', '😏', '🤯', '😴', '🤪', '🥺', '😢', '😭', '🤬', '🤮', '🤕'];
+export default function EmoticonClicker(){
+    const [emoticons, setEmoticon] = useState([{id: uuid(),emoji:'😊'}]);
+    function addEmoticon(){
+        setEmoticon((oldEmoticons) => {
+            return [...oldEmoticons, {id: uuid(),emoji: emojis[Math.floor(Math.random() * 20)]}]    //adding elements to a react useState array(create a copy)
+        });
+    }
+    return(
+        <div>
+            {emoticons.map((emoticon) => <span key={emoticon.id} style={{fontSize: '4rem'}}>{emoticon.emoji}</span>)}
+            <button onClick={addEmoticon}>Add Emoji</button>
+        </div>
+    );
+}
+
+
+
+DELETING ELEMENTS FROM AN ARRAY IN STATE:
+-> To delete elements from an array, we will need the unique identifier of the tag element which we wish to delete.
+-> Once we have the tag element's unique identifier we use the filter method to remove the element which has the given unique id value.
+-> The filter, map and other array methods automatically gives us a copy of the array which causes the component to be re-rendered.
+e.g)
+import {v4 as uuid} from 'uuid';
+import { useState } from "react";
+const emojis = ['😊', '😂', '😍', '😎', '🤩', '🥳', '😜', '😇', '🤔', '🙄', '😏', '🤯', '😴', '🤪', '🥺', '😢', '😭', '🤬', '🤮', '🤕'];
+export default function EmoticonClicker(){
+    const [emoticons, setEmoticon] = useState([{id: uuid(),emoji:'😊'}]);
+    function deleteEmoticon(iden){
+        setEmoticon((oldEmoticons) => {
+            const newEmoticons = oldEmoticons.filter((e) => e.id !== iden);   //using filter method to create a copy of the array not containing the element with the unique id.
+            return newEmoticons;
+        });
+    }
+    function addEmoticon(){
+        setEmoticon((oldEmoticons) => {
+            return [...oldEmoticons, {id: uuid(),emoji: emojis[Math.floor(Math.random() * 20)]}]    //adding elements to a react useState array(create a copy)
+        });
+    }
+    return(
+        <div>
+            {emoticons.map((emoticon) => <span onClick={() => deleteEmoticon(emoticon.id) } key={emoticon.id} style={{fontSize: '4rem'}}>{emoticon.emoji}</span>)}
+            <button onClick={addEmoticon}>Add Emoji</button>
+        </div>
+    );
+} 
+
+
+
+COMMON ARRAY UPDATING PATTERNS:
+-> None of these techniques mutate the original array. They make a copy of the array.
+const shoppingCart = [
+    {id: 1, product: "HDMI Cable", price: 4},
+    {id: 2, product: "Easy Bake Oven", price: 28},
+    {id: 3, product: "Peach Pir", price: 6.5}
+];
+
+-> Adding to an array:
+[...shoppingCart, {id: 4, product: "Coffee Mug", price: 7.99}];
+
+-> Removing an element:
+shoppingCart.filter((item) => item.id !== 2);
+
+-> Updating all elements in an array:
+shoppingCart.map((item) => {
+    return{...item, product: item.product.toLowerCase()};
+});
+
+-> Modifying a particular element in an array:
+shoppingCart.map((item) => {
+    if(item.id === 3){
+        return {...item, price: 10.99};
+    }
+    else{
+        return item;
+    }
+});
