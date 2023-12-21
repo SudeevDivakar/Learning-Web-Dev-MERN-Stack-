@@ -1,0 +1,12 @@
+.Die{
+    width:150px;
+    height:150px;
+    background-color:green;
+    border-radius: 20px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 3rem;
+    margin: 10px;
+}

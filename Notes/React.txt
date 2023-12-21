@@ -683,3 +683,29 @@ shoppingCart.map((item) => {
         return item;
     }
 });
+
+
+
+STATE DESIGN PRINCIPLE:
+-> Lift state as high as needed - but no higher
+-> Generally, aim to have components be one of two types:
+    -Presentational : Does not have state and is primarily focused on appearance. AKA dumb components
+    -Logical : Has state/logic and is not about any specific UI. AKA stateful component
+
+
+
+PASSING FUNCTIONS AS PROPS:
+-> We can pass in functions as props.
+-> These functions can then be used in the child components.
+e.g)
+function lessThan(dice){
+    return sum(dice) < 4;     //sum is a user defined function that returns the sum of the array 
+}
+function App(){
+    return(
+        <LuckyN winCheck={lessThan} />
+    );
+}
+-> We can use the lessThan function in the child function but we must access it as 'winCheck'.
+-> We can also pass functions that update state variables as props to other components.
+-> Whenever the prop function is called in a child component, the function is invoked in the parent component and is re-rendered in the parent component itself.

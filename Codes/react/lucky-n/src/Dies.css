@@ -1,0 +1,6 @@
+.Dice{
+    display:flex;
+    border: 1px solid white;
+    border-radius: 10px;
+    flex-wrap: wrap;
+}
