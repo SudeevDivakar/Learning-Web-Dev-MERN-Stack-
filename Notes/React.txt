@@ -709,3 +709,157 @@ function App(){
 -> We can use the lessThan function in the child function but we must access it as 'winCheck'.
 -> We can also pass functions that update state variables as props to other components.
 -> Whenever the prop function is called in a child component, the function is invoked in the parent component and is re-rendered in the parent component itself.
+
+
+
+REACT FORMS:
+-> We use a state to manage the input entered by the user.
+-> The user does not actually type it out but instead we set an event function on it which reads the users inputs and re-renders the component everytime to make it look like the user is typing.
+e.g)
+const [username, setUsername] = useState('');
+return (
+    <div>
+        <input type="text" placeholder="username" value={username}/>
+        <button>Submit</button>
+    </div>
+);
+-> We then add the onChange() event listener to listen for any keyboard inputs.
+-> Capture this keyboard input and re-render the component using this new value.
+e.g)
+import { useState } from "react";
+export default function UsernameForm() {
+    const [username, setUsername] = useState('');
+    function updateUsername(evt){
+        setUsername((lol) => {
+            return evt.target.value;
+        });
+    }
+    return (
+        <div>
+            <input type="text" placeholder="username" value={username} onChange={updateUsername}/>
+            <button>Submit</button>
+        </div>
+    );
+}
+
+
+NOTE: When we use a label tag in react and want to apply the 'for' attribute, react will throw an error. 
+This is because 'for' is a keyword. To overcome this, we use the htmlFor attribute. The htmlFor attribute basically renders as 'for' in the final html sheet.
+
+
+
+HANDLING MULTIPLE INPUTS:
+-> When we're working with multiple inputs, it is usually best to use an object to take care of all the states which we would use normally otherwise.
+-> Do not forget to specify the name attribute in html tags so we can access it.
+e.g)
+import { useState } from "react";
+
+export default function UsernameForm() {
+    const [formData, setFormData] = useState({
+        firstName: "",
+        lastName: "",
+        password: ""
+    });
+    function handleChange(evt) {
+        const fieldName = evt.target.name;
+        const value = evt.target.value;
+        setFormData((currData) => {
+            currData[fieldName] = value;
+            return {...currData};
+        });
+    }
+    function handleSubmit(){
+        console.log(formData);
+    }
+    return (
+        <div>
+            <label htmlFor="firstName">First Name</label>
+            <input type="text" placeholder="First name" 
+            value={formData.firstName} onChange={handleChange}
+            id='firstName' name='firstName'/>
+            <label htmlFor="lastName">Last Name</label>
+            <input type="text" placeholder="Last name"
+             value={formData.lastName} onChange={handleChange}
+             id='lastName' name='lastName'/>
+            <label htmlFor="password">Password</label>
+            <input type="password" placeholder="password" 
+            value={formData.password} onChange={handleChange}
+            id='password' name='password'/>
+            <button onClick={handleSubmit}>Submit</button>
+        </div>
+    );
+}
+-> We can write the handleChange() function in a different way as well to reeduce the code
+e.g)
+function handleChange(evt) {
+    const fieldName = evt.target.name;
+    const value = evt.target.value;
+    setFormData((currData) => {
+        return{
+            ...currData,
+            [fieldName] : value    
+        };
+    });
+}
+
+
+
+REACT HOOK FORM:
+-> Refer to link for docs
+https://react-hook-form.com/get-started
+-> Used to write react form validations.
+-> Regular Expressions can be used.
+-> To install it, we must run:
+e.g)
+npm install react-hook-form 
+-> To import the react hook form:
+e.g)
+import { useForm } from 'react-hook-form';
+-> Within the function use:
+e.g)
+const { register, handleSubmit, watch, formState: { errors } } = useForm();
+-> The above mentioned handleSubmit function is wrapped around the function we wish to invoke, when a form is submitted. This validates the inputs before the function is invoked.
+e.g)
+<form onSubmit={handleSubmit(onSubmit)}>
+-> We then create an object containing all the error messages and validations for each input type. We also use the 'register' option to set these validations on the input tags.
+e.g)
+const registerOptions = {
+    name: { required : "Name cannot be blank"},
+    email: { required : "Email cannot be blank"},
+    password: {
+        required: "Password is required",
+        minLength: {
+            value: 10,
+            message: "Password must be atleast 10 characters"
+        }
+    }
+    quantity: {
+        required: "Quantity is required",
+        min: {
+            value: 0,
+            message: "Quantity must be greater than 0"
+        },
+        max: {
+            value: 10,
+            message: "Quantity must be less than 10"
+        }
+    }
+} 
+return(
+    <form onSubmit={handleSubmit(onSubmit)}>
+    <div>
+        <input name="name" type="text" {...register("name", registerOptions.name)} />
+        <small className="text-danger">
+            {errors?.name && errors.name.message}
+        </small>
+        <input name="password" type="password" {...register("password", registerOptions.password)} />
+        <small className="text-danger">
+            {errors?.password && errors.password.message}                    //Checks for errors and renders the error message if any error found.
+        </small>
+    </div>
+)
+
+-> The above validations only show up after the form is submitted.
+-> To get validations everytime an input is changed, we do:
+e.g)
+const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: "onChange" });
