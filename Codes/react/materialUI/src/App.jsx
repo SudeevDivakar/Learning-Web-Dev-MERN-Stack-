@@ -1,14 +1,14 @@
 import './App.css';
-import RatingDemo from './RatingDemo';
-import Navbar from './Navbar';
+import CssBaseline from "@mui/material/CssBaseline";
+import ToDoList from './ToDoList';
+import Navbar from './Navbar'
 
 function App() {
-
-
   return (
     <>
-      {/* <RatingDemo /> */}
+      <CssBaseline />
       <Navbar />
+      <ToDoList />
     </>
   )
 }
