@@ -863,3 +863,151 @@ return(
 -> To get validations everytime an input is changed, we do:
 e.g)
 const { register, handleSubmit, watch, formState: { errors } } = useForm({ mode: "onChange" });
+
+
+
+EFFECTS:
+-> Extra features/effects we can add everytime a component gets re-rendered. 
+-> This is useful for
+i) Changing parts of the DOM not covered by React
+ii) Async operations, like AJAX requests when a component is mounted
+iii) Doing things when a component is about to be unmounted
+
+
+
+THE useEffect HOOK:
+-> To import the useEffect hook, we do:
+e.g)
+import { useState, useEffect } from 'react';
+-> Has to be inside of the component
+-> We then use the effect on a specific function
+e.g)
+function myEffect() {
+    console.log('Hello');
+}
+useEffect(myEffect);
+
+          OR
+
+useEffect(function myEffect() {
+    console.log('Hello');
+});
+
+
+
+2nd ARGUMENT TO useEffect:
+-> We can also provide a second argument to the useEffect hook.
+-> This is an array.
+-> The elements of the array are called dependencies.
+-> These elements are states.
+-> When any one of the given states change, the callback function is executed.
+-> We do not call it on every single render. We only call it when a specific piece of state changes.
+e.g)
+import { useState, useEffect } from "react";
+
+export default function Counter(){
+    const [count,setCount] = useState(0);
+    const [name, setName] = useState('');
+    useEffect(function myEffectButton(){
+        console.log('Button was Clicked');
+    }, [count]);
+    useEffect(function myEffectInput(){
+        console.log('Value was Entered');
+    }, [name])
+    const increment = () => {
+        setCount((c) => c + 1);
+    };
+    const handleChange = (evt) => {
+        setName(evt.target.value);
+    };
+    return(
+        <div>
+            <h1>{count}</h1>
+            <button onClick={increment}>+1</button>
+            <p>Name: {name}</p>
+            <input value={name} onChange={handleChange} type="text" />
+        </div>
+    )
+}
+
+
+
+FETCHING INITIAL DATA FROM AN API:
+-> useState does not take asynchronus functions as a parameter.
+-> Therefore to fetch initial data from an API, we use the useEffect hook and specify [] as the second parameter. This makes the useEffect hook run only the first time(on mount).
+-> However even useEffect does not accept asynchronus functions as parameters. To overcome this, we just wrap the async function within an arrow function and immediately invoke it.
+e.g)
+import { useEffect, useState } from "react";
+
+const RANDOM_QUOTE_URL = 'https://inspo-quotes-api.herokuapp.com/quotes/random';
+
+export default function QuoteFetcher() {
+    const [quote, setQuote] = useState({text:'', author: ''});
+
+    useEffect(() => {
+        async function getInitialQuote(){
+            const response = await fetch(RANDOM_QUOTE_URL);
+            const jsonResponse = await response.json();
+            const randomQuote = jsonResponse.quote;
+            setQuote(randomQuote);
+        }
+        getInitialQuote();
+    }, []); 
+
+    async function fetchQuote() {
+        const response = await fetch(RANDOM_QUOTE_URL);
+        const jsonResponse = await response.json();
+        const randomQuote = jsonResponse.quote;
+        setQuote(randomQuote);
+    }
+
+    return(
+        <div>
+            <button onClick={fetchQuote}>Get Quote Using Handler</button>
+            <h1>{quote.text}</h1>
+            <h3>{quote.author}</h3>
+        </div>
+    )
+}
+
+
+
+ADDING A LOADER:
+-> We do this by using a seperate boolean state and render a paragraph that says loading whenever the boolean state is true.
+-> We can also add animations instead of just displaying Loading...
+e.g)
+import { useEffect, useState } from "react";
+
+const RANDOM_QUOTE_URL = 'https://inspo-quotes-api.herokuapp.com/quotes/random';
+
+export default function QuoteFetcherLoader() {
+    const [quote, setQuote] = useState({text:'', author: ''});
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        async function getInitialQuote(){
+            const response = await fetch(RANDOM_QUOTE_URL);
+            const jsonResponse = await response.json();
+            const randomQuote = jsonResponse.quote;
+            setQuote(lol         => randomQuote);
+            setIsLoading(lol => false);
+        }
+        getInitialQuote();
+    }, []); 
+
+    async function fetchQuote() {
+        const response = await fetch(RANDOM_QUOTE_URL);
+        const jsonResponse = await response.json();
+        const randomQuote = jsonResponse.quote;
+        setQuote(randomQuote);
+    }
+
+    return(
+        <div>
+            {isLoading && <p>Loading...</p>}
+            <h1>{quote.text}</h1>
+            <h3>{quote.author}</h3>
+        </div>
+    )
+}
+
