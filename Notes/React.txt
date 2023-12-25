@@ -1011,3 +1011,40 @@ export default function QuoteFetcherLoader() {
     )
 }
 
+
+
+MATERIAL UI:
+-> Set of prebuilt components we can use.
+-> Basically bootstrap but for react.
+-> Refer to the link:
+mui.com
+-> Select Material UI under the MUI core option in the Docs section.
+-> Use below link for the required docs:
+https://mui.com/material-ui/
+
+
+
+MATERIAL UI INSTALLATION:
+-> To install Material UI, run the following command:
+e.g)
+npm install @mui/material @emotion/react @emotion/styled
+-> To install the default material UI font (roboto), run the following command:
+e.g)
+npm install @fontsource/roboto
+-> To install the material UI icons, run the following command:
+e.g)
+npm install @mui/icons-material
+
+
+NOTE: To use most material UI components, we must import them first in the jsx file.
+e.g)
+import Rating from "@mui/material/rating";
+
+
+THE sx PROP:
+-> We use the sx prop to specify our own custom styles.
+-> The styles must be passed in the form of an object.
+-> We don't have to mention the 
+-> We can specify variables for the values. 
+-> Box is basically a div in material UI and we can use the sx prop on the Box tag and add our own custom styles
+-> Instead of using 'padding' or 'margin', we use 'p' and 'm' while specifying styles in the sx prop. This holds true for a few other properties as well.
