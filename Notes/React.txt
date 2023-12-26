@@ -1048,3 +1048,160 @@ THE sx PROP:
 -> We can specify variables for the values. 
 -> Box is basically a div in material UI and we can use the sx prop on the Box tag and add our own custom styles
 -> Instead of using 'padding' or 'margin', we use 'p' and 'm' while specifying styles in the sx prop. This holds true for a few other properties as well.
+
+
+
+REACT ROUTER DOM:
+-> We use the react-router-dom to navigate between pages in our front end server.
+-> Basically express but for the front-end server.
+-> To install it, run:
+e.g)
+npm i react-router-dom 
+
+-> In the jsx file which renders the content onto the html file, we import BrowserRouter and wrap the <App /> component in <BrowserRouter></BrowserRouter>
+e.g)
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import { BrowserRouter } from 'react-router-dom';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+)
+
+-> Now in the App component, we return each individual route in a <Route /> tag. All the individual routes are enclosed in a <Routes> <Routes /> tag.
+-> The <Route /> tags have attributes to define each route.
+-> The path attribute defines the url.
+-> The element attribute is where we pass our component for the specific path.
+e.g)
+import { Route, Routes } from "react-router-dom";
+import Home from "./Home";
+import Books from "./Books";
+
+export default function App() {
+    return (
+      <Routes>
+        <Route path='/Home' element={<Home />} />
+        <Route path='/books' element={<Books />} />
+      </Routes>
+  )
+}
+
+
+LINKS IN REACT ROUTER DOM:
+-> Instead of using anchor tags as links between different routes, we can use a <Link> </Link> tag provided to us by react-router-dom.
+-> This <Link> </Link> tag has an attribute called 'to' which serves the same functionality as the href attribute.
+e.g)
+import { Link, Route, Routes } from "react-router-dom";
+import Home from "./Home";
+import Books from "./Books";
+
+export default function App() {
+  return (
+    <>
+      <Link to='/Home'>Home</Link>
+      <Link to='/books'>Books</Link>
+      <Routes>
+        <Route path='/Home' element={<Home />} />
+        <Route path='/books' element={<Books />} />
+      </Routes>
+    </>
+  )
+}
+
+-> Instead of the 'to' attribute, we can use the replace attribute. The replace attribute replaces instead of navigating to the other url.
+-> This feature is useful in login pages where after we have logged in, if we click the previous page button, we should not be taken to the login page.
+e.g)
+import Home from "./Home";
+import Books from "./Books";
+
+export default function App() {
+  return (
+    <>
+      <Link to='/Home'>Home</Link>
+      <Link replace='/books'>Books</Link>
+      <Routes>
+        <Route path='/Home' element={<Home />} />
+        <Route path='/books' element={<Books />} />
+      </Routes>
+    </>
+  )
+}
+
+-> An improvement to the <Link /> tag is the <NavLink /> tag which basically has all the same functionalities as <Link /> plus applying styles when the link is active.
+-> We can also use the <Navigate to='/'> tag which automatically redirects the user to a specific route. This is not an anchor equivalent.
+
+
+
+THE useNavigate HOOK:
+-> We can also use the useNavigate hook for re-directing users.
+e.g)
+import { useNavigate } from 'react-router-dom';
+export default function NotFound() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        setTimeOut(() => {
+            navigate('/')                  //default link type is 'to' but we can change it
+        },1000);
+    })
+    return <h1>NotFound</h1>l
+}
+
+
+
+ROUTES WITH PARAMS:
+-> We can also specify links with params using the react-router-dom package.
+e.g)
+<Route path='/books/:id' element={<Books />} />
+-> To extract the value of the id, we can use the useParams() hook.
+e.g)
+import { useParams } from 'react-router-dom';
+
+export default function Books(){
+    const { id } = useParams();
+    return <h1>Book {id}</h1>
+}
+
+
+NOTE: In react-router-dom v6, we can specify our routes in any order, but it is best practice to order them with param links coming after normal links.
+
+
+
+HANDLING WRONG ROUTES:
+-> To handle incorrect routes all we have to do is specify a route with path='*'.
+e.g)
+<Route path='*' element={<Error />} />
+
+
+
+NESTING ROUTES:
+-> Using react-router-dom, we can nest multiple routes which have same subset urls.
+e.g)
+<Route path = '/books'>
+    <Route path = ':id' element={<Book />} />
+    <Route path = 'new' element={<NewBook />} />
+</Route>
+-> To specify the base url, we do:
+e.g)
+<Route path = '/books'>
+    <Route index element = {<BookList />} />
+    <Route path = ':id' element={<Book />} />
+    <Route path = 'new' element={<NewBook />} />
+</Route>
+
+
+
+THE useSearchParams HOOK:
+-> The useSearchParams HOOK is used exactly like states in react.
+-> This allows us to dynamically change the search params on the search bar everytime it's value changes in react.
+e.g)
+import { useSearchParams } from 'react-router-dom';
+
+export default function BookLayout(){
+    const [searchParams, setSearchParams] = useSearchParams({ n : 3 })
+    const number = searchParams.get('n');
+}
