@@ -1091,3 +1091,121 @@ const Sudeev = new Person({first: "Sudeev", last: "Divakar"})
 Sudeev.save().then((res) => {
     console.log(res);
 })
+
+
+
+EXPRESS MIDDLEWARE:
+-> Functions that run during the request/response lifecycle.
+-> Middleware are just functions
+-> Each middleware has access to the request and response objects.
+-> Middleware can end the HTTP request by sending back a response with methods like res.send()
+-> Middleware can also be chained together, one after another by calling next()
+-> Our route handlers are also considered as middleware.
+
+
+
+TASKS PERFORMED BY MIDDLEWARE:
+-> Execute any code.
+-> Make changes to the request and the response objects.
+-> End the request-response cycle.
+-> Call the next middleware function in the stack.
+
+
+
+MORGAN - LOGGER MIDDLEWARE:
+-> Helps us log HTTP request information to our terminal.
+-> To install and require morgan, run:
+e.g)
+npm i morgan   //In the terminal
+cosnt morgan = require('morgan');   //In the file
+-> To use it, we need to run:
+e.g)
+app.use(morgan('tiny'));
+
+-> This gives us information about the requests just made in our terminal.
+-> For more information, refer to:
+https://github.com/expressjs/morgan
+
+
+
+DEFINING OUR OWN MIDDLEWARE:
+-> We can define our own middleware by putting it inside of a app.use()
+-> app.use() runs every time a request is made for all routes.
+-> We need to specify a 'next' parameter in our middleware for the actual functions for specific routes to get executed.
+-> If we do not specify this parameter, the actual functions for the specific routes will not run.
+e.g)
+app.use((req, res, next) => {
+    console.log('First Middleware');
+    next();
+    console.log('Third Middleware');
+});
+app.use((req, res, next) => {
+    console.log('Second Middleware');
+    next();
+});
+-> The 'next' function in the above code runs the next middleware and then runs any code present after it.
+-> If we do not want the code after 'next' to be run, we can simply return the 'next' function.
+e.g)
+app.use((req, res, next) => {
+    console.log('First Middleware');
+    return next();
+    console.log('Does not get printed');
+});
+app.use((req, res, next) => {
+    console.log('Second Middleware');
+    next();
+});
+
+-> Using middleware, we can add information onto the request object(for example, whether the user is autehnticated or not) and run certain operations accordingly.
+-> We can also alter already existing information on the request object.
+e.g)
+app.use((req, res, next) => {
+    req.method = 'GET';                   //altering already existing data
+    req.requestTime = Date.now();         //adding new data
+    console.log(req.method, req.path);
+    next();
+});
+
+NOTE: Middlewares also depend on the order they are present in, so if we specify our middleware after a request handler, the request handler runs first and then the middleware runs.
+
+
+
+SETTING UP MIDDLEWARES FOR SPECIFIC PATHS:
+-> To setup middlewares for specific paths, we add a string matching the path we want to use our middleware for.
+e.g)
+app.use('/dogs', (req, res, next) => {
+    console.log("I LOVE DOGS!!");
+    next();
+});
+-> We can also specify a regular expression in the string. Any routes that match this regular expression will trigger the middleware.
+-> This middleware only runs for requests made to /dogs.
+
+
+
+MIDDLEWARE FOR SETTING UP A 404 ROUTE:
+-> We can use middlewares to set up a 404 route.
+-> To do this, we specify our middleware at the end of the express file.
+-> This makes sure that it only runs if the route specified does not exist.
+e.g)
+app.use((req, res) => {
+    res.status(404).send('NOT FOUND!');       // Sets status to 404 and sends a response
+});
+
+
+
+PASSING MULTIPLE CALLBACK FUNCTIONS TO HTTP VERB ROUTES:
+-> We can pass in multiple callback functions to HTTP verb routes.
+-> We usually do this to validate data and protect specific routes.
+-> Each consecutive callback function runs only if the previous callback function calls them using the next() function.
+e.g)
+const verifyPassword = (req, res, next) => {
+    const { password } = req.query;
+    if(password === 'chickennugget'){
+        next();
+    }
+    res.send('Sorry you need a password');
+}
+app.get('/secret', verifyPassword, (req, res) => {
+    res.send('I LIKE FOOTBALL');
+})
+-> In the above example, the second callback function only runs if verifyPassword calls the 'next()' function.
