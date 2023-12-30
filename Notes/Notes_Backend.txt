@@ -1209,3 +1209,175 @@ app.get('/secret', verifyPassword, (req, res) => {
     res.send('I LIKE FOOTBALL');
 })
 -> In the above example, the second callback function only runs if verifyPassword calls the 'next()' function.
+
+
+
+EXPRESS' BUILT IN ERROR HANDLER:
+-> A status code of 500 (or anything similar) denotes a server side error.
+-> Express comes with a defualt error handler which is added at the end of the middleware function stack.
+-> This default express error handler provides a response to the error encountered.
+-> The default status code of errors in express apps is 500 (can be changed).
+-> We can also throw errors ourselves. 
+e.g)
+const verifyPassword = (req, res, next) => {
+    const { password } = req.query;
+    if (password === 'chickennugget'){
+        next();
+    }
+    throw new Error('Password Required!');
+}
+
+
+
+DEFINING CUSTOM ERROR HANDLERS:
+-> Error handling middleware functions are declared the same way as other middleware fucntions except, we specify four arguments instead of 3.
+-> We declare this middleware at the end (i.e, after every other middleware) 
+e.g)
+app.use(function(err, req, res, next) {
+    console.error(err.stack)
+    res.status(500).send('Something Broke!')
+})
+-> Whenever an error is thrown from any path, the above middleware gets executed.
+-> When we use this, the default express error handler does not run.
+-> To call the next error handling middleware, all we need to do is:
+e.g)
+app.use((err, req, res, next) => {
+    console.log('*************************');
+    console.log('*********ERROR***********');
+    console.log('*************************');
+    console.log(err);
+    next(err);
+})
+-> To call the next non-error handling middleware, all we need to do is:
+e.g)
+app.use((err, req, res, next) => {
+    console.log('*************************');
+    console.log('*********ERROR***********');
+    console.log('*************************');
+    console.log(err);
+    next();
+})
+
+
+
+SETTING OUR OWN ERROR CLASSES:
+-> To avoid setting res.status in every error instance, we can create our own custom error class to deal with it easier.
+e.g)
+class AppError extends Error{
+    constructor(message, status){
+        super();
+        this.message = message;
+        this.status = status;
+    }
+}
+-> To use this error class, we can do:
+e.g)
+throw new AppError('Password Required', 401);
+-> We can then get this status code from our error handling middleware by the following method
+e.g)
+app.use((err, req, res, next) => {
+    const { status } = err;
+    res.status(status).send('ERROR!');
+})
+
+-> The default Error class does not have a status code built in, so we must specify it ourselves.
+
+-> When we do not use a custom error class for any one of the errors thrown and the error handler recieves an Error object not containing a status code, we can set a default value of status so that we do not get an "Invalid status code: undefined" error.
+e.g)
+app.get('/error', (req, res) => {
+    chicken.fly();                   //neither chicken nor fly are defined and we do not set a status code.
+})
+app.use((err, req, res, next) => {
+    const { status = 500 } = err;
+    res.status(status).send('ERROR!');
+})
+
+-> We can also set a default value for the message in case we are using it in our response.
+e.g)
+app.get('/error', (req, res) => {
+    chicken.fly();                   //neither chicken nor fly are defined and we do not set a status code nor message.
+})
+app.use((err, req, res, next) => {
+    const { status = 500, message = 'Something went wrong' } = err;
+    res.status(status).send(message);
+})
+
+
+
+HANDLING ASYNC ERRORS:
+-> When using async functions like fetching documents from a mongo database, if we provide an id that does not exist, it will not throw an error.
+-> Wrap the async functions in try catch blocks to avoid any errors occuring during mongoDB transactions.
+-> To overcome this, the method could be (but this method throws error):
+e.g)
+app.get('/products/:id', async (req, res) => {
+    const {id} = req.params;
+    const product = await Product.findById(id);
+    if (!product) {
+        throw new AppError('Product Not Found', 404);
+    }
+    res.render('products/show', {product});
+})
+app.use((err, req, res, next) => {
+    const { status = 500 , message = 'Something went Wrong' } = err;
+    res.status(status).send(message);
+})
+-> When using with async functions, the above error does not get caught, therefore to overcome this issue, we must pass the 'throw new AppError' statement into the next() function.
+e.g)
+app.get('/products/:id', async (req, res, next) => {
+    const {id} = req.params;
+    const product = await Product.findById(id);
+    if (!product) {
+        return next(throw new AppError('Product Not Found', 404));     //We return this so that the res.render does not get executed after the error handling middleware gets executed (we can also use if and else to achieve this).
+    }
+    res.render('products/show', {product});
+})
+app.use((err, req, res, next) => {
+    const { status = 500 , message = 'Something went Wrong' } = err;
+    res.status(status).send(message);
+})
+
+-> For errors which validate the schema of a mongoDB collection (errors within mongo), we can use try catch blocks to handle them.
+e.g)
+app.post('/products', async (req, res, next) => {
+    try{
+        const newProduct = new Product(req.body);
+        await newProduct.save();
+        res.redirect(`/products/${newProduct._id}`);
+    }
+    catch(err){
+        next(err);
+    }
+})
+app.use((err, req, res, next) => {
+    const { status = 500 , message = 'Something went Wrong' } = err;
+    res.status(status).send(message);
+})  
+
+-> We can define an async utility to make our code cleaner. We can use this newly created function to wrap all async callback functions and not type out the try and catch blocks.
+e.g)
+function wrapAsync(fn){
+    return function(req, res, next){
+            fn(req, res, next).catch(e => next(e));
+    }
+}
+app.get('/products/:id', wrapAsync(async (req, res, next) => {
+    const {id} = req.params;
+    const product = await Product.findById(id);
+    if (!product) {
+       throw new AppError('Product Not Found', 404);
+    }
+    res.render('products/show', {product});
+}))
+app.use((err, req, res, next) => {
+    const { status = 500 , message = 'Something went Wrong' } = err;
+    res.status(status).send(message);
+})
+
+
+
+DIFFERENTIATING MONGOOSE ERRORS:
+-> Mongoose errors have a property called 'name' which describes the type of mongoose error that has occured.
+-> However, errors which we throw do not have this 'name' property.
+-> We can use this property to run different logic for different errors that occur.
+
+
