@@ -1560,3 +1560,25 @@ iii) Avoid growing arrays wherever possible, use the one to many and one to baji
 
 
 
+DELETION MONGOOSE MIDDLEWARE:
+-> Used to delete related data everytime a document is deleted.
+-> There are a certain set of middlewares for query and document functions.
+-> For certain queries like findByIdAndDelete, there is not specific middleware function.
+-> Rather it triggers the findOneAndDelete() middleware. 
+e.g)
+*Express file*
+app.delete('/farms/:id', async(req, res) => {
+    const farm = await Farm.findByIdAndDelete(req.params.id);
+    res.redirect('/farms');
+})
+*Models directory*
+farmSchema.post('findOneAndDelete', async function (farm) {    //We use post middleware as we will not have access to data in pre middleware
+    if(farm.products.length){
+        const res = await Product.deleteMany({_id: { $in: farm.products}});
+    }
+})
+
+-> The above code removes all products that belonged to a particular farm.
+
+
+
