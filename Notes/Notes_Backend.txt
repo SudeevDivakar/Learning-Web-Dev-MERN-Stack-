@@ -1381,3 +1381,182 @@ DIFFERENTIATING MONGOOSE ERRORS:
 -> We can use this property to run different logic for different errors that occur.
 
 
+
+ONE TO FEW RELATIONSHIP:
+-> When one user is associated with a few objects, the relationship is known as one to few.
+-> To deal with these type of relationships, just directly store the objects directly in the same document (embed it).
+e.g)
+{
+    name: 'Tommy Cash',
+    savedAddresses : [
+        {street: 'Rahukohtu 3', city: 'Tallinn', country: 'Estonia'},
+        {street: 'Ravala 5', city: 'Tallin', country: 'Estonia'}
+    ]
+}
+
+-> When we make schemas using mongoose, mongoose provides each sub-schema an unique _id too.
+e.g)
+const userSchema = new mongoose.Schema({
+    first: String,
+    last: String,
+    addresses: [
+        {
+            street: String,
+            city: String,
+            state: String,
+            country: String
+        }
+    ]
+});
+-> Here, each address would have its own unique _id.
+
+-> To turn this feature off, we can do:
+const userSchema = new mongoose.Schema({
+    first: String,
+    last: String,
+    addresses: [
+        {
+            _id: {_id : false},
+            street: String,
+            city: String,
+            state: String,
+            country: String
+        }
+    ]
+});
+
+-> To add data into these sub-schemas, we can do:
+e.g)
+const addAddress = async(id) => {
+    const user = await User.findById(id);
+    user.addresses.push(
+        {
+            street: '99 3rd St.',
+            city: 'New York',
+            staty: 'NY',
+            country: 'USA'
+        }
+    )
+    const res = await user.save();
+    console.log(res);
+}
+
+
+
+ONE TO MANY:
+-> We do not embed the information into a parent document.
+-> Instead we store a reference to a document defined somewhere else.
+e.g)
+{
+    farmName: 'Full Belly Farms',
+    location: 'Guinda, CA',
+    produce: [
+        ObjectID('24141489724'),
+        ObjectID('24091248120'),
+        ObjectID('41983748274')
+    ]
+}
+
+-> To do this, we need to follow the given code:
+e.g)
+const productSchema = new mongoose.Schema({
+    name: String,
+    price: Number,
+    season: {
+        type: String,
+        enum: ['Spring', 'Summer', 'Fall', 'Winter']
+    }
+});
+const farmSchema = new mongoose.Schema({
+    name: String,
+    city: String,
+    products: [{type: mongoose.Schema.Types.ObjectID, ref: 'Product'}]
+});
+const Product = mongoose.model('Product', productSchema);
+const Farm = mongoose.model('Farm', farmSchema);
+const makeFarm = async () => {
+        const farm = new Farm({ name: 'Full Belly Farms', location: 'Guinda, CA'});
+        const melon = await Product.findOne({ name: 'Goddess Melon' });
+        farm.products.push(melon);
+};
+
+-> In the above code, we set products as an array of ObjectIDs using "type: mongoose.Schema.Types.ObjectID" 
+-> We specify ref for whichever model we're defining a relationship with.
+-> In the last piece of the code, when we push the entire object into the array, only the ObjectID is being stored in the mongo database.
+e.g)
+const addProduct = async () => {
+    const farm = await Farm.findOne({ name: 'Full Belly Farms' });
+    const watermeleon = await Product.findOne({ name: 'Sugar Baby Watermelon'});
+    farm.products.push(watermelon);
+    await farm.save();
+    console.log(farm);
+}
+
+-> The 'ref' attribute helps us retrieve the information from both the models as one combined model. It basically acts as a foreign key. 
+-> We retrieve the information using the populate function
+e.g)
+Farm.findOne({ name: 'Full Belly Farms' })
+    .populate('products')
+    .then(farm => console.log(farm))
+-> Where 'products' is the collection which we are linking (it is specified by the 'ref' attribute).
+
+
+
+ONE TO BAJILLIONS:
+-> With thousands or more documents, it's more effecient to store a reference to the parent on the child document.
+e.g)
+{
+    tweetText: 'Lol i just crashed my car because i was tweeting',
+    tags: ['stupid', 'moron', 'yolo'],
+    user: ObjectID('21123313')
+}
+
+-> To do this, we follow the given code:
+e.g)
+const userSchema = new mongoose.Schema({
+    username: String,
+    age: Number
+});
+const tweetSchema = new mongoose.Schema({
+    text: String,
+    likes: Number,
+    user: { type: mongoose.Schema.Types.ObjectId , ref: 'User' }
+});
+const User = mongoose.model('User', userSchema);
+const Tweet = mongoose.model('Tweet', tweetSchema);
+
+-> To add a new tweet, we use the following method:
+e.g)
+const makeTweets = async () => {
+    const user = new User({ username: 'chickenfan99', age: 61 });
+    const tweet1 = new Tweet({ text:'hi', likes: 0 });
+    tweet1.user = user; 
+    await user.save();
+    await tweet1.save();
+}
+makeTweets();
+
+-> To find a populated document, we can do the following:
+e.g)
+const findTweet = async () => {
+    const t = await Tweet.findOne({}).populate('user')
+    console.log(t); 
+}
+findTweet();
+
+
+
+MONGO SCHEMA DESIGN:
+-> Refer to this link for well structured docs:
+https://www.mongodb.com/blog/post/6-rules-of-thumb-for-mongodb-schema-design
+-> When we work in mongo we have a lot of freedom and flexibility to structure data.
+-> However this could lead to poor schema designs.
+-> We can follow these general rules of thumb to help us with schema design:
+i) Favor embedding unless there is a compelling reason not to.
+ii) Needing to access an object on it's own is a compelling reason not to embed it.
+iii) Avoid growing arrays wherever possible, use the one to many and one to bajillion principles.
+
+-> For more rules of thumb, refer to the docs.
+
+
+
