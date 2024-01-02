@@ -1582,3 +1582,153 @@ farmSchema.post('findOneAndDelete', async function (farm) {    //We use post mid
 
 
 
+EXPRESS ROUTER:
+-> We use the express router to organise our routes in a large express file.
+-> Router object is an isolated instance of middleware and routes. 
+-> Basically a mini-application that we can combine with other applications to build our full application.
+-> To do this, we create a folder called 'routes' and we group all similar routes within specific files.
+-> In these files, we do:
+e.g)
+const express = require('express');
+const router = express.Router();
+
+router.get('/', (req, res) => {
+    res.send('ALL DOGS!');
+})
+router.get('/:id', (req, res) => {
+    res.send('VIEWING ONE DOG');
+})
+router.get('/:id/edit', (req, res) => {
+    res.send('EDITING ONE DOG');
+})
+module.exports = router;
+
+-> In the main express file, we import all these router files.
+e.g)
+const express = require('express');
+const app = express();
+const dogRoutes = require('./routes/dogs');
+
+app.use('/dogs', dogRoutes);                       //The /dogs here is a prefix that will be added onto all the routes specified on './routes/dogs'
+
+-> To apply a middleware to only a set of routes, we can define it within our routes folder of the specific file.
+e.g)
+const express = require('express');
+const router = express.Router();
+
+router.use((req, res, next) => {
+    if(req.query.isAdmin){
+        next();
+    }
+    res.send('SORRY NOT AN ADMIN');
+})
+router.get('/topsecret', (req, res) => {
+    res.send('THIS IS TOP SECRET');
+})
+router.get('/deleteeverything', (req, res) => {
+    res.send('OK DELETED IT ALL');
+})
+
+module.exports = router;
+
+
+
+COOKIES:
+-> Cookies are little bits of information that are stored in a user's browser when browsing a particular website
+-> Once a cookie is set, a user's browser will send the cookie on every subsequent request to the site.
+-> Cookies allow us to make HTTP stateful.
+-> Could be used for setting light/dark mode, tracking, etc.
+
+
+
+SENDING COOKIES:
+-> To send cookies we use res.cookie([name], [value]);
+-> This does not send a cookie in itself, but adds a cookie onto the response object.
+-> 'name' represents the name of the cookie whereas 'value' represents the value of the cookie.
+-> We then use res.send() to send the cookie.
+-> We can view these cookies on the application tab of the dev tools and even on postman on the cookie section.
+e.g)
+const express = require('express');
+const app = express();
+
+app.get('/greet', (req, res) => {
+    res.send('Hey there');
+})
+app.get('/setname', (req, res) => {
+    res.cookie('name', 'stevie chicks');
+    res.send('OK SENT YOU A COOKIE');
+})
+app.listen(3000, () => {
+    console.log('Server open on PORT 3000');
+})
+
+-> We can also send other data in the cookie like, domain, encode, path, secure, etc
+-> For more info about the data we can send in cookies, refer to the following docs:
+https://expressjs.com/en/4x/api.html#res.cookie
+
+
+
+COOKIE PARSER MIDDLEWARE:
+-> We can access the cookies being sent on HTTP requests from req.cookie.
+-> However to do this, we need to first install cookie-parser:
+e.g)
+npm i cookie-parser
+-> To require and use the cookie parser, do:
+e.g)
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+-> To access the cookies from the req object, we can do:
+e.g)
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+app.get('/greet', (req, res) => {
+    const { animal = 'dog', name = 'sudeev'} = req.cookies;
+    res.send(`Hey there ${name} you ${animal}`);
+})
+
+app.get('/setname', (req, res) => {
+    res.cookie('name', 'stevie chicks');
+    res.cookie('animal', 'shrimp');
+    res.send('OK SENT YOU A COOKIE');
+})
+
+
+
+SIGNING COOKIES:
+-> Signing cookies allows us to check the integrity (whether they have been tampered with or not) of the cookies being passed.
+-> To sign our cookies we need to first pass in a secret string when we run the cookie parser middleware.
+e.g)
+const cookieParser = require('cookie-parser');
+app.use(cookieParser('thisIsMySecretString'));
+
+-> Usually we do not specify this string within the file itself. We instead specify it within a .env file.
+-> We now sign our cookie in the res.cookie function by specifying { signed: true } as one of the parameters. 
+e.g)
+app.get('/getsignedcookie', (req, res) => {
+    res.cookie('fruit', 'grape', { signed: true });
+    res.send('OK SIGNED YOUR FRUIT COOKIE');
+})
+
+-> Now if we try accessing the cookies using req.cookies, only the unsigned cookies are made available.
+-> To access the signed cookies from the request body, we do:
+e.g)
+app.get('/verifyFruit', (req, res) => {
+    res.send(req.cookies);                     //only returns cookies that are not signed
+    res.send(req.signedCookies);                 //only returns signed cookies
+})
+
+-> Tampering with the value of a signed cookie results in the cookie being marked as tampered and we can furthur write our logic based on this.
+
+
+
+HMAC SIGNING:
+-> Hash-based Message Authentication Code
+-> Integrity = Un-Tampered Data
+-> Authenticity = Data from trusted source.
+-> How it works is the signed property returns the value(of the string to be encoded) and the computed HMAC value. Both these values together form a value for a specific key of the cookie.
+-> The unsign function takes the cookie's value and checks if the string's HMAC remains the same. If the HMAC values are the same, the value is said to be un-tampered with.
+e.g)
+s%3Agrape.8u0alpxpuX3asR%2FTW0tWWatAS%2BhBbnu7w97HuJ9GaRM
+-> Over here, 'grape' is the string and it's HMAC value is '8u0alpxpuX3asR%2FTW0tWWatAS%2BhBbnu7w97HuJ9GaRM'
