@@ -1732,3 +1732,112 @@ HMAC SIGNING:
 e.g)
 s%3Agrape.8u0alpxpuX3asR%2FTW0tWWatAS%2BhBbnu7w97HuJ9GaRM
 -> Over here, 'grape' is the string and it's HMAC value is '8u0alpxpuX3asR%2FTW0tWWatAS%2BhBbnu7w97HuJ9GaRM'
+
+
+
+SESSIONS:
+-> Not very practical to store a lot of data on client side using cookies. This is where sessions come in.
+-> Sessions are server-side data store that we use to make HTTP stateful. Instead of storing data using cookies, we store the data on the server side and then send the browser a cookie that can be used to retrieve the data.
+-> We are not trying to store this data permanently and hence do not use databases for this functionality.
+-> Cookies also have a lower storage capacity and hence using sessions makes sense.
+-> The way we implement sessions is we have data present on the server side (not database) in data stores. On the Browser side, we have a cookie which contains a key that is used to access the data present in the data store.
+-> To install sessions, we run:
+e.g)
+npm install express-session
+
+-> Everytime we run sessions, a cookie called 'connect.sid' corresponding to the actual session stored on the server side, is present in the browser which we can use to find session data.
+-> We then configure the session with a secret key and a few other important parameters. 
+-> After configuration, if we wish to add or retrieve any data from the session, we use the 'req.session' object and add properties onto this object.
+e.g)
+const express = require('express');
+const app = express();
+const session = require('express-session');
+
+app.use(session({
+    secret: 'thisIsNotaGoodSecret',
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.get('/viewcount', (req, res) => {
+    if(req.session.count){
+        req.session.count += 1;
+    }
+    else{
+        req.session.count = 1;
+    }
+    res.send(`You have viewed this page ${req.session.count} times`)
+})
+
+app.get('/register', (req, res) => {
+    const { username = 'Anonymous' } = req.query;
+    req.session.username = username;
+    res.redirect('/greet');
+})
+
+app.get('/greet', (req, res) => {
+    const { username } = req.session;
+    res.send(`Welcome back ${username}`);
+})
+
+app.listen(3000, () => {
+    console.log('LISTENING ON PORT 3000');
+})
+
+-> Note: The above code starts from fresh everytime we use a new browser engine. This happens because the data is stored on the defualt memory store of javascript (it is stored on the browser window).
+
+-> To make sure a user gets logged out after a specific amount of time, we can specify an 'expires' and 'maxAge' in the sessionConfig object.
+e.g)
+const sessionConfig = {
+    secret: 'thisShouldBeABetterSecret',
+    resvae: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,                                                      //The httpOnly attribute in a cookie is a security measure that can be set to help protect cookies from certain types of attacks, specifically Cross-Site Scripting (XSS) attacks. When a cookie has the httpOnly flag set, it means that the cookie is not accessible through JavaScript in the browser. JavaScript running on the client-side cannot read or manipulate cookies with the httpOnly flag.
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,                       //Date.now() is in milliseconds and we add on how long we want it to last (also in milliseconds)
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}
+app.use(session(sessionConfig));
+
+
+
+FLASH:
+-> A place in the session to flash a message to the user. This could be a success message, error message, etc.
+-> To install this package, do:
+e.g)
+npm install connect-flash
+
+-> To require and configure it, do:
+e.g)
+const flash = require('connect-flash');
+app.use(flash());
+
+-> After this, any route handler or middleware request object will have access to a method called flash.
+-> We set req.flash([type], [message]) in a post route and access this in another get route.
+e.g)
+app.get('/farms', async (req, res) => {
+    const farms = await Farm.find({});
+    res.render('farms/index', { farms, messages: req.flash('success') })
+})
+app.post('/farms', async(req, res) => {
+    const farm = new Farm(req.body);
+    await farm.save();
+    req.flash('success', 'Successfully made a new farm!');
+})
+
+-> To prevent passing 'messages' while rendering templates each time, we can add the messages onto res.locals which makes it available to every view
+e.g)
+app.use((req, res, next) => {
+    res.locals.messages = req.flash('success');
+    next();
+}) 
+app.get('/farms', async (req, res) => {
+    const farms = await Farm.find({});
+    res.render('farms/index', { farms })
+})
+app.post('/farms', async(req, res) => {
+    const farm = new Farm(req.body);
+    await farm.save();
+    req.flash('success', 'Successfully made a new farm!');
+})
