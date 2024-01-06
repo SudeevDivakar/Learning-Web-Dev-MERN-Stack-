@@ -1230,7 +1230,7 @@ const verifyPassword = (req, res, next) => {
 
 
 DEFINING CUSTOM ERROR HANDLERS:
--> Error handling middleware functions are declared the same way as other middleware fucntions except, we specify four arguments instead of 3.
+-> Error handling middleware functions are declared the same way as other middleware functions except, we specify four arguments instead of 3.
 -> We declare this middleware at the end (i.e, after every other middleware) 
 e.g)
 app.use(function(err, req, res, next) {
@@ -1840,4 +1840,122 @@ app.post('/farms', async(req, res) => {
     const farm = new Farm(req.body);
     await farm.save();
     req.flash('success', 'Successfully made a new farm!');
+})
+
+
+
+AUTHENTICATION:
+-> Process of verifying who a particular user is.
+-> Usually done using username/password, but can also be done using security questions, facial recognition, etc.
+
+
+AUTHORIZATION:
+-> Verifying what a specific user has access to.
+-> We usually authorize after a user has been autehnticated.
+
+
+
+HOW TO NOT STORE PASSWORDS:
+-> Never store passwords as text.
+-> Use a hashing function to store the passwords
+-> Hashing functions encrypt the password.
+-> When the password needs to be checked, the encrypted password is decrypted and compared.
+
+
+
+CRYPTOGRAPHIC HASHING FUNCTIONS:
+-> One-way function which is infeasible to invert. (Cannot be reversible)
+-> Small change in input yields large change in the output
+-> Deterministic - same input yields same output
+-> Unlikely to find 2 outputs with same value 
+-> Password hash functions are deliberately SLOW (Fast hash functions allow hackers to try more combinations of passwords faster thus making it unsafe)
+
+
+
+PASSWORD SALTS:
+-> An extra safeguard
+-> A lot of people often use the same password.
+-> There is a list of the most commonly used passwords.
+-> When we encrypt a password and multiple users have the same password, all the hacker has to do is find one of these passwords by brute force (trying passwords in the most commonly used passwords list). If the hacker does this, they get access to multiple user accounts.
+-> This is where password salts come into play.
+-> A salt is a random value added to the password before we hash it.
+-> It helps ensure unique hashes and mitigate common attacks.
+e.g)
+Suppose the password is 'hello'.
+Adding extra random values to this would result in a drastic change of hash values.
+We can make the password 'hello123' and store it.
+NOTE: We use a different salt values for each user to obtain different hash values.
+
+
+
+BCRYPT:
+-> We can either use bcrypt or bcryptjs. The only difference is that bcryptjs can be run on both the browser and node.
+-> To install bcrypt, run:
+e.g)
+npm install crypt 
+
+-> To generate a password salt, do this:
+e.g)
+const bcrypt = require('bcrypt');
+const hashPassword = async () => {
+    const salt = await bcrypt.genSalt(10);     // Over here 10 is the number of salt rounds which basically dictates the difficulty(amount of time taken to compute a hash)
+    console.log(salt);
+}
+-> The recommended value for salt rounds is 12
+
+-> To create a hashed password, do this:
+e.g)
+const bcrypt = require('bcrypt');
+const hashPassword = async (pw) => {
+    const salt = await bcrypt.genSalt(10);   // Over here 10 is the number of salt rounds which basically dictates the difficulty(amount of time taken to compute a hash)
+    const hash = await bcrypt.hash(pw, salt);
+    console.log(salt);
+    console.log(hash);
+}
+hashPassword('monkey');
+
+-> To compare a string with a hashed password, do this:
+e.g)
+const login = async (pw, hashedPw) => {
+    const result = await bcrypt.compare(pw, hashedPw);
+    if(result){
+        console.log("Logged in! Successful match");
+    }
+    else{
+        console.log('Incorrect');
+    }
+}
+login('monkey', '$2b$10$OlqLvkOAp39oV7emwSdBP.HJc.cG7LlUjsUgLRYOaOwE3.MRQNfGq');
+
+-> To generate the salt and hash a password at the same time, we can do the following:
+e.g)
+const hashPassword = async (pw) => {
+    const hash = await bcrypt.hash(pw, 12);      //passing the salt rounds in the hash function
+    console.log(hash);
+}
+
+-> To make sure a user stays logged in, we just have to add a property to req.session. If the req.session property is present, the user is logged in and if the property is not present, the user is logged out.
+e.g)
+app.post('/register', async (req, res) => {
+    const { password, username } = req.body;
+    const user = new User({ username, password });
+    await user.save();
+    req.session.user_id = user._id;
+    res.redirect('/secret');
+})
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    const foundUser = await User.findAndValidate(username, password);
+    if (foundUser) {
+        req.session.user_id = foundUser._id;
+        res.redirect('/secret');
+    }
+    else {
+        res.redirect('/login');
+    }
+})
+app.post('/logout', (req, res) => {
+    req.session.user_id = null;
+    // req.session.destroy();  //We can also do this. The only difference is that this removes everything in req.session 
+    res.redirect('/login');
 })
