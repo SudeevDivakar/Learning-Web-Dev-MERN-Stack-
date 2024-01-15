@@ -1959,3 +1959,27 @@ app.post('/logout', (req, res) => {
     // req.session.destroy();  //We can also do this. The only difference is that this removes everything in req.session 
     res.redirect('/login');
 })
+
+
+
+MONGO INJECTION:
+-> It is when people send data which are queries and nesting these queries within our queries will result in potentially harmful/unwanted results.
+-> To evade this, we can use a package called express-mongo-sanitize
+-> To install it, we run:
+e.g)
+npm install express-mongo-sanitize
+-> All this does is it cleanses any data containing '$' or '.'
+
+
+
+CROSS-SITE SCRIPTING:
+-> Cross-site scripting (XSS) is an attack in which an attacker injects malicious executable scripts into the code of a trusted application or website.
+-> Attackers often initiate an XSS attack by sending a malicious link to a user and enticing the user to click it.
+-> This is basically people giving HTML/script tags as inputs which may lead to unexpexted behaviour.
+-> To evade this, we install the following package:
+e.g)
+npm install sanitize-hrml
+-> We then require it,
+e.g)
+const sanitizeHtml = require('sanitize-html');
+-> Using sanitizeHtml on an input, removes any HTML/script tags from the input.
